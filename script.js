@@ -992,12 +992,10 @@ function createSoundCloudCard(project) {
         project.title ||
         "SoundCloud player";
 
-    iframe.src =
+    const soundcloudUrl =
         "https://w.soundcloud.com/player/?" +
         "url=" +
-        encodeURIComponent(
-            project.url
-        ) +
+        encodeURIComponent(project.url) +
         "&color=%23ff5500" +
         "&auto_play=false" +
         "&hide_related=false" +
