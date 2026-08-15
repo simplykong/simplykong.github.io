@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -32,23 +30,20 @@
         rel="stylesheet"
         href="style.css"
     >
-
 </head>
-
 
 <body>
 
-    <!-- BACKGROUND -->
-
+    <!-- Animated background -->
     <div class="background">
-
-        <div class="background-glow"></div>
-
+        <div class="background-glow glow-one"></div>
+        <div class="background-glow glow-two"></div>
+        <div class="background-glow glow-three"></div>
+        <div class="background-vignette"></div>
     </div>
 
 
     <!-- HOME -->
-
     <main
         id="home"
         class="home"
@@ -68,15 +63,11 @@
                 class="work-button"
                 type="button"
             >
-
-                <span>
-                    Check out my work
-                </span>
+                <span>Check out my work</span>
 
                 <span class="work-arrow">
                     ↓
                 </span>
-
             </button>
 
         </div>
@@ -85,13 +76,10 @@
 
 
     <!-- WORK -->
-
     <main
         id="work"
         class="work"
     >
-
-        <!-- TOP -->
 
         <header class="work-top">
 
@@ -100,7 +88,6 @@
                 class="back-button"
                 type="button"
             >
-
                 <span class="back-arrow">
                     ←
                 </span>
@@ -108,7 +95,6 @@
                 <span>
                     back
                 </span>
-
             </button>
 
 
@@ -120,7 +106,6 @@
 
 
         <!-- CATEGORY TABS -->
-
         <nav
             class="tabs"
             aria-label="Portfolio categories"
@@ -131,7 +116,6 @@
                 data-category="video"
                 type="button"
             >
-
                 <span class="tab-number">
                     01
                 </span>
@@ -139,7 +123,6 @@
                 <span class="tab-name">
                     Video Editing
                 </span>
-
             </button>
 
 
@@ -148,7 +131,6 @@
                 data-category="sound-design"
                 type="button"
             >
-
                 <span class="tab-number">
                     02
                 </span>
@@ -156,7 +138,6 @@
                 <span class="tab-name">
                     Sound Design
                 </span>
-
             </button>
 
 
@@ -165,7 +146,6 @@
                 data-category="photography"
                 type="button"
             >
-
                 <span class="tab-number">
                     03
                 </span>
@@ -173,7 +153,6 @@
                 <span class="tab-name">
                     Photography
                 </span>
-
             </button>
 
 
@@ -182,7 +161,6 @@
                 data-category="graphic-design"
                 type="button"
             >
-
                 <span class="tab-number">
                     04
                 </span>
@@ -190,30 +168,25 @@
                 <span class="tab-name">
                     Graphic Design
                 </span>
-
             </button>
 
         </nav>
 
 
         <!-- PROJECTS -->
-
         <section class="projects-section">
 
             <div
                 id="projects"
                 class="projects"
             >
-
                 <div class="loading">
                     loading...
                 </div>
-
             </div>
 
 
             <!-- PAGINATION -->
-
             <div
                 id="pagination"
                 class="pagination"
@@ -250,26 +223,10 @@
 
         </section>
 
-
-        <!-- FOOTER -->
-
-        <footer class="footer">
-
-            <span>
-                kong
-            </span>
-
-            <span>
-                creative work
-            </span>
-
-        </footer>
-
     </main>
 
 
-    <!-- SUPABASE -->
-
+    <!-- Supabase -->
     <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
     ></script>
@@ -280,5 +237,4 @@
     ></script>
 
 </body>
-
 </html>
