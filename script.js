@@ -1,6 +1,5 @@
 /* =========================================================
    kong portfolio
-   Supabase + portfolio system
    ========================================================= */
 
 
@@ -57,21 +56,27 @@ const projectsContainer =
     );
 
 
-const categoryNumber =
+const pagination =
     document.getElementById(
-        "categoryNumber"
+        "pagination"
     );
 
 
-const categoryLabel =
+const previousPage =
     document.getElementById(
-        "categoryLabel"
+        "previousPage"
     );
 
 
-const categoryTitle =
+const nextPage =
     document.getElementById(
-        "categoryTitle"
+        "nextPage"
+    );
+
+
+const pageIndicator =
+    document.getElementById(
+        "pageIndicator"
     );
 
 
@@ -82,7 +87,15 @@ const tabs =
 
 
 /* =========================================================
-   CATEGORY DATA
+   SETTINGS
+   ========================================================= */
+
+const PROJECTS_PER_PAGE =
+    6;
+
+
+/* =========================================================
+   CATEGORIES
    ========================================================= */
 
 const categoryData = {
@@ -93,10 +106,7 @@ const categoryData = {
             "01",
 
         label:
-            "VIDEO EDITING",
-
-        title:
-            "Video Editing"
+            "VIDEO EDITING"
 
     },
 
@@ -107,10 +117,7 @@ const categoryData = {
             "02",
 
         label:
-            "SOUND DESIGN",
-
-        title:
-            "Sound Design"
+            "SOUND DESIGN"
 
     },
 
@@ -121,10 +128,7 @@ const categoryData = {
             "03",
 
         label:
-            "PHOTOGRAPHY",
-
-        title:
-            "Photography"
+            "PHOTOGRAPHY"
 
     },
 
@@ -135,10 +139,7 @@ const categoryData = {
             "04",
 
         label:
-            "GRAPHIC DESIGN",
-
-        title:
-            "Graphic Design"
+            "GRAPHIC DESIGN"
 
     }
 
@@ -153,6 +154,9 @@ let allProjects = [];
 
 let currentCategory =
     "video";
+
+let currentPage =
+    1;
 
 
 /* =========================================================
@@ -204,10 +208,6 @@ function closeWork() {
     setTimeout(
         function () {
 
-            work.style.pointerEvents =
-                "none";
-
-
             home.style.display =
                 "flex";
 
@@ -245,8 +245,77 @@ backButton.addEventListener(
 );
 
 
+previousPage.addEventListener(
+    "click",
+    function () {
+
+        if (
+            currentPage >
+            1
+        ) {
+
+            currentPage--;
+
+            renderProjects();
+
+            window.scrollTo(
+                {
+                    top:
+                        0,
+
+                    behavior:
+                        "smooth"
+                }
+            );
+
+        }
+
+    }
+);
+
+
+nextPage.addEventListener(
+    "click",
+    function () {
+
+        const projects =
+            getCurrentProjects();
+
+
+        const totalPages =
+            Math.ceil(
+                projects.length /
+                PROJECTS_PER_PAGE
+            );
+
+
+        if (
+            currentPage <
+            totalPages
+        ) {
+
+            currentPage++;
+
+            renderProjects();
+
+            window.scrollTo(
+                {
+                    top:
+                        0,
+
+                    behavior:
+                        "smooth"
+                }
+            );
+
+        }
+
+    }
+);
+
+
 /* =========================================================
-   TAB EVENTS
+   TABS
    ========================================================= */
 
 tabs.forEach(
@@ -294,6 +363,10 @@ function switchCategory(
         category;
 
 
+    currentPage =
+        1;
+
+
     tabs.forEach(
         function (tab) {
 
@@ -305,24 +378,6 @@ function switchCategory(
 
         }
     );
-
-
-    const data =
-        categoryData[
-            category
-        ];
-
-
-    categoryNumber.textContent =
-        data.number;
-
-
-    categoryLabel.textContent =
-        data.label;
-
-
-    categoryTitle.textContent =
-        data.title;
 
 
     renderProjects();
@@ -424,7 +479,34 @@ async function loadProjects() {
 
         `;
 
+
+        pagination.style.display =
+            "none";
+
     }
+
+}
+
+
+/* =========================================================
+   GET CURRENT PROJECTS
+   ========================================================= */
+
+function getCurrentProjects() {
+
+    return allProjects.filter(
+        function (project) {
+
+            return (
+                normalizeCategory(
+                    project.category
+                )
+                ===
+                currentCategory
+            );
+
+        }
+    );
 
 }
 
@@ -436,18 +518,54 @@ async function loadProjects() {
 function renderProjects() {
 
     const projects =
-        allProjects.filter(
-            function (project) {
+        getCurrentProjects();
 
-                return (
-                    normalizeCategory(
-                        project.category
-                    )
-                    ===
-                    currentCategory
-                );
 
-            }
+    const totalPages =
+        Math.max(
+            1,
+            Math.ceil(
+                projects.length /
+                PROJECTS_PER_PAGE
+            )
+        );
+
+
+    /*
+       If the current page somehow becomes
+       larger than the available pages,
+       bring it back down.
+    */
+
+    if (
+        currentPage >
+        totalPages
+    ) {
+
+        currentPage =
+            totalPages;
+
+    }
+
+
+    const start =
+        (
+            currentPage -
+            1
+        )
+        *
+        PROJECTS_PER_PAGE;
+
+
+    const end =
+        start +
+        PROJECTS_PER_PAGE;
+
+
+    const visibleProjects =
+        projects.slice(
+            start,
+            end
         );
 
 
@@ -470,12 +588,21 @@ function renderProjects() {
 
         `;
 
+
+        pagination.style.display =
+            "none";
+
+
         return;
 
     }
 
 
-    projects.forEach(
+    /*
+       Render only 6 projects.
+    */
+
+    visibleProjects.forEach(
         function (
             project,
             index
@@ -488,7 +615,7 @@ function renderProjects() {
 
 
             element.style.animationDelay =
-                `${index * 0.08}s`;
+                `${index * 0.07}s`;
 
 
             projectsContainer.appendChild(
@@ -497,6 +624,54 @@ function renderProjects() {
 
         }
     );
+
+
+    /*
+       Only show the arrows if
+       there is actually more than
+       one page.
+    */
+
+    if (
+        totalPages <=
+        1
+    ) {
+
+        pagination.style.display =
+            "none";
+
+    }
+
+    else {
+
+        pagination.style.display =
+            "flex";
+
+    }
+
+
+    previousPage.disabled =
+        currentPage <=
+        1;
+
+
+    nextPage.disabled =
+        currentPage >=
+        totalPages;
+
+
+    pageIndicator.textContent =
+        `${String(
+            currentPage
+        ).padStart(
+            2,
+            "0"
+        )} / ${String(
+            totalPages
+        ).padStart(
+            2,
+            "0"
+        )}`;
 
 }
 
@@ -654,7 +829,7 @@ function createProject(
 
 
 /* =========================================================
-   CREATE MEDIA
+   MEDIA
    ========================================================= */
 
 function createProjectMedia(
@@ -689,9 +864,7 @@ function createProjectMedia(
         "";
 
 
-    /* =========================================
-       SOUNDCLOUD
-       ========================================= */
+    /* SOUNDCLOUD */
 
     if (
         type ===
@@ -702,14 +875,10 @@ function createProjectMedia(
         )
     ) {
 
-        const soundcloud =
+        wrapper.appendChild(
             createSoundCloud(
                 mediaURL
-            );
-
-
-        wrapper.appendChild(
-            soundcloud
+            )
         );
 
 
@@ -718,9 +887,7 @@ function createProjectMedia(
     }
 
 
-    /* =========================================
-       VIDEO
-       ========================================= */
+    /* VIDEO */
 
     if (
         type ===
@@ -779,9 +946,7 @@ function createProjectMedia(
     }
 
 
-    /* =========================================
-       AUDIO
-       ========================================= */
+    /* AUDIO */
 
     if (
         type ===
@@ -854,9 +1019,7 @@ function createProjectMedia(
     }
 
 
-    /* =========================================
-       IMAGE
-       ========================================= */
+    /* IMAGE */
 
     if (
         thumbnail
@@ -897,9 +1060,7 @@ function createProjectMedia(
     }
 
 
-    /* =========================================
-       IMAGE FROM MEDIA URL
-       ========================================= */
+    /* IMAGE FROM MEDIA URL */
 
     if (
         isImage(
@@ -942,9 +1103,7 @@ function createProjectMedia(
     }
 
 
-    /* =========================================
-       PLACEHOLDER
-       ========================================= */
+    /* PLACEHOLDER */
 
     const placeholder =
         document.createElement(
@@ -993,12 +1152,6 @@ function createSoundCloud(
     let embedURL =
         url;
 
-
-    /*
-        If the database contains a normal
-        SoundCloud URL, turn it into the
-        proper SoundCloud player URL.
-    */
 
     if (
         !url.includes(
@@ -1340,7 +1493,7 @@ function getProjectType(
 
 
 /* =========================================================
-   FILE DETECTION
+   FILE CHECKS
    ========================================================= */
 
 function isVideo(
@@ -1500,7 +1653,7 @@ function isImage(
 
 
 /* =========================================================
-   HTML ESCAPE
+   ESCAPE HTML
    ========================================================= */
 
 function escapeHTML(
@@ -1535,7 +1688,7 @@ function escapeHTML(
 
 
 /* =========================================================
-   KEYBOARD
+   ESCAPE KEY
    ========================================================= */
 
 document.addEventListener(
@@ -1564,7 +1717,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   INITIALIZE
+   START
    ========================================================= */
 
 loadProjects();
