@@ -28,17 +28,10 @@
     >
 
     <link
-        rel="preload"
-        as="image"
-        href="https://cdn.discordapp.com/avatars/1429216999585615922/fa9f017aaaa3e55722eac94970084251.png?size=4096"
-    >
-
-    <link
         rel="stylesheet"
         href="style.css"
     >
 </head>
-
 
 <body>
 
@@ -51,7 +44,6 @@
 
     <div
         class="glow-layer"
-        id="glowLayer"
     ></div>
 
     <canvas
@@ -59,29 +51,29 @@
         id="particlesCanvas"
     ></canvas>
 
-    <div class="vignette-layer"></div>
+    <div
+        class="vignette-layer"
+    ></div>
 
-    <div class="scanline-layer"></div>
+    <div
+        class="scanline-layer"
+    ></div>
 
 
-    <!-- LANDING -->
+    <!-- =====================================================
+         LANDING PAGE
+         ===================================================== -->
 
     <main
         id="landing"
         class="landing-page"
     >
 
-        <div class="logo-wrapper">
+        <div class="landing-content">
 
-            <div
-                class="logo-float"
-                id="logoFloat"
-            >
+            <div class="logo-float">
 
-                <div
-                    class="logo-interactive"
-                    id="logoInteractive"
-                >
+                <div class="logo-interactive">
 
                     <img
                         id="mainLogo"
@@ -116,7 +108,9 @@
     </main>
 
 
-    <!-- WORK -->
+    <!-- =====================================================
+         WORK PAGE
+         ===================================================== -->
 
     <section
         id="work"
@@ -124,7 +118,9 @@
         aria-hidden="true"
     >
 
-        <div class="work-header">
+        <!-- HEADER -->
+
+        <header class="work-header">
 
             <button
                 class="back-button"
@@ -132,9 +128,13 @@
                 type="button"
             >
 
-                <span>←</span>
+                <span class="back-arrow">
+                    ←
+                </span>
 
-                <span>back</span>
+                <span>
+                    back
+                </span>
 
             </button>
 
@@ -143,10 +143,30 @@
                 kong
             </div>
 
-        </div>
+        </header>
 
 
-        <!-- CATEGORY TABS -->
+        <!-- INTRO -->
+
+        <section class="work-intro">
+
+            <div class="intro-small">
+                SELECTED WORK
+            </div>
+
+            <h1>
+                stuff i've made.
+            </h1>
+
+            <p>
+                Video, sound, photography, graphics,
+                and whatever else I feel like making.
+            </p>
+
+        </section>
+
+
+        <!-- CATEGORY NAVIGATION -->
 
         <nav
             class="category-tabs"
@@ -158,37 +178,64 @@
                 data-category="video"
                 type="button"
             >
+
+                <span class="tab-number">
+                    01
+                </span>
+
                 Video Editing
+
             </button>
+
 
             <button
                 class="category-tab"
                 data-category="sound-design"
                 type="button"
             >
+
+                <span class="tab-number">
+                    02
+                </span>
+
                 Sound Design
+
             </button>
+
 
             <button
                 class="category-tab"
                 data-category="photography"
                 type="button"
             >
+
+                <span class="tab-number">
+                    03
+                </span>
+
                 Photography
+
             </button>
+
 
             <button
                 class="category-tab"
                 data-category="graphic-design"
                 type="button"
             >
+
+                <span class="tab-number">
+                    04
+                </span>
+
                 Graphic Design
+
             </button>
 
         </nav>
 
 
-        <!-- CATEGORY HEADING -->
+        <!-- CATEGORY HEADER -->
 
         <div class="category-heading">
 
@@ -199,9 +246,22 @@
                 01
             </div>
 
-            <h1 id="categoryTitle">
-                Video Editing
-            </h1>
+            <div>
+
+                <div
+                    class="category-label"
+                    id="categoryLabel"
+                >
+                    VIDEO EDITING
+                </div>
+
+                <h2
+                    id="categoryTitle"
+                >
+                    Video Editing
+                </h2>
+
+            </div>
 
         </div>
 
@@ -224,13 +284,13 @@
 
         <footer class="work-footer">
 
-            <span>
+            <div>
                 kong
-            </span>
+            </div>
 
-            <span>
+            <div>
                 creative work
-            </span>
+            </div>
 
         </footer>
 
@@ -243,7 +303,9 @@
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
     ></script>
 
-    <script src="script.js"></script>
+    <script
+        src="script.js"
+    ></script>
 
 </body>
 
