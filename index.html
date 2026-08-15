@@ -2,7 +2,9 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -14,24 +16,28 @@
         rel="stylesheet"
         href="style.css"
     >
+
 </head>
+
 
 <body>
 
+
     <!-- =========================================
-         NAVIGATION
+         TOP
          ========================================= -->
 
-    <nav class="navbar">
+    <header class="top">
 
         <a
-            href="#top"
+            href="#"
             class="logo"
         >
             simplykong
         </a>
 
-        <div class="nav-links">
+
+        <nav>
 
             <a href="#work">
                 work
@@ -41,21 +47,20 @@
                 about
             </a>
 
-        </div>
+        </nav>
 
-    </nav>
+    </header>
+
 
 
     <!-- =========================================
          HERO
          ========================================= -->
 
-    <header
-        id="top"
-        class="hero"
-    >
+    <section class="hero">
 
-        <div class="hero-glow"></div>
+        <div class="hero-background"></div>
+
 
         <div class="hero-content">
 
@@ -63,88 +68,89 @@
                 simplykong
             </h1>
 
-            <p class="hero-subtitle">
-                stuff i've made.
-            </p>
+            <div class="hero-bottom">
+
+                <span>
+                    music · sound · video · photo
+                </span>
+
+                <span>
+                    ↓ scroll
+                </span>
+
+            </div>
 
         </div>
 
-    </header>
+    </section>
+
 
 
     <!-- =========================================
          WORK
          ========================================= -->
 
-    <main>
+    <main id="work">
 
-        <section
-            id="work"
-            class="work-section"
-        >
 
-            <div class="section-title">
+        <section class="work">
+
+
+            <div class="work-top">
 
                 <h2>
-                    my work
+                    stuff i've made
                 </h2>
 
-                <div class="title-line"></div>
+
+                <div class="filters">
+
+                    <button
+                        class="filter-button active"
+                        data-category="all"
+                    >
+                        all
+                    </button>
+
+                    <button
+                        class="filter-button"
+                        data-category="music"
+                    >
+                        music
+                    </button>
+
+                    <button
+                        class="filter-button"
+                        data-category="sound-design"
+                    >
+                        sound
+                    </button>
+
+                    <button
+                        class="filter-button"
+                        data-category="video"
+                    >
+                        video
+                    </button>
+
+                    <button
+                        class="filter-button"
+                        data-category="photo"
+                    >
+                        photo
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <!-- =====================================
-                 FILTERS
-                 ===================================== -->
 
-            <div class="filters">
-
-                <button
-                    class="filter-button active"
-                    data-category="all"
-                >
-                    all
-                </button>
-
-                <button
-                    class="filter-button"
-                    data-category="music"
-                >
-                    music
-                </button>
-
-                <button
-                    class="filter-button"
-                    data-category="sound-design"
-                >
-                    sound design
-                </button>
-
-                <button
-                    class="filter-button"
-                    data-category="video"
-                >
-                    video
-                </button>
-
-                <button
-                    class="filter-button"
-                    data-category="photo"
-                >
-                    photos
-                </button>
-
-            </div>
-
-
-            <!-- =====================================
-                 PROJECTS
-                 ===================================== -->
+            <!-- PROJECTS -->
 
             <div
                 id="projects"
-                class="projects-grid"
+                class="gallery"
             >
 
                 <div class="loading">
@@ -153,7 +159,9 @@
 
             </div>
 
+
         </section>
+
 
 
         <!-- =========================================
@@ -162,27 +170,40 @@
 
         <section
             id="about"
-            class="about-section"
+            class="about"
         >
 
-            <div class="about-inner">
+            <div class="about-left">
+
+                <span>
+                    about
+                </span>
+
+            </div>
+
+
+            <div class="about-right">
 
                 <h2>
-                    hey, i'm simplykong.
+                    just making
+                    cool stuff.
                 </h2>
 
+
                 <p>
-                    i make music, mess with sound,
-                    edit videos, take photos, and
-                    generally make whatever i feel
-                    like making.
+                    music, sound design,
+                    video editing, photography,
+                    and whatever else ends up
+                    being fun to make.
                 </p>
 
             </div>
 
         </section>
 
+
     </main>
+
 
 
     <!-- =========================================
@@ -191,15 +212,16 @@
 
     <footer>
 
-        <span>
+        <div>
             simplykong
-        </span>
+        </div>
 
-        <span>
-            made with too much caffeine
-        </span>
+        <div>
+            © 2026
+        </div>
 
     </footer>
+
 
 
     <!-- =========================================
@@ -210,7 +232,9 @@
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
     ></script>
 
+
     <script src="script.js"></script>
+
 
 </body>
 
