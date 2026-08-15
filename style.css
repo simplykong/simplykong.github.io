@@ -2074,21 +2074,41 @@ body {
 }
 
 /* =========================================================
-   ADDITION — LOCK THE FRONT PAGE TO THE VIEWPORT
+   ADDITION — PAGE-SPECIFIC SCROLLING
    ========================================================= */
 
 html,
 body {
-    height: 100%;
-    overflow: hidden;
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .home {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
     height: 100vh;
+
     min-height: 0;
+
     overflow: hidden;
 }
 
+.work {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+
+    overflow-x: hidden;
+    overflow-y: visible;
+}
 /* =========================================================
    ADDITION — MOVE WORK CONTENT UP
    ========================================================= */
