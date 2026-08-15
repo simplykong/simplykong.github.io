@@ -2474,12 +2474,13 @@ body {
 }
 
 /* =========================================================
-   SOUNDCLOUD — NATURAL PLAYER SIZE
+   SOUNDCLOUD — NATURAL VISUAL PLAYER SIZE
    ========================================================= */
 
-.soundcloud-card {
+.soundcloud-card.project-media {
     width: 100%;
     height: auto;
+
     aspect-ratio: 1 / 1;
 
     overflow: hidden;
