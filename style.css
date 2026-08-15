@@ -8,14 +8,8 @@
     --black:
         #080604;
 
-    --black-2:
-        #0d0a07;
-
     --panel:
         #110c08;
-
-    --panel-2:
-        #17100b;
 
     --orange:
         #ff6500;
@@ -23,22 +17,11 @@
     --orange-light:
         #ff8a24;
 
-    --orange-soft:
-        rgba(
-            255,
-            101,
-            0,
-            0.15
-        );
-
     --white:
         #f5f1ec;
 
     --gray:
         #918a84;
-
-    --gray-light:
-        #b9b1aa;
 
     --line:
         rgba(
@@ -142,16 +125,23 @@ body {
 }
 
 
+/*
+   NO GRAIN HERE.
+
+   The old SVG noise layer was removed completely.
+*/
+
+
 .background-glow {
 
     position:
         absolute;
 
     width:
-        80vw;
+        750px;
 
     height:
-        80vw;
+        750px;
 
     left:
         50%;
@@ -166,54 +156,32 @@ body {
         );
 
     background:
-
         radial-gradient(
             circle,
             rgba(
                 255,
                 101,
                 0,
-                0.20
+                0.14
             ) 0%,
-
             rgba(
                 255,
                 101,
                 0,
-                0.08
-            ) 28%,
-
-            transparent 68%
+                0.05
+            ) 30%,
+            transparent 70%
         );
 
     filter:
-        blur(50px);
+        blur(45px);
 
     animation:
         glowMove
-        14s
+        16s
         ease-in-out
-        infinite alternate;
-
-}
-
-
-.background-noise {
-
-    position:
-        absolute;
-
-    inset:
-        0;
-
-    opacity:
-        0.055;
-
-    background-image:
-
-        url(
-            "data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E"
-        );
+        infinite
+        alternate;
 
 }
 
@@ -227,7 +195,9 @@ body {
                 -50%,
                 -50%
             )
-            scale(0.9);
+            scale(
+                0.95
+            );
 
     }
 
@@ -238,7 +208,9 @@ body {
                 -50%,
                 -50%
             )
-            scale(1.12);
+            scale(
+                1.05
+            );
 
     }
 
@@ -297,7 +269,9 @@ body {
         0;
 
     transform:
-        scale(1.03);
+        scale(
+            1.03
+        );
 
     pointer-events:
         none;
@@ -356,7 +330,7 @@ body {
                 255,
                 101,
                 0,
-                0.32
+                0.28
             )
         );
 
@@ -379,16 +353,18 @@ body {
 .logo:hover {
 
     transform:
-        scale(1.035);
+        scale(
+            1.035
+        );
 
     filter:
         drop-shadow(
-            0 0 45px
+            0 0 40px
             rgba(
                 255,
                 101,
                 0,
-                0.55
+                0.45
             )
         );
 
@@ -401,7 +377,9 @@ body {
     100% {
 
         transform:
-            translateY(0);
+            translateY(
+                0
+            );
 
     }
 
@@ -409,7 +387,7 @@ body {
 
         transform:
             translateY(
-                -8px
+                -7px
             );
 
     }
@@ -500,7 +478,7 @@ body {
 
 
 /* =========================================================
-   WORK PAGE
+   WORK
    ========================================================= */
 
 .work {
@@ -524,7 +502,9 @@ body {
         0;
 
     transform:
-        translateY(35px);
+        translateY(
+            35px
+        );
 
     pointer-events:
         none;
@@ -551,7 +531,9 @@ body {
         1;
 
     transform:
-        translateY(0);
+        translateY(
+            0
+        );
 
     pointer-events:
         auto;
@@ -560,7 +542,7 @@ body {
 
 
 /* =========================================================
-   TOP BAR
+   TOP
    ========================================================= */
 
 .work-top {
@@ -665,85 +647,6 @@ body {
 
 
 /* =========================================================
-   INTRO
-   ========================================================= */
-
-.work-intro {
-
-    width:
-        min(
-            1250px,
-            100%
-        );
-
-    margin:
-        145px auto 90px;
-
-}
-
-
-.eyebrow {
-
-    color:
-        var(--orange-light);
-
-    font-size:
-        9px;
-
-    letter-spacing:
-        2px;
-
-    margin-bottom:
-        20px;
-
-}
-
-
-.work-intro h1 {
-
-    font-family:
-        var(--display);
-
-    font-size:
-        clamp(
-            65px,
-            10vw,
-            145px
-        );
-
-    line-height:
-        0.78;
-
-    letter-spacing:
-        -7px;
-
-    max-width:
-        1000px;
-
-}
-
-
-.work-intro p {
-
-    margin-top:
-        32px;
-
-    max-width:
-        450px;
-
-    color:
-        var(--gray);
-
-    font-size:
-        12px;
-
-    line-height:
-        1.7;
-
-}
-
-
-/* =========================================================
    TABS
    ========================================================= */
 
@@ -756,7 +659,7 @@ body {
         );
 
     margin:
-        0 auto 105px;
+        120px auto 70px;
 
     display:
         grid;
@@ -850,7 +753,9 @@ body {
         var(--orange);
 
     transform:
-        scaleX(0);
+        scaleX(
+            0
+        );
 
     transform-origin:
         left;
@@ -903,7 +808,9 @@ body {
 .tab.active::after {
 
     transform:
-        scaleX(1);
+        scaleX(
+            1
+        );
 
 }
 
@@ -937,10 +844,10 @@ body {
 
 
 /* =========================================================
-   CATEGORY
+   PROJECTS
    ========================================================= */
 
-.category-section {
+.projects-section {
 
     width:
         min(
@@ -953,82 +860,6 @@ body {
 
 }
 
-
-.category-heading {
-
-    display:
-        flex;
-
-    align-items:
-        flex-end;
-
-    gap:
-        18px;
-
-    margin-bottom:
-        55px;
-
-}
-
-
-.category-number {
-
-    padding-bottom:
-        9px;
-
-    color:
-        var(--orange-light);
-
-    font-family:
-        var(--display);
-
-    font-size:
-        13px;
-
-}
-
-
-.category-label {
-
-    margin-bottom:
-        10px;
-
-    color:
-        var(--gray);
-
-    font-size:
-        8px;
-
-    letter-spacing:
-        2px;
-
-}
-
-
-.category-heading h2 {
-
-    font-family:
-        var(--display);
-
-    font-size:
-        clamp(
-            45px,
-            7vw,
-            90px
-        );
-
-    line-height:
-        0.8;
-
-    letter-spacing:
-        -5px;
-
-}
-
-
-/* =========================================================
-   PROJECT GRID
-   ========================================================= */
 
 .projects {
 
@@ -1045,7 +876,7 @@ body {
         );
 
     gap:
-        75px 30px;
+        55px 30px;
 
 }
 
@@ -1064,12 +895,12 @@ body {
 
     transform:
         translateY(
-            25px
+            20px
         );
 
     animation:
         projectIn
-        0.65s
+        0.55s
         cubic-bezier(
             .22,
             1,
@@ -1089,7 +920,9 @@ body {
             1;
 
         transform:
-            translateY(0);
+            translateY(
+                0
+            );
 
     }
 
@@ -1150,7 +983,7 @@ body {
 
     transform:
         translateY(
-            -7px
+            -6px
         );
 
     border-color:
@@ -1158,16 +991,16 @@ body {
             255,
             101,
             0,
-            0.5
+            0.45
         );
 
     box-shadow:
-        0 20px 70px
+        0 18px 55px
         rgba(
             255,
             101,
             0,
-            0.12
+            0.10
         );
 
 }
@@ -1205,7 +1038,7 @@ body {
 
     transform:
         scale(
-            1.045
+            1.04
         );
 
 }
@@ -1236,7 +1069,7 @@ body {
 
 
 /* =========================================================
-   AUDIO PROJECT
+   AUDIO
    ========================================================= */
 
 .audio-project {
@@ -1260,14 +1093,13 @@ body {
         35px;
 
     background:
-
         radial-gradient(
             circle at 50% 35%,
             rgba(
                 255,
                 101,
                 0,
-                0.18
+                0.17
             ),
             transparent 62%
         );
@@ -1284,7 +1116,7 @@ body {
         var(--display);
 
     font-size:
-        70px;
+        65px;
 
     line-height:
         0.7;
@@ -1293,7 +1125,7 @@ body {
         30px;
 
     opacity:
-        0.45;
+        0.4;
 
 }
 
@@ -1366,14 +1198,13 @@ body {
         center;
 
     background:
-
         radial-gradient(
             circle,
             rgba(
                 255,
                 101,
                 0,
-                0.13
+                0.12
             ),
             transparent 65%
         );
@@ -1385,10 +1216,10 @@ body {
         var(--display);
 
     font-size:
-        65px;
+        60px;
 
     opacity:
-        0.4;
+        0.35;
 
 }
 
@@ -1421,7 +1252,7 @@ body {
                 0,
                 0,
                 0,
-                0.65
+                0.60
             ),
             transparent 60%
         );
@@ -1471,7 +1302,9 @@ body {
         );
 
     backdrop-filter:
-        blur(10px);
+        blur(
+            10px
+        );
 
     font-size:
         8px;
@@ -1480,13 +1313,13 @@ body {
 
 
 /* =========================================================
-   PROJECT INFO
+   INFO
    ========================================================= */
 
 .project-info {
 
     padding:
-        18px 2px 0;
+        15px 2px 0;
 
 }
 
@@ -1503,7 +1336,7 @@ body {
         1.7px;
 
     margin-bottom:
-        9px;
+        8px;
 
 }
 
@@ -1514,13 +1347,13 @@ body {
         var(--display);
 
     font-size:
-        28px;
+        26px;
 
     line-height:
         0.9;
 
     letter-spacing:
-        -1.2px;
+        -1px;
 
 }
 
@@ -1528,7 +1361,7 @@ body {
 .project-description {
 
     margin-top:
-        12px;
+        10px;
 
     max-width:
         500px;
@@ -1540,7 +1373,7 @@ body {
         11px;
 
     line-height:
-        1.65;
+        1.6;
 
 }
 
@@ -1551,7 +1384,7 @@ body {
         inline-block;
 
     margin-top:
-        14px;
+        12px;
 
     color:
         var(--white);
@@ -1576,6 +1409,136 @@ body {
 
     opacity:
         1;
+
+}
+
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+.pagination {
+
+    margin:
+        70px auto 0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        22px;
+
+}
+
+
+.page-button {
+
+    width:
+        42px;
+
+    height:
+        42px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        transparent;
+
+    color:
+        var(--white);
+
+    font-size:
+        15px;
+
+    cursor:
+        pointer;
+
+    transition:
+        border-color
+        0.25s ease,
+
+        background
+        0.25s ease,
+
+        color
+        0.25s ease,
+
+        transform
+        0.25s ease;
+
+}
+
+
+.page-button:hover:not(
+    :disabled
+) {
+
+    border-color:
+        var(--orange);
+
+    background:
+        rgba(
+            255,
+            101,
+            0,
+            0.10
+        );
+
+    color:
+        var(--orange-light);
+
+    transform:
+        translateY(
+            -2px
+        );
+
+}
+
+
+.page-button:disabled {
+
+    opacity:
+        0.18;
+
+    cursor:
+        default;
+
+}
+
+
+.page-indicator {
+
+    min-width:
+        60px;
+
+    text-align:
+        center;
+
+    color:
+        var(--gray);
+
+    font-size:
+        9px;
+
+    letter-spacing:
+        1px;
 
 }
 
@@ -1666,7 +1629,7 @@ body {
         );
 
     margin:
-        130px auto 0;
+        120px auto 0;
 
     padding-top:
         25px;
@@ -1728,32 +1691,6 @@ body {
     }
 
 
-    .work-intro {
-
-        margin-top:
-            105px;
-
-        margin-bottom:
-            70px;
-
-    }
-
-
-    .work-intro h1 {
-
-        font-size:
-            clamp(
-                52px,
-                14vw,
-                85px
-            );
-
-        letter-spacing:
-            -4px;
-
-    }
-
-
     .tabs {
 
         grid-template-columns:
@@ -1762,8 +1699,11 @@ body {
                 1fr
             );
 
+        margin-top:
+            100px;
+
         margin-bottom:
-            75px;
+            55px;
 
     }
 
@@ -1787,27 +1727,20 @@ body {
     }
 
 
-    .category-heading h2 {
-
-        font-size:
-            clamp(
-                40px,
-                12vw,
-                70px
-            );
-
-        letter-spacing:
-            -3px;
-
-    }
-
-
     .projects {
 
         grid-template-columns:
             1fr;
 
         gap:
+            50px;
+
+    }
+
+
+    .pagination {
+
+        margin-top:
             55px;
 
     }
@@ -1816,7 +1749,7 @@ body {
     .footer {
 
         margin-top:
-            90px;
+            80px;
 
     }
 
@@ -1831,34 +1764,10 @@ body {
     max-width: 480px
 ) {
 
-    .work-intro h1 {
-
-        font-size:
-            51px;
-
-    }
-
-
-    .category-heading {
-
-        gap:
-            10px;
-
-    }
-
-
-    .category-number {
+    .tab-name {
 
         font-size:
             10px;
-
-    }
-
-
-    .category-heading h2 {
-
-        font-size:
-            42px;
 
     }
 
@@ -1866,7 +1775,7 @@ body {
     .project-title {
 
         font-size:
-            24px;
+            23px;
 
     }
 
