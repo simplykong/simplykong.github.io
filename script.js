@@ -1,6 +1,6 @@
 /* =========================================================
-   simplykong
-   Supabase Gallery
+   kong
+   Portfolio
    ========================================================= */
 
 
@@ -21,7 +21,7 @@ const {
 } = window.supabase;
 
 
-const db =
+const supabase =
     createClient(
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
@@ -29,8 +29,40 @@ const db =
 
 
 /* =========================================================
+   LOGO
+   ========================================================= */
+
+const LOGO_URL =
+    "https://cdn.discordapp.com/avatars/1429216999585615922/fa9f017aaaa3e55722eac94970084251.png?size=4096";
+
+
+/* =========================================================
    ELEMENTS
    ========================================================= */
+
+const landing =
+    document.getElementById(
+        "landing"
+    );
+
+
+const work =
+    document.getElementById(
+        "work"
+    );
+
+
+const workButton =
+    document.getElementById(
+        "workButton"
+    );
+
+
+const backButton =
+    document.getElementById(
+        "backButton"
+    );
+
 
 const projectsContainer =
     document.getElementById(
@@ -38,63 +70,275 @@ const projectsContainer =
     );
 
 
-const filterButtons =
+const categoryTitle =
+    document.getElementById(
+        "categoryTitle"
+    );
+
+
+const categoryNumber =
+    document.getElementById(
+        "categoryNumber"
+    );
+
+
+const categoryTabs =
     document.querySelectorAll(
-        ".filter-button"
+        ".category-tab"
     );
 
 
 /* =========================================================
-   PROJECT DATA
+   CATEGORIES
    ========================================================= */
 
-let allProjects = [];
+const categories = {
 
+    video: {
 
-const categoryNames = {
+        title:
+            "Video Editing",
 
-    music:
-        "music",
+        number:
+            "01"
 
-    "sound-design":
-        "sound",
+    },
 
-    video:
-        "video",
+    "sound-design": {
 
-    photo:
-        "photo"
+        title:
+            "Sound Design",
 
-};
+        number:
+            "02"
 
+    },
 
-const categoryIcons = {
+    photography: {
 
-    music:
-        "♪",
+        title:
+            "Photography",
 
-    "sound-design":
-        "◉",
+        number:
+            "03"
 
-    video:
-        "▶",
+    },
 
-    photo:
-        "✦"
+    "graphic-design": {
+
+        title:
+            "Graphic Design",
+
+        number:
+            "04"
+
+    }
 
 };
 
 
 /* =========================================================
-   LOAD
+   STATE
+   ========================================================= */
+
+let projects = [];
+
+let currentCategory =
+    "video";
+
+
+/* =========================================================
+   ENTER WORK AREA
+   ========================================================= */
+
+function openWork() {
+
+    landing.classList.add(
+        "leaving"
+    );
+
+
+    setTimeout(
+        () => {
+
+            work.classList.add(
+                "visible"
+            );
+
+            work.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+            window.scrollTo(
+                {
+                    top: 0,
+                    behavior: "instant"
+                }
+            );
+
+        },
+        350
+    );
+
+
+    setTimeout(
+        () => {
+
+            landing.style.display =
+                "none";
+
+        },
+        900
+    );
+
+}
+
+
+/* =========================================================
+   RETURN HOME
+   ========================================================= */
+
+function closeWork() {
+
+    landing.style.display =
+        "grid";
+
+
+    requestAnimationFrame(
+        () => {
+
+            landing.classList.remove(
+                "leaving"
+            );
+
+            work.classList.remove(
+                "visible"
+            );
+
+            work.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            window.scrollTo(
+                {
+                    top: 0,
+                    behavior: "instant"
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   BUTTON EVENTS
+   ========================================================= */
+
+workButton.addEventListener(
+    "click",
+    openWork
+);
+
+
+backButton.addEventListener(
+    "click",
+    closeWork
+);
+
+
+/* =========================================================
+   CATEGORY SWITCHING
+   ========================================================= */
+
+categoryTabs.forEach(
+    tab => {
+
+        tab.addEventListener(
+            "click",
+            () => {
+
+                const category =
+                    tab.dataset.category;
+
+
+                setCategory(
+                    category
+                );
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   SET CATEGORY
+   ========================================================= */
+
+function setCategory(
+    category
+) {
+
+    if (
+        !categories[category]
+    ) {
+
+        return;
+
+    }
+
+
+    currentCategory =
+        category;
+
+
+    categoryTabs.forEach(
+        tab => {
+
+            tab.classList.toggle(
+                "active",
+                tab.dataset.category ===
+                    category
+            );
+
+        }
+    );
+
+
+    categoryTitle.textContent =
+        categories[
+            category
+        ].title;
+
+
+    categoryNumber.textContent =
+        categories[
+            category
+        ].number;
+
+
+    renderProjects();
+
+}
+
+
+/* =========================================================
+   LOAD PROJECTS
    ========================================================= */
 
 async function loadProjects() {
 
     projectsContainer.innerHTML = `
-        <div class="loading">
+
+        <div class="projects-loading">
             loading...
         </div>
+
     `;
 
 
@@ -103,9 +347,11 @@ async function loadProjects() {
         const {
             data,
             error
-        } = await db
+        } = await supabase
 
-            .from("projects")
+            .from(
+                "projects"
+            )
 
             .select("*")
 
@@ -117,23 +363,25 @@ async function loadProjects() {
             );
 
 
-        if (error) {
+        if (
+            error
+        ) {
 
             throw error;
 
         }
 
 
-        allProjects =
+        projects =
             data || [];
 
 
-        renderProjects(
-            allProjects
-        );
+        renderProjects();
 
 
-    } catch (error) {
+    } catch (
+        error
+    ) {
 
         console.error(
             "Supabase error:",
@@ -143,13 +391,13 @@ async function loadProjects() {
 
         projectsContainer.innerHTML = `
 
-            <div class="error-message">
+            <div class="projects-error">
 
                 <strong>
-                    something went wrong.
+                    couldn't load the projects.
                 </strong>
 
-                check the browser console
+                Check the browser console
                 for the Supabase error.
 
             </div>
@@ -162,26 +410,34 @@ async function loadProjects() {
 
 
 /* =========================================================
-   RENDER
+   RENDER PROJECTS
    ========================================================= */
 
-function renderProjects(
-    projects
-) {
+function renderProjects() {
+
+    const categoryProjects =
+        projects.filter(
+            project =>
+                normalizeCategory(
+                    project.category
+                ) ===
+                currentCategory
+        );
+
 
     projectsContainer.innerHTML =
         "";
 
 
     if (
-        projects.length === 0
+        categoryProjects.length === 0
     ) {
 
         projectsContainer.innerHTML = `
 
-            <div class="empty">
+            <div class="projects-empty">
 
-                nothing here yet.
+                Nothing here yet.
 
             </div>
 
@@ -192,7 +448,7 @@ function renderProjects(
     }
 
 
-    projects.forEach(
+    categoryProjects.forEach(
         (
             project,
             index
@@ -219,6 +475,78 @@ function renderProjects(
 
 
 /* =========================================================
+   NORMALIZE CATEGORY
+   ========================================================= */
+
+function normalizeCategory(
+    category
+) {
+
+    if (
+        !category
+    ) {
+
+        return "";
+
+    }
+
+
+    const value =
+        String(
+            category
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const aliases = {
+
+        video:
+            "video",
+
+        "video editing":
+            "video",
+
+        "video-editing":
+            "video",
+
+        "sound":
+            "sound-design",
+
+        "sound design":
+            "sound-design",
+
+        "sound-design":
+            "sound-design",
+
+        photography:
+            "photography",
+
+        photo:
+            "photography",
+
+        "graphic design":
+            "graphic-design",
+
+        "graphic-design":
+            "graphic-design",
+
+        graphics:
+            "graphic-design"
+
+    };
+
+
+    return (
+        aliases[value]
+        ||
+        value
+    );
+
+}
+
+
+/* =========================================================
    CREATE PROJECT
    ========================================================= */
 
@@ -236,120 +564,140 @@ function createProject(
         "project";
 
 
-    const category =
-        categoryNames[
+    /* =====================================================
+       MEDIA
+       ===================================================== */
+
+    const media =
+        createMedia(
+            project
+        );
+
+
+    /* =====================================================
+       DETAILS
+       ===================================================== */
+
+    const details =
+        document.createElement(
+            "div"
+        );
+
+
+    details.className =
+        "project-details";
+
+
+    const type =
+        document.createElement(
+            "div"
+        );
+
+
+    type.className =
+        "project-type";
+
+
+    type.textContent =
+        getCategoryLabel(
             project.category
-        ]
-        ||
-        project.category
-        ||
-        "project";
+        );
 
 
-    let imageHTML;
+    const title =
+        document.createElement(
+            "div"
+        );
+
+
+    title.className =
+        "project-title";
+
+
+    title.textContent =
+        project.title ||
+        "Untitled";
+
+
+    details.appendChild(
+        type
+    );
+
+
+    details.appendChild(
+        title
+    );
 
 
     if (
-        project.thumbnail_url
+        project.description
     ) {
 
-        imageHTML = `
+        const description =
+            document.createElement(
+                "div"
+            );
 
-            <img
-                src="${escapeHTML(
-                    project.thumbnail_url
-                )}"
-                alt="${escapeHTML(
-                    project.title
-                )}"
-                loading="lazy"
-            >
 
-        `;
+        description.className =
+            "project-description";
 
-    } else {
 
-        imageHTML = `
+        description.textContent =
+            project.description;
 
-            <div class="no-image">
 
-                ${
-                    categoryIcons[
-                        project.category
-                    ]
-                    ||
-                    "•"
-                }
-
-            </div>
-
-        `;
+        details.appendChild(
+            description
+        );
 
     }
 
 
-    article.innerHTML = `
+    if (
+        project.url
+    ) {
 
-        <div class="project-image">
-
-            ${imageHTML}
-
-        </div>
-
-
-        <div class="project-info">
-
-            <div class="project-title">
-
-                ${escapeHTML(
-                    project.title
-                )}
-
-            </div>
+        const link =
+            document.createElement(
+                "a"
+            );
 
 
-            <div class="project-meta">
-
-                <span>
-                    ${escapeHTML(
-                        category
-                    )}
-                </span>
-
-                <span>
-                    ${getYear(
-                        project.created_at
-                    )}
-                </span>
-
-            </div>
-
-        </div>
-
-    `;
+        link.className =
+            "project-link";
 
 
-    /* =============================================
-       CLICK
-       ============================================= */
+        link.href =
+            project.url;
 
-    article.addEventListener(
-        "click",
-        () => {
 
-            if (
-                project.url
-            ) {
+        link.target =
+            "_blank";
 
-                window.open(
-                    project.url,
-                    "_blank",
-                    "noopener,noreferrer"
-                );
 
-            }
+        link.rel =
+            "noopener noreferrer";
 
-        }
+
+        link.textContent =
+            "View project →";
+
+
+        details.appendChild(
+            link
+        );
+
+    }
+
+
+    article.appendChild(
+        media
+    );
+
+
+    article.appendChild(
+        details
     );
 
 
@@ -359,108 +707,751 @@ function createProject(
 
 
 /* =========================================================
-   YEAR
+   CREATE MEDIA
    ========================================================= */
 
-function getYear(
-    date
+function createMedia(
+    project
 ) {
 
-    if (!date) {
+    const wrapper =
+        document.createElement(
+            "div"
+        );
 
-        return "";
 
-    }
+    wrapper.className =
+        "project-media";
 
 
-    const parsed =
-        new Date(date);
+    const thumbnail =
+        project.thumbnail_url;
 
+
+    const url =
+        project.url || "";
+
+
+    const isVideo =
+        isVideoURL(
+            url
+        );
+
+
+    const isAudio =
+        isAudioURL(
+            url
+        );
+
+
+    /* =====================================================
+       VIDEO
+       ===================================================== */
 
     if (
-        Number.isNaN(
-            parsed.getTime()
-        )
+        isVideo
     ) {
 
-        return "";
+        const video =
+            document.createElement(
+                "video"
+            );
+
+
+        video.src =
+            url;
+
+
+        video.controls =
+            true;
+
+
+        video.preload =
+            "metadata";
+
+
+        video.playsInline =
+            true;
+
+
+        if (
+            thumbnail
+        ) {
+
+            video.poster =
+                thumbnail;
+
+        }
+
+
+        wrapper.appendChild(
+            video
+        );
+
+
+        return wrapper;
 
     }
 
 
-    return parsed.getFullYear();
+    /* =====================================================
+       AUDIO
+       ===================================================== */
+
+    if (
+        isAudio
+    ) {
+
+        const audioContainer =
+            document.createElement(
+                "div"
+            );
+
+
+        audioContainer.className =
+            "audio-project";
+
+
+        const audio =
+            document.createElement(
+                "audio"
+            );
+
+
+        audio.src =
+            url;
+
+
+        audio.controls =
+            true;
+
+
+        audio.preload =
+            "metadata";
+
+
+        audioContainer.appendChild(
+            audio
+        );
+
+
+        wrapper.appendChild(
+            audioContainer
+        );
+
+
+        return wrapper;
+
+    }
+
+
+    /* =====================================================
+       IMAGE
+       ===================================================== */
+
+    if (
+        thumbnail
+    ) {
+
+        const image =
+            document.createElement(
+                "img"
+            );
+
+
+        image.src =
+            thumbnail;
+
+
+        image.alt =
+            project.title ||
+            "Portfolio project";
+
+
+        image.loading =
+            "lazy";
+
+
+        wrapper.appendChild(
+            image
+        );
+
+
+        return wrapper;
+
+    }
+
+
+    /* =====================================================
+       FALLBACK
+       ===================================================== */
+
+    const placeholder =
+        document.createElement(
+            "div"
+        );
+
+
+    placeholder.className =
+        "project-placeholder";
+
+
+    placeholder.textContent =
+        getCategorySymbol(
+            project.category
+        );
+
+
+    wrapper.appendChild(
+        placeholder
+    );
+
+
+    return wrapper;
 
 }
 
 
 /* =========================================================
-   FILTERING
+   CATEGORY LABEL
    ========================================================= */
 
-function filterProjects(
+function getCategoryLabel(
     category
 ) {
 
-    if (
-        category === "all"
-    ) {
-
-        renderProjects(
-            allProjects
-        );
-
-        return;
-
-    }
-
-
-    const filtered =
-        allProjects.filter(
-            project =>
-                project.category ===
-                category
+    const normalized =
+        normalizeCategory(
+            category
         );
 
 
-    renderProjects(
-        filtered
+    const labels = {
+
+        video:
+            "Video Editing",
+
+        "sound-design":
+            "Sound Design",
+
+        photography:
+            "Photography",
+
+        "graphic-design":
+            "Graphic Design"
+
+    };
+
+
+    return (
+        labels[
+            normalized
+        ]
+        ||
+        "Project"
     );
 
 }
 
 
 /* =========================================================
-   FILTER BUTTONS
+   CATEGORY SYMBOL
    ========================================================= */
 
-filterButtons.forEach(
-    button => {
+function getCategorySymbol(
+    category
+) {
 
-        button.addEventListener(
-            "click",
-            () => {
-
-                filterButtons.forEach(
-                    other => {
-
-                        other.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
+    const normalized =
+        normalizeCategory(
+            category
+        );
 
 
-                button.classList.add(
-                    "active"
-                );
+    const symbols = {
+
+        video:
+            "▶",
+
+        "sound-design":
+            "♪",
+
+        photography:
+            "✦",
+
+        "graphic-design":
+            "◇"
+
+    };
 
 
-                filterProjects(
-                    button.dataset.category
-                );
+    return (
+        symbols[
+            normalized
+        ]
+        ||
+        "•"
+    );
 
-            }
+}
+
+
+/* =========================================================
+   VIDEO URL CHECK
+   ========================================================= */
+
+function isVideoURL(
+    url
+) {
+
+    if (
+        !url
+    ) {
+
+        return false;
+
+    }
+
+
+    const lower =
+        url.toLowerCase();
+
+
+    return (
+
+        lower.endsWith(
+            ".mp4"
+        )
+
+        ||
+
+        lower.endsWith(
+            ".webm"
+        )
+
+        ||
+
+        lower.endsWith(
+            ".mov"
+        )
+
+        ||
+
+        lower.includes(
+            "video/"
+        )
+
+    );
+
+}
+
+
+/* =========================================================
+   AUDIO URL CHECK
+   ========================================================= */
+
+function isAudioURL(
+    url
+) {
+
+    if (
+        !url
+    ) {
+
+        return false;
+
+    }
+
+
+    const lower =
+        url.toLowerCase();
+
+
+    return (
+
+        lower.endsWith(
+            ".mp3"
+        )
+
+        ||
+
+        lower.endsWith(
+            ".wav"
+        )
+
+        ||
+
+        lower.endsWith(
+            ".ogg"
+        )
+
+        ||
+
+        lower.endsWith(
+            ".m4a"
+        )
+
+        ||
+
+        lower.includes(
+            "soundcloud.com"
+        )
+
+    );
+
+}
+
+
+/* =========================================================
+   BACKGROUND CANVAS
+   ========================================================= */
+
+const backgroundCanvas =
+    document.getElementById(
+        "backgroundCanvas"
+    );
+
+
+const backgroundContext =
+    backgroundCanvas.getContext(
+        "2d"
+    );
+
+
+const particlesCanvas =
+    document.getElementById(
+        "particlesCanvas"
+    );
+
+
+const particlesContext =
+    particlesCanvas.getContext(
+        "2d"
+    );
+
+
+let canvasWidth =
+    window.innerWidth;
+
+
+let canvasHeight =
+    window.innerHeight;
+
+
+let particles = [];
+
+
+/* =========================================================
+   RESIZE
+   ========================================================= */
+
+function resizeCanvas() {
+
+    const pixelRatio =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
+
+
+    canvasWidth =
+        window.innerWidth;
+
+
+    canvasHeight =
+        window.innerHeight;
+
+
+    backgroundCanvas.width =
+        canvasWidth *
+        pixelRatio;
+
+
+    backgroundCanvas.height =
+        canvasHeight *
+        pixelRatio;
+
+
+    backgroundCanvas.style.width =
+        `${canvasWidth}px`;
+
+
+    backgroundCanvas.style.height =
+        `${canvasHeight}px`;
+
+
+    backgroundContext.setTransform(
+        pixelRatio,
+        0,
+        0,
+        pixelRatio,
+        0,
+        0
+    );
+
+
+    particlesCanvas.width =
+        canvasWidth *
+        pixelRatio;
+
+
+    particlesCanvas.height =
+        canvasHeight *
+        pixelRatio;
+
+
+    particlesCanvas.style.width =
+        `${canvasWidth}px`;
+
+
+    particlesCanvas.style.height =
+        `${canvasHeight}px`;
+
+
+    particlesContext.setTransform(
+        pixelRatio,
+        0,
+        0,
+        pixelRatio,
+        0,
+        0
+    );
+
+
+    createParticles();
+
+}
+
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+
+/* =========================================================
+   PARTICLES
+   ========================================================= */
+
+function createParticles() {
+
+    const amount =
+        Math.min(
+            80,
+            Math.floor(
+                canvasWidth *
+                canvasHeight /
+                18000
+            )
+        );
+
+
+    particles =
+        [];
+
+
+    for (
+        let i = 0;
+        i < amount;
+        i++
+    ) {
+
+        particles.push({
+
+            x:
+                Math.random() *
+                canvasWidth,
+
+            y:
+                Math.random() *
+                canvasHeight,
+
+            radius:
+                Math.random() *
+                1.1
+                +
+                0.15,
+
+            speed:
+                Math.random() *
+                0.12
+                +
+                0.025,
+
+            opacity:
+                Math.random() *
+                0.35
+                +
+                0.05
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   BACKGROUND DRAWING
+   ========================================================= */
+
+function drawBackground() {
+
+    backgroundContext.clearRect(
+        0,
+        0,
+        canvasWidth,
+        canvasHeight
+    );
+
+
+    const gradient =
+        backgroundContext.createRadialGradient(
+            canvasWidth * 0.5,
+            canvasHeight * 0.5,
+            0,
+            canvasWidth * 0.5,
+            canvasHeight * 0.5,
+            Math.max(
+                canvasWidth,
+                canvasHeight
+            ) * 0.7
+        );
+
+
+    gradient.addColorStop(
+        0,
+        "rgba(35, 25, 75, 0.12)"
+    );
+
+
+    gradient.addColorStop(
+        0.45,
+        "rgba(15, 12, 30, 0.05)"
+    );
+
+
+    gradient.addColorStop(
+        1,
+        "rgba(0, 0, 0, 0)"
+    );
+
+
+    backgroundContext.fillStyle =
+        gradient;
+
+
+    backgroundContext.fillRect(
+        0,
+        0,
+        canvasWidth,
+        canvasHeight
+    );
+
+}
+
+
+/* =========================================================
+   PARTICLE DRAWING
+   ========================================================= */
+
+function drawParticles() {
+
+    particlesContext.clearRect(
+        0,
+        0,
+        canvasWidth,
+        canvasHeight
+    );
+
+
+    for (
+        const particle of particles
+    ) {
+
+        particle.y -=
+            particle.speed;
+
+
+        if (
+            particle.y < -5
+        ) {
+
+            particle.y =
+                canvasHeight + 5;
+
+            particle.x =
+                Math.random() *
+                canvasWidth;
+
+        }
+
+
+        particlesContext.beginPath();
+
+
+        particlesContext.arc(
+            particle.x,
+            particle.y,
+            particle.radius,
+            0,
+            Math.PI * 2
+        );
+
+
+        particlesContext.fillStyle =
+            `rgba(140, 120, 255, ${particle.opacity})`;
+
+
+        particlesContext.fill();
+
+    }
+
+}
+
+
+/* =========================================================
+   ANIMATION LOOP
+   ========================================================= */
+
+function animateBackground() {
+
+    drawBackground();
+
+    drawParticles();
+
+    requestAnimationFrame(
+        animateBackground
+    );
+
+}
+
+
+/* =========================================================
+   INITIALIZE CANVAS
+   ========================================================= */
+
+resizeCanvas();
+
+animateBackground();
+
+
+/* =========================================================
+   LOGO LOAD
+   ========================================================= */
+
+const logo =
+    document.getElementById(
+        "mainLogo"
+    );
+
+
+logo.addEventListener(
+    "error",
+    () => {
+
+        console.error(
+            "The kong logo could not be loaded."
         );
 
     }
@@ -468,55 +1459,36 @@ filterButtons.forEach(
 
 
 /* =========================================================
-   ESCAPE HTML
+   KEYBOARD
    ========================================================= */
 
-function escapeHTML(
-    value
-) {
+document.addEventListener(
+    "keydown",
+    event => {
 
-    if (
-        value === null ||
-        value === undefined
-    ) {
+        if (
+            event.key ===
+            "Escape"
+        ) {
 
-        return "";
+            if (
+                work.classList.contains(
+                    "visible"
+                )
+            ) {
+
+                closeWork();
+
+            }
+
+        }
 
     }
-
-
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
+);
 
 
 /* =========================================================
-   START
+   START SUPABASE
    ========================================================= */
 
 loadProjects();
