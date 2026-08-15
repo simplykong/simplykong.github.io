@@ -5,7 +5,7 @@
 
 
 /* =========================================================
-   SUPABASE
+   SUPABASE CONFIG
    ========================================================= */
 
 const SUPABASE_URL =
@@ -15,6 +15,10 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_7S5vxB9HNy90sQ_Q0znz6A_IqyjPA96";
 
+
+/* =========================================================
+   SUPABASE CLIENT
+   ========================================================= */
 
 const {
     createClient
@@ -91,8 +95,12 @@ const categoryIcons = {
 
 async function loadProjects() {
 
-    if (!projectsContainer) {
+    if (
+        !projectsContainer
+    ) {
+
         return;
+
     }
 
 
@@ -109,8 +117,11 @@ async function loadProjects() {
             data,
             error
         } = await db
+
             .from("projects")
+
             .select("*")
+
             .order(
                 "created_at",
                 {
@@ -119,7 +130,9 @@ async function loadProjects() {
             );
 
 
-        if (error) {
+        if (
+            error
+        ) {
 
             throw error;
 
@@ -135,7 +148,9 @@ async function loadProjects() {
         );
 
 
-    } catch (error) {
+    } catch (
+        error
+    ) {
 
         console.error(
             "Supabase error:",
@@ -217,7 +232,7 @@ function displayProjects(
 
 
 /* =========================================================
-   CREATE CARD
+   CREATE PROJECT CARD
    ========================================================= */
 
 function createProjectCard(
@@ -234,7 +249,9 @@ function createProjectCard(
         "project-card";
 
 
-    /* Thumbnail */
+    /* =============================================
+       THUMBNAIL
+       ============================================= */
 
     let thumbnail;
 
@@ -272,7 +289,9 @@ function createProjectCard(
     }
 
 
-    /* Category */
+    /* =============================================
+       CATEGORY
+       ============================================= */
 
     const category =
         categoryNames[
@@ -284,7 +303,9 @@ function createProjectCard(
         "Project";
 
 
-    /* Description */
+    /* =============================================
+       DESCRIPTION
+       ============================================= */
 
     let description =
         "";
@@ -305,7 +326,9 @@ function createProjectCard(
     }
 
 
-    /* Card */
+    /* =============================================
+       CARD HTML
+       ============================================= */
 
     card.innerHTML = `
 
@@ -361,7 +384,7 @@ function createProjectCard(
 
 
 /* =========================================================
-   FILTERING
+   FILTER PROJECTS
    ========================================================= */
 
 function filterProjects(
@@ -381,7 +404,7 @@ function filterProjects(
     }
 
 
-    const filtered =
+    const filteredProjects =
         allProjects.filter(
             project =>
                 project.category ===
@@ -390,7 +413,7 @@ function filterProjects(
 
 
     displayProjects(
-        filtered
+        filteredProjects
     );
 
 }
@@ -408,9 +431,9 @@ filterButtons.forEach(
             () => {
 
                 filterButtons.forEach(
-                    other => {
+                    otherButton => {
 
-                        other.classList.remove(
+                        otherButton.classList.remove(
                             "active"
                         );
 
@@ -448,6 +471,7 @@ function escapeHTML(
     ) {
 
         return "";
+
     }
 
 
