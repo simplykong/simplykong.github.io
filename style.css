@@ -2088,3 +2088,19 @@ body {
     min-height: 0;
     overflow: hidden;
 }
+
+/* =========================================================
+   ADDITION — MOVE WORK CONTENT UP
+   ========================================================= */
+
+.work .tabs {
+    transform: translateY(-35px);
+}
+
+.work .projects {
+    transform: translateY(-35px);
+}
+
+.work .pagination {
+    transform: translateY(-35px);
+}
