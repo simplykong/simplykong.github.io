@@ -2304,3 +2304,41 @@ body {
 
     border: 0;
 }
+
+/* =========================================================
+   SOUNDCLOUD — CENTER PLAYER IN CARD
+   ========================================================= */
+
+.soundcloud-card {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        rgba(0, 0, 0, 0.12);
+}
+
+.soundcloud-card iframe {
+    display: block;
+
+    width: 100%;
+
+    /*
+       Keep SoundCloud at its natural player height.
+       This prevents the UI from being stretched.
+    */
+
+    height: 166px;
+
+    flex-shrink: 0;
+
+    border: 0;
+}
