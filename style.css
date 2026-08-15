@@ -2410,3 +2410,33 @@ body {
 
     transform: none;
 }
+
+/* =========================================================
+   SOUNDCLOUD — VISUAL PLAYER CARD
+   ========================================================= */
+
+.project.soundcloud-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.project.soundcloud-card .project-media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.project.soundcloud-card iframe {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 100%;
+    height: 100%;
+
+    transform: translate(-50%, -50%);
+
+    border: 0;
+}
