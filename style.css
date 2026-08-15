@@ -2104,3 +2104,140 @@ body {
 .work .pagination {
     transform: translateY(-35px);
 }
+
+/* =========================================================
+   ADDITION — SIDE PAGINATION
+   ========================================================= */
+
+/* Keep the pagination container across the screen */
+#pagination {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+
+    pointer-events: none;
+
+    display: block;
+
+    z-index: 20;
+}
+
+
+/* =========================================================
+   PAGE NUMBER
+   ========================================================= */
+
+#pageIndicator {
+    position: absolute;
+
+    /*
+       Places 01 / 02 above the middle
+       video in the first row.
+    */
+
+    top: 128px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    min-width: auto;
+
+    font-size: 10px;
+
+    letter-spacing: 0.12em;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   LEFT ARROW
+   ========================================================= */
+
+#previousPage {
+    position: absolute;
+
+    left: 25px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   RIGHT ARROW
+   ========================================================= */
+
+#nextPage {
+    position: absolute;
+
+    right: 25px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   ARROW HOVER
+   ========================================================= */
+
+#previousPage:hover:not(:disabled) {
+    transform:
+        translateY(-50%)
+        translateX(-3px);
+}
+
+#nextPage:hover:not(:disabled) {
+    transform:
+        translateY(-50%)
+        translateX(3px);
+}
+
+
+/* =========================================================
+   KEEP PAGINATION FROM AFFECTING THE GRID
+   ========================================================= */
+
+#pagination {
+    margin: 0 !important;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    #previousPage {
+        left: 10px;
+    }
+
+    #nextPage {
+        right: 10px;
+    }
+
+    #pageIndicator {
+        top: 105px;
+    }
+
+}
