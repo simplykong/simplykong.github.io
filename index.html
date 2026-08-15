@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -31,27 +32,22 @@
         rel="stylesheet"
         href="style.css"
     >
+
 </head>
 
 
 <body>
 
-    <!-- =========================================
-         BACKGROUND
-         ========================================= -->
+    <!-- BACKGROUND -->
 
     <div class="background">
 
         <div class="background-glow"></div>
 
-        <div class="background-noise"></div>
-
     </div>
 
 
-    <!-- =========================================
-         HOME
-         ========================================= -->
+    <!-- HOME -->
 
     <main
         id="home"
@@ -88,16 +84,14 @@
     </main>
 
 
-    <!-- =========================================
-         WORK AREA
-         ========================================= -->
+    <!-- WORK -->
 
     <main
         id="work"
         class="work"
     >
 
-        <!-- TOP BAR -->
+        <!-- TOP -->
 
         <header class="work-top">
 
@@ -123,26 +117,6 @@
             </div>
 
         </header>
-
-
-        <!-- INTRO -->
-
-        <section class="work-intro">
-
-            <div class="eyebrow">
-                SELECTED WORK
-            </div>
-
-            <h1>
-                stuff i've made.
-            </h1>
-
-            <p>
-                Video, sound, photography, graphics,
-                and whatever else I end up making.
-            </p>
-
-        </section>
 
 
         <!-- CATEGORY TABS -->
@@ -222,38 +196,9 @@
         </nav>
 
 
-        <!-- CURRENT CATEGORY -->
+        <!-- PROJECTS -->
 
-        <section class="category-section">
-
-            <div class="category-heading">
-
-                <div
-                    id="categoryNumber"
-                    class="category-number"
-                >
-                    01
-                </div>
-
-                <div class="category-heading-text">
-
-                    <div
-                        id="categoryLabel"
-                        class="category-label"
-                    >
-                        VIDEO EDITING
-                    </div>
-
-                    <h2 id="categoryTitle">
-                        Video Editing
-                    </h2>
-
-                </div>
-
-            </div>
-
-
-            <!-- PROJECTS -->
+        <section class="projects-section">
 
             <div
                 id="projects"
@@ -263,6 +208,43 @@
                 <div class="loading">
                     loading...
                 </div>
+
+            </div>
+
+
+            <!-- PAGINATION -->
+
+            <div
+                id="pagination"
+                class="pagination"
+            >
+
+                <button
+                    id="previousPage"
+                    class="page-button"
+                    type="button"
+                    aria-label="Previous projects"
+                >
+                    ←
+                </button>
+
+
+                <div
+                    id="pageIndicator"
+                    class="page-indicator"
+                >
+                    01 / 01
+                </div>
+
+
+                <button
+                    id="nextPage"
+                    class="page-button"
+                    type="button"
+                    aria-label="Next projects"
+                >
+                    →
+                </button>
 
             </div>
 
@@ -286,9 +268,7 @@
     </main>
 
 
-    <!-- =========================================
-         SUPABASE
-         ========================================= -->
+    <!-- SUPABASE -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
