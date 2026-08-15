@@ -2,7 +2,7 @@
    kong portfolio
    YouTube videos open directly on YouTube
    Supabase database:
-   id, title, category, url, featured, date
+   id, title, category, url, featured
    ========================================================= */
 
 const SUPABASE_URL =
@@ -298,16 +298,16 @@ async function loadProjects() {
 
     try {
 
+        /*
+           IMPORTANT:
+           No .order("date") here because
+           your table doesn't have a date column.
+        */
+
         const result =
             await supabaseClient
                 .from("projects")
-                .select("*")
-                .order(
-                    "date",
-                    {
-                        ascending: false
-                    }
-                );
+                .select("*");
 
 
         if (result.error) {
@@ -566,11 +566,6 @@ function renderProjects() {
 
 function createProject(project) {
 
-    /*
-       The entire project card becomes
-       a clickable link.
-    */
-
     const article =
         document.createElement("article");
 
@@ -580,8 +575,8 @@ function createProject(project) {
 
 
     /*
-       If there's a URL, make the entire
-       card open it in a new tab.
+       Clicking the card opens the
+       project URL in a new tab.
     */
 
     if (project.url) {
@@ -606,17 +601,13 @@ function createProject(project) {
     }
 
 
-    /* -----------------------------------------------------
-       MEDIA
-       ----------------------------------------------------- */
+    /* Media */
 
     const media =
         createProjectMedia(project);
 
 
-    /* -----------------------------------------------------
-       INFO
-       ----------------------------------------------------- */
+    /* Info */
 
     const info =
         document.createElement("div");
@@ -667,34 +658,7 @@ function createProject(project) {
     );
 
 
-    /* Date */
-
-    if (project.date) {
-
-        const date =
-            document.createElement("div");
-
-
-        date.className =
-            "project-date";
-
-
-        date.textContent =
-            formatDate(
-                project.date
-            );
-
-
-        info.appendChild(
-            date
-        );
-
-    }
-
-
-    /* -----------------------------------------------------
-       CARD
-       ----------------------------------------------------- */
+    /* Card */
 
     article.appendChild(
         media
@@ -729,13 +693,11 @@ function createProjectMedia(project) {
         "";
 
 
-    /*
+    /* -----------------------------------------------------
        YOUTUBE
-    */
+       ----------------------------------------------------- */
 
-    if (
-        isYouTube(url)
-    ) {
+    if (isYouTube(url)) {
 
         return createYouTubeThumbnail(
             project
@@ -744,13 +706,11 @@ function createProjectMedia(project) {
     }
 
 
-    /*
+    /* -----------------------------------------------------
        SOUNDCLOUD
-    */
+       ----------------------------------------------------- */
 
-    if (
-        isSoundCloud(url)
-    ) {
+    if (isSoundCloud(url)) {
 
         return createSoundCloudCard(
             project
@@ -759,13 +719,11 @@ function createProjectMedia(project) {
     }
 
 
-    /*
+    /* -----------------------------------------------------
        IMAGE
-    */
+       ----------------------------------------------------- */
 
-    if (
-        isImage(url)
-    ) {
+    if (isImage(url)) {
 
         const image =
             document.createElement("img");
@@ -800,13 +758,11 @@ function createProjectMedia(project) {
     }
 
 
-    /*
+    /* -----------------------------------------------------
        VIDEO FILE
-    */
+       ----------------------------------------------------- */
 
-    if (
-        isVideoFile(url)
-    ) {
+    if (isVideoFile(url)) {
 
         const video =
             document.createElement("video");
@@ -828,11 +784,6 @@ function createProjectMedia(project) {
             true;
 
 
-        /*
-           Don't let clicking the video
-           trigger the project link.
-        */
-
         video.addEventListener(
             "click",
             function (event) {
@@ -853,9 +804,9 @@ function createProjectMedia(project) {
     }
 
 
-    /*
+    /* -----------------------------------------------------
        FALLBACK
-    */
+       ----------------------------------------------------- */
 
     const placeholder =
         document.createElement("div");
@@ -900,20 +851,13 @@ function createYouTubeThumbnail(project) {
         );
 
 
-    /*
-       YouTube thumbnail
-    */
+    /* Thumbnail */
 
     if (videoID) {
 
         const image =
             document.createElement("img");
 
-
-        /*
-           maxresdefault gives the highest
-           quality thumbnail when available.
-        */
 
         image.src =
             `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
@@ -929,8 +873,7 @@ function createYouTubeThumbnail(project) {
 
 
         /*
-           If maxresdefault isn't available,
-           fall back to hqdefault.
+           Fallback thumbnail.
         */
 
         image.onerror =
@@ -952,9 +895,7 @@ function createYouTubeThumbnail(project) {
     }
 
 
-    /*
-       Dark overlay
-    */
+    /* Overlay */
 
     const overlay =
         document.createElement("div");
@@ -964,9 +905,7 @@ function createYouTubeThumbnail(project) {
         "youtube-overlay";
 
 
-    /*
-       Play button
-    */
+    /* Play button */
 
     const playButton =
         document.createElement("div");
@@ -985,9 +924,7 @@ function createYouTubeThumbnail(project) {
     );
 
 
-    /*
-       YouTube label
-    */
+    /* Label */
 
     const label =
         document.createElement("span");
@@ -1081,7 +1018,7 @@ function createSoundCloudCard(project) {
 
 
 /* =========================================================
-   GET YOUTUBE ID
+   GET YOUTUBE VIDEO ID
    ========================================================= */
 
 function getYouTubeID(url) {
@@ -1103,7 +1040,7 @@ function getYouTubeID(url) {
 
 
         /*
-           youtube.com/watch?v=
+           youtube.com/watch?v=...
         */
 
         if (
@@ -1123,7 +1060,7 @@ function getYouTubeID(url) {
 
 
         /*
-           youtu.be/VIDEO_ID
+           youtu.be/...
         */
 
         if (
@@ -1139,7 +1076,7 @@ function getYouTubeID(url) {
 
 
         /*
-           youtube.com/shorts/VIDEO_ID
+           youtube.com/shorts/...
         */
 
         if (
@@ -1155,7 +1092,7 @@ function getYouTubeID(url) {
 
 
         /*
-           youtube.com/embed/VIDEO_ID
+           youtube.com/embed/...
         */
 
         if (
@@ -1410,7 +1347,7 @@ function getCategoryLabel(category) {
 
 
 /* =========================================================
-   SYMBOLS
+   SYMBOL
    ========================================================= */
 
 function getSymbol(category) {
@@ -1441,46 +1378,6 @@ function getSymbol(category) {
     return (
         symbols[normalized] ||
         "•"
-    );
-
-}
-
-
-/* =========================================================
-   DATE FORMAT
-   ========================================================= */
-
-function formatDate(dateValue) {
-
-    if (!dateValue) {
-        return "";
-    }
-
-
-    const date =
-        new Date(dateValue);
-
-
-    if (
-        Number.isNaN(
-            date.getTime()
-        )
-    ) {
-
-        return String(
-            dateValue
-        );
-
-    }
-
-
-    return date.toLocaleDateString(
-        "en-US",
-        {
-            year: "numeric",
-            month: "short",
-            day: "numeric"
-        }
     );
 
 }
@@ -1555,7 +1452,7 @@ function escapeHTML(value) {
 
 
 /* =========================================================
-   ESC KEY
+   ESCAPE KEY
    ========================================================= */
 
 document.addEventListener(
