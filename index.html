@@ -10,143 +10,149 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-
 <body>
 
+    <!-- ============================= -->
+    <!-- NAVIGATION -->
+    <!-- ============================= -->
 
-<nav>
+    <nav>
 
-    <div class="logo">
-        KONG
-    </div>
+        <div class="logo">
+            KONG
+        </div>
 
-    <div class="links">
-        <a href="index.html">Home</a>
-        <a href="music.html">Music</a>
-        <a href="sound-design.html">Sound Design</a>
-        <a href="video.html">Video</a>
-        <a href="photography.html">Photography</a>
-    </div>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="music.html">Music</a>
+            <a href="sound-design.html">Sound Design</a>
+            <a href="video.html">Video</a>
+            <a href="photography.html">Photography</a>
+        </div>
 
-</nav>
-
-
-
-<header class="hero">
-
-    <h1>
-        KONG
-    </h1>
-
-    <p>
-        Sound Design • Music • Video • Visuals
-    </p>
+    </nav>
 
 
-</header>
+    <!-- ============================= -->
+    <!-- HERO -->
+    <!-- ============================= -->
+
+    <header class="hero">
+
+        <div class="hero-content">
+
+            <p class="eyebrow">
+                CREATIVE PORTFOLIO
+            </p>
+
+            <h1>
+                KONG
+            </h1>
+
+            <p class="hero-description">
+                Sound Design • Music • Video • Visuals
+            </p>
+
+        </div>
+
+    </header>
 
 
+    <!-- ============================= -->
+    <!-- PROJECTS -->
+    <!-- ============================= -->
 
-<section>
+    <main>
 
-<h2>
-Featured Work
-</h2>
+        <section class="portfolio-section">
 
+            <div class="section-header">
 
-<div class="cards">
+                <p class="eyebrow">
+                    MY WORK
+                </p>
 
+                <h2>
+                    Projects
+                </h2>
 
-<div class="card">
-
-<h3>
-Music
-</h3>
-
-<p>
-Original songs, mixes, and audio projects.
-</p>
-
-<a href="music.html">
-View Music →
-</a>
-
-</div>
+            </div>
 
 
+            <!-- CATEGORY FILTERS -->
 
-<div class="card">
+            <div class="filters">
 
-<h3>
-Sound Design
-</h3>
+                <button
+                    class="filter-button active"
+                    data-category="all">
+                    All
+                </button>
 
-<p>
-Custom effects, ambience, and audio experiments.
-</p>
+                <button
+                    class="filter-button"
+                    data-category="music">
+                    Music
+                </button>
 
-<a href="sound-design.html">
-View Sounds →
-</a>
+                <button
+                    class="filter-button"
+                    data-category="sound-design">
+                    Sound Design
+                </button>
 
-</div>
+                <button
+                    class="filter-button"
+                    data-category="video">
+                    Video
+                </button>
 
+                <button
+                    class="filter-button"
+                    data-category="photo">
+                    Photo
+                </button>
 
-
-<div class="card">
-
-<h3>
-Video Editing
-</h3>
-
-<p>
-Cinematics, edits, and visual projects.
-</p>
-
-<a href="video.html">
-View Videos →
-</a>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>
-Photography
-</h3>
-
-<p>
-Photos, edits, and visual experiments.
-</p>
-
-<a href="photography.html">
-View Photos →
-</a>
-
-</div>
+            </div>
 
 
-</div>
+            <!-- PROJECTS -->
+
+            <div
+                id="projects"
+                class="projects-grid">
+
+                <div class="loading">
+                    Loading projects...
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
 
 
-</section>
+    <!-- ============================= -->
+    <!-- FOOTER -->
+    <!-- ============================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Kong
+        </p>
+
+    </footer>
 
 
+    <!-- ============================= -->
+    <!-- SUPABASE -->
+    <!-- ============================= -->
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<footer>
-
-<p>
-© 2026 Kong
-</p>
-
-</footer>
-
-
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 
