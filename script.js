@@ -961,61 +961,57 @@ function createSoundCloudCard(project) {
     const wrapper =
         document.createElement("div");
 
-
     wrapper.className =
         "project-media soundcloud-card";
 
+    /*
+       Create the actual SoundCloud player.
+       The database only needs the normal
+       SoundCloud track URL.
+    */
 
-    const background =
-        document.createElement("div");
+    const iframe =
+        document.createElement("iframe");
 
+    iframe.width =
+        "100%";
 
-    background.className =
-        "soundcloud-background";
+    iframe.height =
+        "166";
 
+    iframe.scrolling =
+        "no";
+
+    iframe.frameBorder =
+        "no";
+
+    iframe.allow =
+        "autoplay; encrypted-media";
+
+    iframe.title =
+        project.title ||
+        "SoundCloud player";
+
+    iframe.src =
+        "https://w.soundcloud.com/player/?" +
+        "url=" +
+        encodeURIComponent(
+            project.url
+        ) +
+        "&color=%23ff5500" +
+        "&auto_play=false" +
+        "&hide_related=false" +
+        "&show_comments=true" +
+        "&show_user=true" +
+        "&show_reposts=false" +
+        "&show_teaser=true";
 
     wrapper.appendChild(
-        background
+        iframe
     );
-
-
-    const icon =
-        document.createElement("div");
-
-
-    icon.className =
-        "soundcloud-icon";
-
-
-    icon.textContent =
-        "♪";
-
-
-    wrapper.appendChild(
-        icon
-    );
-
-
-    const label =
-        document.createElement("div");
-
-
-    label.className =
-        "soundcloud-label";
-
-
-    label.textContent =
-        "LISTEN ON SOUNDCLOUD";
-
-
-    wrapper.appendChild(
-        label
-    );
-
 
     return wrapper;
 }
-
 
 /* =========================================================
    GET YOUTUBE VIDEO ID
