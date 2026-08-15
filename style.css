@@ -2045,6 +2045,8 @@ button {
         font-size:
             23px;
     }
+
+}
     
 /* =========================================================
    VIEWPORT LOCK
@@ -2066,6 +2068,22 @@ body {
 
 .home {
     width: 100%;
+    height: 100vh;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* =========================================================
+   ADDITION — LOCK THE FRONT PAGE TO THE VIEWPORT
+   ========================================================= */
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.home {
     height: 100vh;
     min-height: 0;
     overflow: hidden;
