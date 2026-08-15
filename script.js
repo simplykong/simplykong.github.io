@@ -1,6 +1,12 @@
-/* ========================================= */
-/* SUPABASE CONFIGURATION */
-/* ========================================= */
+/* =========================================================
+   KONG PORTFOLIO
+   Supabase + Portfolio System
+   ========================================================= */
+
+
+/* =========================================================
+   SUPABASE CONFIGURATION
+   ========================================================= */
 
 const SUPABASE_URL =
     "https://hjxhpjynriafeqewwqis.supabase.co";
@@ -10,9 +16,9 @@ const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_7S5vxB9HNy90sQ_Q0znz6A_IqyjPA96";
 
 
-/* ========================================= */
-/* CREATE SUPABASE CLIENT */
-/* ========================================= */
+/* =========================================================
+   CREATE SUPABASE CLIENT
+   ========================================================= */
 
 const {
     createClient
@@ -25,12 +31,14 @@ const db = createClient(
 );
 
 
-/* ========================================= */
-/* PAGE ELEMENTS */
-/* ========================================= */
+/* =========================================================
+   PAGE ELEMENTS
+   ========================================================= */
 
 const projectsContainer =
-    document.getElementById("projects");
+    document.getElementById(
+        "projects"
+    );
 
 
 const filterButtons =
@@ -39,20 +47,21 @@ const filterButtons =
     );
 
 
-/* ========================================= */
-/* PROJECT STORAGE */
-/* ========================================= */
+/* =========================================================
+   PROJECT STORAGE
+   ========================================================= */
 
 let allProjects = [];
 
 
-/* ========================================= */
-/* CATEGORY NAMES */
-/* ========================================= */
+/* =========================================================
+   CATEGORY NAMES
+   ========================================================= */
 
 const categoryNames = {
 
-    music: "Music",
+    music:
+        "Music",
 
     "sound-design":
         "Sound Design",
@@ -66,35 +75,43 @@ const categoryNames = {
 };
 
 
-/* ========================================= */
-/* CATEGORY ICONS */
-/* ========================================= */
+/* =========================================================
+   CATEGORY ICONS
+   ========================================================= */
 
 const categoryIcons = {
 
-    music: "🎵",
+    music:
+        "🎵",
 
-    "sound-design": "🔊",
+    "sound-design":
+        "🔊",
 
-    video: "🎬",
+    video:
+        "🎬",
 
-    photo: "📷"
+    photo:
+        "📷"
 
 };
 
 
-/* ========================================= */
-/* LOAD PROJECTS */
-/* ========================================= */
+/* =========================================================
+   LOAD PROJECTS
+   ========================================================= */
 
 async function loadProjects() {
 
-    projectsContainer.innerHTML =
-        `
+    if (!projectsContainer) {
+        return;
+    }
+
+
+    projectsContainer.innerHTML = `
         <div class="loading">
             Loading projects...
         </div>
-        `;
+    `;
 
 
     try {
@@ -140,8 +157,7 @@ async function loadProjects() {
         );
 
 
-        projectsContainer.innerHTML =
-            `
+        projectsContainer.innerHTML = `
             <div class="error-message">
 
                 <strong>
@@ -154,16 +170,16 @@ async function loadProjects() {
                 </p>
 
             </div>
-            `;
+        `;
 
     }
 
 }
 
 
-/* ========================================= */
-/* DISPLAY PROJECTS */
-/* ========================================= */
+/* =========================================================
+   DISPLAY PROJECTS
+   ========================================================= */
 
 function displayProjects(
     projects
@@ -177,14 +193,13 @@ function displayProjects(
         projects.length === 0
     ) {
 
-        projectsContainer.innerHTML =
-            `
+        projectsContainer.innerHTML = `
             <div class="empty">
 
                 No projects in this category yet.
 
             </div>
-            `;
+        `;
 
         return;
 
@@ -192,12 +207,16 @@ function displayProjects(
 
 
     projects.forEach(
-        project => {
+        (project, index) => {
 
             const card =
                 createProjectCard(
                     project
                 );
+
+
+            card.style.animationDelay =
+                `${index * 0.07}s`;
 
 
             projectsContainer.appendChild(
@@ -207,12 +226,15 @@ function displayProjects(
         }
     );
 
+
+    setupProjectReveals();
+
 }
 
 
-/* ========================================= */
-/* CREATE PROJECT CARD */
-/* ========================================= */
+/* =========================================================
+   CREATE PROJECT CARD
+   ========================================================= */
 
 function createProjectCard(
     project
@@ -228,9 +250,9 @@ function createProjectCard(
         "project-card";
 
 
-    /* ===================================== */
-    /* THUMBNAIL */
-    /* ===================================== */
+    /* =====================================================
+       THUMBNAIL
+       ===================================================== */
 
     let thumbnail;
 
@@ -239,8 +261,7 @@ function createProjectCard(
         project.thumbnail_url
     ) {
 
-        thumbnail =
-            `
+        thumbnail = `
             <img
                 src="${escapeHTML(
                     project.thumbnail_url
@@ -250,12 +271,11 @@ function createProjectCard(
                 )}"
                 loading="lazy"
             >
-            `;
+        `;
 
     } else {
 
-        thumbnail =
-            `
+        thumbnail = `
             <div class="no-thumbnail">
 
                 ${
@@ -265,14 +285,14 @@ function createProjectCard(
                 }
 
             </div>
-            `;
+        `;
 
     }
 
 
-    /* ===================================== */
-    /* CATEGORY */
-    /* ===================================== */
+    /* =====================================================
+       CATEGORY
+       ===================================================== */
 
     const category =
         categoryNames[
@@ -284,28 +304,33 @@ function createProjectCard(
         "Project";
 
 
-    /* ===================================== */
-    /* DESCRIPTION */
-    /* ===================================== */
+    /* =====================================================
+       DESCRIPTION
+       ===================================================== */
 
-    const description =
+    let description = "";
+
+
+    if (
         project.description
-            ? `
-                <p>
-                    ${escapeHTML(
-                        project.description
-                    )}
-                </p>
-            `
-            : "";
+    ) {
+
+        description = `
+            <p>
+                ${escapeHTML(
+                    project.description
+                )}
+            </p>
+        `;
+
+    }
 
 
-    /* ===================================== */
-    /* CARD */
-    /* ===================================== */
+    /* =====================================================
+       CARD HTML
+       ===================================================== */
 
-    card.innerHTML =
-        `
+    card.innerHTML = `
 
         <div class="project-thumbnail">
 
@@ -352,7 +377,7 @@ function createProjectCard(
 
         </div>
 
-        `;
+    `;
 
 
     return card;
@@ -360,9 +385,9 @@ function createProjectCard(
 }
 
 
-/* ========================================= */
-/* FILTER PROJECTS */
-/* ========================================= */
+/* =========================================================
+   FILTER PROJECTS
+   ========================================================= */
 
 function filterProjects(
     category
@@ -396,9 +421,9 @@ function filterProjects(
 }
 
 
-/* ========================================= */
-/* FILTER BUTTON EVENTS */
-/* ========================================= */
+/* =========================================================
+   FILTER BUTTON EVENTS
+   ========================================================= */
 
 filterButtons.forEach(
     button => {
@@ -438,9 +463,86 @@ filterButtons.forEach(
 );
 
 
-/* ========================================= */
-/* HTML ESCAPING */
-/* ========================================= */
+/* =========================================================
+   PROJECT SCROLL REVEALS
+   ========================================================= */
+
+function setupProjectReveals() {
+
+    const cards =
+        document.querySelectorAll(
+            ".project-card"
+        );
+
+
+    if (
+        !("IntersectionObserver" in window)
+    ) {
+
+        cards.forEach(
+            card => {
+
+                card.style.opacity =
+                    "1";
+
+                card.style.transform =
+                    "translateY(0)";
+
+            }
+        );
+
+        return;
+
+    }
+
+
+    const observer =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(
+                    entry => {
+
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            entry.target.classList.add(
+                                "visible"
+                            );
+
+                            observer.unobserve(
+                                entry.target
+                            );
+
+                        }
+
+                    }
+                );
+
+            },
+            {
+                threshold: 0.12
+            }
+        );
+
+
+    cards.forEach(
+        card => {
+
+            observer.observe(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   HTML ESCAPING
+   ========================================================= */
 
 function escapeHTML(
     value
@@ -486,8 +588,8 @@ function escapeHTML(
 }
 
 
-/* ========================================= */
-/* START WEBSITE */
-/* ========================================= */
+/* =========================================================
+   START
+   ========================================================= */
 
 loadProjects();
