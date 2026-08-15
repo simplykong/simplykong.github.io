@@ -1,6 +1,6 @@
 /* =========================================================
    kong
-   Orange Edition
+   Portfolio System
    ========================================================= */
 
 
@@ -26,14 +26,6 @@ const supabase =
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
     );
-
-
-/* =========================================================
-   LOGO
-   ========================================================= */
-
-const LOGO_URL =
-    "https://cdn.discordapp.com/avatars/1429216999585615922/fa9f017aaaa3e55722eac94970084251.png?size=4096";
 
 
 /* =========================================================
@@ -76,6 +68,12 @@ const categoryTitle =
     );
 
 
+const categoryLabel =
+    document.getElementById(
+        "categoryLabel"
+    );
+
+
 const categoryNumber =
     document.getElementById(
         "categoryNumber"
@@ -99,6 +97,9 @@ const categories = {
         title:
             "Video Editing",
 
+        label:
+            "VIDEO EDITING",
+
         number:
             "01"
 
@@ -108,6 +109,9 @@ const categories = {
 
         title:
             "Sound Design",
+
+        label:
+            "SOUND DESIGN",
 
         number:
             "02"
@@ -119,6 +123,9 @@ const categories = {
         title:
             "Photography",
 
+        label:
+            "PHOTOGRAPHY",
+
         number:
             "03"
 
@@ -128,6 +135,9 @@ const categories = {
 
         title:
             "Graphic Design",
+
+        label:
+            "GRAPHIC DESIGN",
 
         number:
             "04"
@@ -161,14 +171,20 @@ function openWork() {
     setTimeout(
         () => {
 
+            landing.style.display =
+                "none";
+
+
             work.classList.add(
                 "visible"
             );
+
 
             work.setAttribute(
                 "aria-hidden",
                 "false"
             );
+
 
             window.scrollTo(
                 {
@@ -178,18 +194,7 @@ function openWork() {
             );
 
         },
-        350
-    );
-
-
-    setTimeout(
-        () => {
-
-            landing.style.display =
-                "none";
-
-        },
-        900
+        500
     );
 
 }
@@ -201,25 +206,28 @@ function openWork() {
 
 function closeWork() {
 
-    landing.style.display =
-        "grid";
+    work.classList.remove(
+        "visible"
+    );
 
 
-    requestAnimationFrame(
+    work.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    setTimeout(
         () => {
 
-            work.classList.remove(
-                "visible"
-            );
+            landing.style.display =
+                "grid";
 
-            work.setAttribute(
-                "aria-hidden",
-                "true"
-            );
 
             landing.classList.remove(
                 "leaving"
             );
+
 
             window.scrollTo(
                 {
@@ -228,14 +236,15 @@ function closeWork() {
                 }
             );
 
-        }
+        },
+        650
     );
 
 }
 
 
 /* =========================================================
-   BUTTONS
+   BUTTON EVENTS
    ========================================================= */
 
 workButton.addEventListener(
@@ -251,7 +260,7 @@ backButton.addEventListener(
 
 
 /* =========================================================
-   CATEGORY BUTTONS
+   CATEGORY EVENTS
    ========================================================= */
 
 categoryTabs.forEach(
@@ -273,7 +282,7 @@ categoryTabs.forEach(
 
 
 /* =========================================================
-   CATEGORY
+   SET CATEGORY
    ========================================================= */
 
 function setCategory(
@@ -306,16 +315,22 @@ function setCategory(
     );
 
 
-    categoryTitle.textContent =
+    const info =
         categories[
             category
-        ].title;
+        ];
 
 
     categoryNumber.textContent =
-        categories[
-            category
-        ].number;
+        info.number;
+
+
+    categoryLabel.textContent =
+        info.label;
+
+
+    categoryTitle.textContent =
+        info.title;
 
 
     renderProjects();
@@ -374,8 +389,9 @@ async function loadProjects() {
 
         renderProjects();
 
+    }
 
-    } catch (
+    catch (
         error
     ) {
 
@@ -393,8 +409,10 @@ async function loadProjects() {
                     couldn't load the projects.
                 </strong>
 
-                Check the browser console
-                for the Supabase error.
+                Make sure your Supabase
+                table is named
+                <strong>projects</strong>
+                and that its columns are correct.
 
             </div>
 
@@ -406,18 +424,24 @@ async function loadProjects() {
 
 
 /* =========================================================
-   RENDER
+   RENDER PROJECTS
    ========================================================= */
 
 function renderProjects() {
 
     const filtered =
         projects.filter(
-            project =>
-                normalizeCategory(
-                    project.category
-                ) ===
-                currentCategory
+            project => {
+
+                return (
+                    normalizeCategory(
+                        project.category
+                    )
+                    ===
+                    currentCategory
+                );
+
+            }
         );
 
 
@@ -463,78 +487,6 @@ function renderProjects() {
             );
 
         }
-    );
-
-}
-
-
-/* =========================================================
-   NORMALIZE CATEGORY
-   ========================================================= */
-
-function normalizeCategory(
-    category
-) {
-
-    if (
-        !category
-    ) {
-
-        return "";
-
-    }
-
-
-    const value =
-        String(
-            category
-        )
-        .trim()
-        .toLowerCase();
-
-
-    const aliases = {
-
-        video:
-            "video",
-
-        "video editing":
-            "video",
-
-        "video-editing":
-            "video",
-
-        sound:
-            "sound-design",
-
-        "sound design":
-            "sound-design",
-
-        "sound-design":
-            "sound-design",
-
-        photography:
-            "photography",
-
-        photo:
-            "photography",
-
-        "graphic design":
-            "graphic-design",
-
-        "graphic-design":
-            "graphic-design",
-
-        graphics:
-            "graphic-design"
-
-    };
-
-
-    return (
-        aliases[value]
-        ||
-        value
     );
 
 }
@@ -693,7 +645,7 @@ function createProject(
 
 
 /* =========================================================
-   MEDIA
+   CREATE MEDIA
    ========================================================= */
 
 function createMedia(
@@ -718,6 +670,8 @@ function createMedia(
     const thumbnail =
         project.thumbnail_url;
 
+
+    /* VIDEO */
 
     if (
         isVideoURL(
@@ -762,10 +716,18 @@ function createMedia(
         );
 
 
+        addOverlay(
+            wrapper,
+            "PLAY"
+        );
+
+
         return wrapper;
 
     }
 
+
+    /* AUDIO */
 
     if (
         isAudioURL(
@@ -816,6 +778,8 @@ function createMedia(
     }
 
 
+    /* IMAGE */
+
     if (
         thumbnail
     ) {
@@ -844,10 +808,18 @@ function createMedia(
         );
 
 
+        addOverlay(
+            wrapper,
+            "VIEW"
+        );
+
+
         return wrapper;
 
     }
 
+
+    /* PLACEHOLDER */
 
     const placeholder =
         document.createElement(
@@ -876,6 +848,119 @@ function createMedia(
 
 
 /* =========================================================
+   OVERLAY
+   ========================================================= */
+
+function addOverlay(
+    wrapper,
+    text
+) {
+
+    const overlay =
+        document.createElement(
+            "div"
+        );
+
+
+    overlay.className =
+        "project-overlay";
+
+
+    const label =
+        document.createElement(
+            "span"
+        );
+
+
+    label.textContent =
+        text;
+
+
+    overlay.appendChild(
+        label
+    );
+
+
+    wrapper.appendChild(
+        overlay
+    );
+
+}
+
+
+/* =========================================================
+   NORMALIZE CATEGORY
+   ========================================================= */
+
+function normalizeCategory(
+    category
+) {
+
+    if (
+        !category
+    ) {
+
+        return "";
+
+    }
+
+
+    const value =
+        String(
+            category
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const aliases = {
+
+        video:
+            "video",
+
+        "video editing":
+            "video",
+
+        "video-editing":
+            "video",
+
+        sound:
+            "sound-design",
+
+        "sound design":
+            "sound-design",
+
+        "sound-design":
+            "sound-design",
+
+        photography:
+            "photography",
+
+        photo:
+            "photography",
+
+        "graphic design":
+            "graphic-design",
+
+        "graphic-design":
+            "graphic-design",
+
+        graphics:
+            "graphic-design"
+
+    };
+
+
+    return (
+        aliases[value]
+        ||
+        value
+    );
+
+}
+
+
+/* =========================================================
    CATEGORY LABEL
    ========================================================= */
 
@@ -892,16 +977,16 @@ function getCategoryLabel(
     const labels = {
 
         video:
-            "Video Editing",
+            "VIDEO EDITING",
 
         "sound-design":
-            "Sound Design",
+            "SOUND DESIGN",
 
         photography:
-            "Photography",
+            "PHOTOGRAPHY",
 
         "graphic-design":
-            "Graphic Design"
+            "GRAPHIC DESIGN"
 
     };
 
@@ -911,14 +996,14 @@ function getCategoryLabel(
             normalized
         ]
         ||
-        "Project"
+        "PROJECT"
     );
 
 }
 
 
 /* =========================================================
-   SYMBOLS
+   CATEGORY SYMBOL
    ========================================================= */
 
 function getCategorySymbol(
@@ -967,34 +1052,33 @@ function isVideoURL(
     url
 ) {
 
-    if (
-        !url
-    ) {
-
-        return false;
-
-    }
-
-
-    const lower =
+    const value =
         url.toLowerCase();
 
 
     return (
 
-        lower.endsWith(".mp4")
+        value.endsWith(
+            ".mp4"
+        )
 
         ||
 
-        lower.endsWith(".webm")
+        value.endsWith(
+            ".webm"
+        )
 
         ||
 
-        lower.endsWith(".mov")
+        value.endsWith(
+            ".mov"
+        )
 
         ||
 
-        lower.includes("video/")
+        value.includes(
+            "video/"
+        )
 
     );
 
@@ -1009,38 +1093,45 @@ function isAudioURL(
     url
 ) {
 
-    if (
-        !url
-    ) {
-
-        return false;
-
-    }
-
-
-    const lower =
+    const value =
         url.toLowerCase();
 
 
     return (
 
-        lower.endsWith(".mp3")
+        value.endsWith(
+            ".mp3"
+        )
 
         ||
 
-        lower.endsWith(".wav")
+        value.endsWith(
+            ".wav"
+        )
 
         ||
 
-        lower.endsWith(".ogg")
+        value.endsWith(
+            ".ogg"
+        )
 
         ||
 
-        lower.endsWith(".m4a")
+        value.endsWith(
+            ".m4a"
+        )
 
         ||
 
-        lower.includes("soundcloud.com")
+        value.includes(
+            "soundcloud.com"
+        )
+
+        ||
+
+        value.includes(
+            "w.soundcloud.com"
+        )
 
     );
 
@@ -1048,7 +1139,7 @@ function isAudioURL(
 
 
 /* =========================================================
-   CANVAS
+   BACKGROUND CANVAS
    ========================================================= */
 
 const backgroundCanvas =
@@ -1083,7 +1174,8 @@ let canvasHeight =
     window.innerHeight;
 
 
-let particles = [];
+let particles =
+    [];
 
 
 /* =========================================================
@@ -1092,7 +1184,7 @@ let particles = [];
 
 function resizeCanvas() {
 
-    const pixelRatio =
+    const ratio =
         Math.min(
             window.devicePixelRatio || 1,
             2
@@ -1109,27 +1201,19 @@ function resizeCanvas() {
 
     backgroundCanvas.width =
         canvasWidth *
-        pixelRatio;
+        ratio;
 
 
     backgroundCanvas.height =
         canvasHeight *
-        pixelRatio;
-
-
-    backgroundCanvas.style.width =
-        `${canvasWidth}px`;
-
-
-    backgroundCanvas.style.height =
-        `${canvasHeight}px`;
+        ratio;
 
 
     backgroundContext.setTransform(
-        pixelRatio,
+        ratio,
         0,
         0,
-        pixelRatio,
+        ratio,
         0,
         0
     );
@@ -1137,27 +1221,19 @@ function resizeCanvas() {
 
     particlesCanvas.width =
         canvasWidth *
-        pixelRatio;
+        ratio;
 
 
     particlesCanvas.height =
         canvasHeight *
-        pixelRatio;
-
-
-    particlesCanvas.style.width =
-        `${canvasWidth}px`;
-
-
-    particlesCanvas.style.height =
-        `${canvasHeight}px`;
+        ratio;
 
 
     particlesContext.setTransform(
-        pixelRatio,
+        ratio,
         0,
         0,
-        pixelRatio,
+        ratio,
         0,
         0
     );
@@ -1237,7 +1313,7 @@ function createParticles() {
 
 
 /* =========================================================
-   BACKGROUND
+   BACKGROUND DRAW
    ========================================================= */
 
 function drawBackground() {
@@ -1297,7 +1373,7 @@ function drawBackground() {
 
 
 /* =========================================================
-   PARTICLES
+   PARTICLE DRAW
    ========================================================= */
 
 function drawParticles() {
@@ -1345,7 +1421,12 @@ function drawParticles() {
 
 
         particlesContext.fillStyle =
-            `rgba(255, 125, 35, ${particle.opacity})`;
+            `rgba(
+                255,
+                125,
+                35,
+                ${particle.opacity}
+            )`;
 
 
         particlesContext.fill();
@@ -1373,7 +1454,7 @@ function animateBackground() {
 
 
 /* =========================================================
-   START
+   INITIALIZE
    ========================================================= */
 
 resizeCanvas();
@@ -1384,7 +1465,7 @@ loadProjects();
 
 
 /* =========================================================
-   KEYBOARD
+   ESCAPE
    ========================================================= */
 
 document.addEventListener(
