@@ -1,5 +1,8 @@
 /* =========================================================
    kong portfolio
+   YouTube videos open directly on YouTube
+   Supabase database:
+   id, title, category, url, featured, date
    ========================================================= */
 
 const SUPABASE_URL =
@@ -69,16 +72,19 @@ let currentPage = 1;
 
 
 /* =========================================================
-   ALWAYS START AT HOME
+   START AT HOME
    ========================================================= */
 
 function resetPageState() {
 
-    home.style.display = "flex";
+    if (home) {
+        home.style.display = "flex";
+        home.classList.remove("hidden");
+    }
 
-    home.classList.remove("hidden");
-
-    work.classList.remove("visible");
+    if (work) {
+        work.classList.remove("visible");
+    }
 
     window.scrollTo(0, 0);
 }
@@ -91,6 +97,10 @@ resetPageState();
    ========================================================= */
 
 function openWork() {
+
+    if (!home || !work) {
+        return;
+    }
 
     home.classList.add("hidden");
 
@@ -112,6 +122,10 @@ function openWork() {
 
 function closeWork() {
 
+    if (!home || !work) {
+        return;
+    }
+
     work.classList.remove("visible");
 
     setTimeout(function () {
@@ -127,65 +141,93 @@ function closeWork() {
 
 
 /* =========================================================
-   EVENTS
+   BUTTON EVENTS
    ========================================================= */
 
-workButton.addEventListener(
-    "click",
-    openWork
-);
+if (workButton) {
 
-backButton.addEventListener(
-    "click",
-    closeWork
-);
+    workButton.addEventListener(
+        "click",
+        openWork
+    );
+
+}
 
 
-previousPage.addEventListener(
-    "click",
-    function () {
+if (backButton) {
 
-        if (currentPage > 1) {
+    backButton.addEventListener(
+        "click",
+        closeWork
+    );
 
-            currentPage--;
+}
 
-            renderProjects();
 
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+if (previousPage) {
+
+    previousPage.addEventListener(
+        "click",
+        function () {
+
+            if (currentPage > 1) {
+
+                currentPage--;
+
+                renderProjects();
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+
         }
-    }
-);
+    );
+
+}
 
 
-nextPage.addEventListener(
-    "click",
-    function () {
+if (nextPage) {
 
-        const projects =
-            getCurrentProjects();
+    nextPage.addEventListener(
+        "click",
+        function () {
 
-        const totalPages =
-            Math.ceil(
-                projects.length /
-                PROJECTS_PER_PAGE
-            );
+            const projects =
+                getCurrentProjects();
 
-        if (currentPage < totalPages) {
+            const totalPages =
+                Math.ceil(
+                    projects.length /
+                    PROJECTS_PER_PAGE
+                );
 
-            currentPage++;
+            if (
+                currentPage <
+                totalPages
+            ) {
 
-            renderProjects();
+                currentPage++;
 
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+                renderProjects();
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+
         }
-    }
-);
+    );
+
+}
 
 
 /* =========================================================
@@ -201,6 +243,7 @@ tabs.forEach(function (tab) {
             switchCategory(
                 tab.dataset.category
             );
+
         }
     );
 
@@ -219,30 +262,39 @@ function switchCategory(category) {
     currentPage =
         1;
 
+
     tabs.forEach(function (tab) {
 
         tab.classList.toggle(
             "active",
-            tab.dataset.category === category
+            tab.dataset.category ===
+            category
         );
 
     });
+
 
     renderProjects();
 }
 
 
 /* =========================================================
-   LOAD PROJECTS FROM SUPABASE
+   LOAD PROJECTS
    ========================================================= */
 
 async function loadProjects() {
+
+    if (!projectsContainer) {
+        return;
+    }
+
 
     projectsContainer.innerHTML = `
         <div class="loading">
             loading...
         </div>
     `;
+
 
     try {
 
@@ -259,7 +311,9 @@ async function loadProjects() {
 
 
         if (result.error) {
+
             throw result.error;
+
         }
 
 
@@ -268,7 +322,7 @@ async function loadProjects() {
 
 
         console.log(
-            "Loaded projects:",
+            "Projects loaded:",
             allProjects
         );
 
@@ -290,7 +344,7 @@ async function loadProjects() {
             <div class="error">
 
                 <strong>
-                    Couldn't load your projects.
+                    Couldn't load projects.
                 </strong>
 
                 <br><br>
@@ -304,14 +358,21 @@ async function loadProjects() {
 
         `;
 
-        pagination.style.display =
-            "none";
+
+        if (pagination) {
+
+            pagination.style.display =
+                "none";
+
+        }
+
     }
+
 }
 
 
 /* =========================================================
-   GET CURRENT CATEGORY
+   GET CURRENT CATEGORY PROJECTS
    ========================================================= */
 
 function getCurrentProjects() {
@@ -329,6 +390,7 @@ function getCurrentProjects() {
 
         }
     );
+
 }
 
 
@@ -337,6 +399,11 @@ function getCurrentProjects() {
    ========================================================= */
 
 function renderProjects() {
+
+    if (!projectsContainer) {
+        return;
+    }
+
 
     const projects =
         getCurrentProjects();
@@ -353,7 +420,10 @@ function renderProjects() {
 
 
     if (currentPage > totalPages) {
-        currentPage = totalPages;
+
+        currentPage =
+            totalPages;
+
     }
 
 
@@ -377,161 +447,263 @@ function renderProjects() {
         );
 
 
-    projectsContainer.innerHTML = "";
+    projectsContainer.innerHTML =
+        "";
 
+
+    /* -----------------------------------------------------
+       NOTHING IN CATEGORY
+       ----------------------------------------------------- */
 
     if (projects.length === 0) {
 
         projectsContainer.innerHTML = `
+
             <div class="empty">
+
                 Nothing here yet.
+
             </div>
+
         `;
 
-        pagination.style.display =
-            "none";
+
+        if (pagination) {
+
+            pagination.style.display =
+                "none";
+
+        }
+
 
         return;
     }
 
 
+    /* -----------------------------------------------------
+       CREATE CARDS
+       ----------------------------------------------------- */
+
     visibleProjects.forEach(
-        function (project, index) {
+        function (
+            project,
+            index
+        ) {
 
             const element =
                 createProject(project);
 
+
             element.style.animationDelay =
                 `${index * 0.07}s`;
+
 
             projectsContainer.appendChild(
                 element
             );
+
         }
     );
 
 
-    if (totalPages <= 1) {
+    /* -----------------------------------------------------
+       PAGINATION
+       ----------------------------------------------------- */
 
-        pagination.style.display =
-            "none";
+    if (pagination) {
 
-    } else {
+        if (totalPages <= 1) {
 
-        pagination.style.display =
-            "flex";
+            pagination.style.display =
+                "none";
+
+        }
+
+        else {
+
+            pagination.style.display =
+                "flex";
+
+        }
+
     }
 
 
-    previousPage.disabled =
-        currentPage <= 1;
+    if (previousPage) {
 
-    nextPage.disabled =
-        currentPage >= totalPages;
+        previousPage.disabled =
+            currentPage <= 1;
+
+    }
 
 
-    pageIndicator.textContent =
-        `${String(
-            currentPage
-        ).padStart(2, "0")} / ${String(
-            totalPages
-        ).padStart(2, "0")}`;
+    if (nextPage) {
+
+        nextPage.disabled =
+            currentPage >=
+            totalPages;
+
+    }
+
+
+    if (pageIndicator) {
+
+        pageIndicator.textContent =
+            `${String(
+                currentPage
+            ).padStart(2, "0")} / ${String(
+                totalPages
+            ).padStart(2, "0")}`;
+
+    }
+
 }
 
 
 /* =========================================================
-   CREATE PROJECT
+   CREATE PROJECT CARD
    ========================================================= */
 
 function createProject(project) {
 
+    /*
+       The entire project card becomes
+       a clickable link.
+    */
+
     const article =
         document.createElement("article");
+
 
     article.className =
         "project";
 
 
+    /*
+       If there's a URL, make the entire
+       card open it in a new tab.
+    */
+
+    if (project.url) {
+
+        article.style.cursor =
+            "pointer";
+
+
+        article.addEventListener(
+            "click",
+            function () {
+
+                window.open(
+                    project.url,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* -----------------------------------------------------
+       MEDIA
+       ----------------------------------------------------- */
+
     const media =
         createProjectMedia(project);
 
 
+    /* -----------------------------------------------------
+       INFO
+       ----------------------------------------------------- */
+
     const info =
         document.createElement("div");
+
 
     info.className =
         "project-info";
 
 
+    /* Category */
+
     const category =
         document.createElement("div");
 
+
     category.className =
         "project-category";
+
 
     category.textContent =
         getCategoryLabel(
             project.category
         );
 
-    info.appendChild(category);
 
+    info.appendChild(
+        category
+    );
+
+
+    /* Title */
 
     const title =
         document.createElement("div");
 
+
     title.className =
         "project-title";
+
 
     title.textContent =
         project.title ||
         "Untitled";
 
-    info.appendChild(title);
+
+    info.appendChild(
+        title
+    );
 
 
-    if (project.description) {
+    /* Date */
 
-        const description =
+    if (project.date) {
+
+        const date =
             document.createElement("div");
 
-        description.className =
-            "project-description";
 
-        description.textContent =
-            project.description;
+        date.className =
+            "project-date";
 
-        info.appendChild(description);
+
+        date.textContent =
+            formatDate(
+                project.date
+            );
+
+
+        info.appendChild(
+            date
+        );
+
     }
 
 
-    if (project.url) {
+    /* -----------------------------------------------------
+       CARD
+       ----------------------------------------------------- */
 
-        const link =
-            document.createElement("a");
-
-        link.className =
-            "project-link";
-
-        link.href =
-            project.url;
-
-        link.target =
-            "_blank";
-
-        link.rel =
-            "noopener noreferrer";
-
-        link.textContent =
-            "Open project →";
-
-        info.appendChild(link);
-    }
+    article.appendChild(
+        media
+    );
 
 
-    article.appendChild(media);
-
-    article.appendChild(info);
+    article.appendChild(
+        info
+    );
 
 
     return article;
@@ -539,13 +711,14 @@ function createProject(project) {
 
 
 /* =========================================================
-   CREATE MEDIA
+   CREATE PROJECT MEDIA
    ========================================================= */
 
 function createProjectMedia(project) {
 
     const wrapper =
         document.createElement("div");
+
 
     wrapper.className =
         "project-media";
@@ -556,25 +729,18 @@ function createProjectMedia(project) {
         "";
 
 
-    const type =
-        getProjectType(project);
-
-
     /*
        YOUTUBE
     */
 
     if (
-        type === "youtube" ||
         isYouTube(url)
     ) {
 
-        const iframe =
-            createYouTubeEmbed(url);
+        return createYouTubeThumbnail(
+            project
+        );
 
-        wrapper.appendChild(iframe);
-
-        return wrapper;
     }
 
 
@@ -583,18 +749,54 @@ function createProjectMedia(project) {
     */
 
     if (
-        type === "soundcloud" ||
         isSoundCloud(url)
     ) {
 
-        const soundcloud =
-            createSoundCloud(url);
-
-        wrapper.appendChild(
-            soundcloud
+        return createSoundCloudCard(
+            project
         );
 
+    }
+
+
+    /*
+       IMAGE
+    */
+
+    if (
+        isImage(url)
+    ) {
+
+        const image =
+            document.createElement("img");
+
+
+        image.src =
+            url;
+
+
+        image.alt =
+            project.title ||
+            "kong project";
+
+
+        image.loading =
+            "lazy";
+
+
+        wrapper.appendChild(
+            image
+        );
+
+
+        addOverlay(
+            wrapper,
+            "VIEW"
+        );
+
+
         return wrapper;
+
     }
 
 
@@ -603,115 +805,51 @@ function createProjectMedia(project) {
     */
 
     if (
-        type === "video" &&
         isVideoFile(url)
     ) {
 
         const video =
             document.createElement("video");
 
+
         video.src =
             url;
+
 
         video.controls =
             true;
 
+
         video.preload =
             "metadata";
+
 
         video.playsInline =
             true;
 
-        wrapper.appendChild(video);
 
-        return wrapper;
-    }
+        /*
+           Don't let clicking the video
+           trigger the project link.
+        */
 
+        video.addEventListener(
+            "click",
+            function (event) {
 
-    /*
-       AUDIO
-    */
+                event.stopPropagation();
 
-    if (
-        type === "audio" ||
-        isAudio(url)
-    ) {
-
-        const audioContainer =
-            document.createElement("div");
-
-        audioContainer.className =
-            "audio-project";
-
-
-        const symbol =
-            document.createElement("div");
-
-        symbol.className =
-            "audio-symbol";
-
-        symbol.textContent =
-            "♪";
-
-        audioContainer.appendChild(
-            symbol
-        );
-
-
-        const audio =
-            document.createElement("audio");
-
-        audio.src =
-            url;
-
-        audio.controls =
-            true;
-
-        audio.preload =
-            "metadata";
-
-        audioContainer.appendChild(
-            audio
+            }
         );
 
 
         wrapper.appendChild(
-            audioContainer
+            video
         );
+
 
         return wrapper;
-    }
 
-
-    /*
-       IMAGE
-    */
-
-    if (isImage(url)) {
-
-        const image =
-            document.createElement("img");
-
-        image.src =
-            url;
-
-        image.alt =
-            project.title ||
-            "kong project";
-
-        image.loading =
-            "lazy";
-
-        wrapper.appendChild(
-            image
-        );
-
-        addOverlay(
-            wrapper,
-            "VIEW"
-        );
-
-        return wrapper;
     }
 
 
@@ -722,13 +860,16 @@ function createProjectMedia(project) {
     const placeholder =
         document.createElement("div");
 
+
     placeholder.className =
         "placeholder";
+
 
     placeholder.textContent =
         getSymbol(
             project.category
         );
+
 
     wrapper.appendChild(
         placeholder
@@ -740,255 +881,124 @@ function createProjectMedia(project) {
 
 
 /* =========================================================
-   YOUTUBE EMBED
+   YOUTUBE THUMBNAIL
    ========================================================= */
 
-function createYouTubeEmbed(url) {
-
-    const iframe =
-        document.createElement("iframe");
-
-
-    const videoID =
-        getYouTubeID(url);
-
-
-    if (!videoID) {
-
-        console.error(
-            "Could not find YouTube video ID:",
-            url
-        );
-
-        return iframe;
-    }
-
-
-    iframe.src =
-        `https://www.youtube.com/embed/${videoID}`;
-
-
-    iframe.title =
-        "YouTube video";
-
-
-    iframe.allow =
-        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-
-
-    iframe.allowFullscreen =
-        true;
-
-
-    iframe.loading =
-        "lazy";
-
-
-    iframe.style.width =
-        "100%";
-
-    iframe.style.height =
-        "100%";
-
-    iframe.style.border =
-        "0";
-
-    iframe.style.display =
-        "block";
-
-
-    return iframe;
-}
-
-
-/* =========================================================
-   GET YOUTUBE VIDEO ID
-   ========================================================= */
-
-function getYouTubeID(url) {
-
-    try {
-
-        const parsed =
-            new URL(url);
-
-
-        /*
-           Normal:
-
-           youtube.com/watch?v=XXXXXXXX
-        */
-
-        if (
-            parsed.hostname.includes(
-                "youtube.com"
-            )
-            &&
-            parsed.pathname ===
-                "/watch"
-        ) {
-
-            return parsed.searchParams.get(
-                "v"
-            );
-        }
-
-
-        /*
-           Short:
-
-           youtu.be/XXXXXXXX
-        */
-
-        if (
-            parsed.hostname ===
-                "youtu.be"
-        ) {
-
-            return parsed.pathname
-                .substring(1)
-                .split("/")[0];
-        }
-
-
-        /*
-           Embed:
-
-           youtube.com/embed/XXXXXXXX
-        */
-
-        if (
-            parsed.pathname.startsWith(
-                "/embed/"
-            )
-        ) {
-
-            return parsed.pathname
-                .split("/")[2];
-        }
-
-
-        /*
-           Shorts:
-
-           youtube.com/shorts/XXXXXXXX
-        */
-
-        if (
-            parsed.pathname.startsWith(
-                "/shorts/"
-            )
-        ) {
-
-            return parsed.pathname
-                .split("/")[2];
-        }
-
-
-        return null;
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Invalid YouTube URL:",
-            url
-        );
-
-        return null;
-    }
-}
-
-
-/* =========================================================
-   SOUNDCLOUD
-   ========================================================= */
-
-function createSoundCloud(url) {
+function createYouTubeThumbnail(project) {
 
     const wrapper =
         document.createElement("div");
 
+
     wrapper.className =
-        "soundcloud-wrapper";
+        "project-media youtube-card";
 
 
-    let embedURL =
-        url;
+    const videoID =
+        getYouTubeID(
+            project.url
+        );
 
 
-    if (
-        !url.includes(
-            "w.soundcloud.com/player"
-        )
-    ) {
+    /*
+       YouTube thumbnail
+    */
 
-        embedURL =
-            "https://w.soundcloud.com/player/?url="
-            +
-            encodeURIComponent(url)
-            +
-            "&color=%23ff6500"
-            +
-            "&auto_play=false"
-            +
-            "&hide_related=true"
-            +
-            "&show_comments=false"
-            +
-            "&show_user=true"
-            +
-            "&show_reposts=false"
-            +
-            "&show_teaser=false";
+    if (videoID) {
+
+        const image =
+            document.createElement("img");
+
+
+        /*
+           maxresdefault gives the highest
+           quality thumbnail when available.
+        */
+
+        image.src =
+            `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
+
+
+        image.alt =
+            project.title ||
+            "YouTube video";
+
+
+        image.loading =
+            "lazy";
+
+
+        /*
+           If maxresdefault isn't available,
+           fall back to hqdefault.
+        */
+
+        image.onerror =
+            function () {
+
+                image.onerror =
+                    null;
+
+                image.src =
+                    `https://img.youtube.com/vi/${videoID}/hqdefault.jpg`;
+
+            };
+
+
+        wrapper.appendChild(
+            image
+        );
+
     }
 
 
-    const iframe =
-        document.createElement("iframe");
-
-
-    iframe.src =
-        embedURL;
-
-    iframe.allow =
-        "autoplay";
-
-    iframe.loading =
-        "lazy";
-
-
-    wrapper.appendChild(
-        iframe
-    );
-
-
-    return wrapper;
-}
-
-
-/* =========================================================
-   OVERLAY
-   ========================================================= */
-
-function addOverlay(
-    wrapper,
-    text
-) {
+    /*
+       Dark overlay
+    */
 
     const overlay =
         document.createElement("div");
 
-    overlay.className =
-        "project-overlay";
 
+    overlay.className =
+        "youtube-overlay";
+
+
+    /*
+       Play button
+    */
+
+    const playButton =
+        document.createElement("div");
+
+
+    playButton.className =
+        "youtube-play";
+
+
+    playButton.innerHTML =
+        "▶";
+
+
+    overlay.appendChild(
+        playButton
+    );
+
+
+    /*
+       YouTube label
+    */
 
     const label =
         document.createElement("span");
 
+
+    label.className =
+        "youtube-label";
+
+
     label.textContent =
-        text;
+        "WATCH ON YOUTUBE";
 
 
     overlay.appendChild(
@@ -999,58 +1009,177 @@ function addOverlay(
     wrapper.appendChild(
         overlay
     );
+
+
+    return wrapper;
 }
 
 
 /* =========================================================
-   PROJECT TYPE
+   SOUNDCLOUD CARD
    ========================================================= */
 
-function getProjectType(project) {
+function createSoundCloudCard(project) {
 
-    if (project.type) {
+    const wrapper =
+        document.createElement("div");
 
-        return String(
-            project.type
-        )
-        .trim()
-        .toLowerCase();
+
+    wrapper.className =
+        "project-media soundcloud-card";
+
+
+    const background =
+        document.createElement("div");
+
+
+    background.className =
+        "soundcloud-background";
+
+
+    wrapper.appendChild(
+        background
+    );
+
+
+    const icon =
+        document.createElement("div");
+
+
+    icon.className =
+        "soundcloud-icon";
+
+
+    icon.textContent =
+        "♪";
+
+
+    wrapper.appendChild(
+        icon
+    );
+
+
+    const label =
+        document.createElement("div");
+
+
+    label.className =
+        "soundcloud-label";
+
+
+    label.textContent =
+        "LISTEN ON SOUNDCLOUD";
+
+
+    wrapper.appendChild(
+        label
+    );
+
+
+    return wrapper;
+}
+
+
+/* =========================================================
+   GET YOUTUBE ID
+   ========================================================= */
+
+function getYouTubeID(url) {
+
+    if (!url) {
+        return null;
     }
 
 
-    const url =
-        String(
-            project.url || ""
-        )
-        .toLowerCase();
+    try {
+
+        const parsed =
+            new URL(url);
 
 
-    if (isYouTube(url)) {
-        return "youtube";
+        const hostname =
+            parsed.hostname
+                .toLowerCase();
+
+
+        /*
+           youtube.com/watch?v=
+        */
+
+        if (
+            hostname.includes(
+                "youtube.com"
+            )
+            &&
+            parsed.pathname ===
+                "/watch"
+        ) {
+
+            return parsed.searchParams.get(
+                "v"
+            );
+
+        }
+
+
+        /*
+           youtu.be/VIDEO_ID
+        */
+
+        if (
+            hostname ===
+            "youtu.be"
+        ) {
+
+            return parsed.pathname
+                .substring(1)
+                .split("/")[0];
+
+        }
+
+
+        /*
+           youtube.com/shorts/VIDEO_ID
+        */
+
+        if (
+            parsed.pathname.startsWith(
+                "/shorts/"
+            )
+        ) {
+
+            return parsed.pathname
+                .split("/")[2];
+
+        }
+
+
+        /*
+           youtube.com/embed/VIDEO_ID
+        */
+
+        if (
+            parsed.pathname.startsWith(
+                "/embed/"
+            )
+        ) {
+
+            return parsed.pathname
+                .split("/")[2];
+
+        }
+
+
+        return null;
+
     }
 
+    catch {
 
-    if (isSoundCloud(url)) {
-        return "soundcloud";
+        return null;
+
     }
 
-
-    if (isVideoFile(url)) {
-        return "video";
-    }
-
-
-    if (isAudio(url)) {
-        return "audio";
-    }
-
-
-    if (isImage(url)) {
-        return "image";
-    }
-
-
-    return "";
 }
 
 
@@ -1071,12 +1200,17 @@ function isYouTube(url) {
             new URL(url);
 
 
+        const hostname =
+            parsed.hostname
+                .toLowerCase();
+
+
         return (
-            parsed.hostname.includes(
+            hostname.includes(
                 "youtube.com"
             )
             ||
-            parsed.hostname ===
+            hostname ===
                 "youtu.be"
         );
 
@@ -1085,7 +1219,9 @@ function isYouTube(url) {
     catch {
 
         return false;
+
     }
+
 }
 
 
@@ -1109,53 +1245,23 @@ function isSoundCloud(url) {
             "w.soundcloud.com/player"
         )
     );
+
 }
 
 
 /* =========================================================
-   FILE DETECTION
+   IMAGE DETECTION
    ========================================================= */
-
-function isVideoFile(url) {
-
-    const value =
-        String(url)
-        .toLowerCase();
-
-
-    return (
-        value.endsWith(".mp4") ||
-        value.endsWith(".webm") ||
-        value.endsWith(".mov") ||
-        value.includes(".mp4?") ||
-        value.includes(".webm?")
-    );
-}
-
-
-function isAudio(url) {
-
-    const value =
-        String(url)
-        .toLowerCase();
-
-
-    return (
-        value.endsWith(".mp3") ||
-        value.endsWith(".wav") ||
-        value.endsWith(".ogg") ||
-        value.endsWith(".m4a") ||
-        value.includes(".mp3?") ||
-        value.includes(".wav?")
-    );
-}
-
 
 function isImage(url) {
 
+    if (!url) {
+        return false;
+    }
+
+
     const value =
-        String(url)
-        .toLowerCase();
+        url.toLowerCase();
 
 
     return (
@@ -1165,8 +1271,38 @@ function isImage(url) {
         value.endsWith(".webp") ||
         value.endsWith(".gif") ||
         value.includes(".jpg?") ||
-        value.includes(".png?")
+        value.includes(".jpeg?") ||
+        value.includes(".png?") ||
+        value.includes(".webp?")
     );
+
+}
+
+
+/* =========================================================
+   VIDEO FILE DETECTION
+   ========================================================= */
+
+function isVideoFile(url) {
+
+    if (!url) {
+        return false;
+    }
+
+
+    const value =
+        url.toLowerCase();
+
+
+    return (
+        value.endsWith(".mp4") ||
+        value.endsWith(".webm") ||
+        value.endsWith(".mov") ||
+        value.includes(".mp4?") ||
+        value.includes(".webm?") ||
+        value.includes(".mov?")
+    );
+
 }
 
 
@@ -1183,8 +1319,8 @@ function normalizeCategory(category) {
 
     const value =
         String(category)
-        .trim()
-        .toLowerCase();
+            .trim()
+            .toLowerCase();
 
 
     const aliases = {
@@ -1224,6 +1360,7 @@ function normalizeCategory(category) {
 
         "graphics":
             "graphic-design"
+
     };
 
 
@@ -1231,6 +1368,7 @@ function normalizeCategory(category) {
         aliases[value] ||
         value
     );
+
 }
 
 
@@ -1259,6 +1397,7 @@ function getCategoryLabel(category) {
 
         "graphic-design":
             "GRAPHIC DESIGN"
+
     };
 
 
@@ -1266,11 +1405,12 @@ function getCategoryLabel(category) {
         labels[normalized] ||
         "PROJECT"
     );
+
 }
 
 
 /* =========================================================
-   SYMBOL
+   SYMBOLS
    ========================================================= */
 
 function getSymbol(category) {
@@ -1294,6 +1434,7 @@ function getSymbol(category) {
 
         "graphic-design":
             "◇"
+
     };
 
 
@@ -1301,6 +1442,84 @@ function getSymbol(category) {
         symbols[normalized] ||
         "•"
     );
+
+}
+
+
+/* =========================================================
+   DATE FORMAT
+   ========================================================= */
+
+function formatDate(dateValue) {
+
+    if (!dateValue) {
+        return "";
+    }
+
+
+    const date =
+        new Date(dateValue);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return String(
+            dateValue
+        );
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ADD OVERLAY
+   ========================================================= */
+
+function addOverlay(
+    wrapper,
+    text
+) {
+
+    const overlay =
+        document.createElement("div");
+
+
+    overlay.className =
+        "project-overlay";
+
+
+    const label =
+        document.createElement("span");
+
+
+    label.textContent =
+        text;
+
+
+    overlay.appendChild(
+        label
+    );
+
+
+    wrapper.appendChild(
+        overlay
+    );
+
 }
 
 
@@ -1331,16 +1550,17 @@ function escapeHTML(value) {
             /'/g,
             "&#039;"
         );
+
 }
 
 
 /* =========================================================
-   ESCAPE KEY
+   ESC KEY
    ========================================================= */
 
 document.addEventListener(
     "keydown",
-    function(event) {
+    function (event) {
 
         if (
             event.key ===
@@ -1348,20 +1568,24 @@ document.addEventListener(
         ) {
 
             if (
+                work &&
                 work.classList.contains(
                     "visible"
                 )
             ) {
 
                 closeWork();
+
             }
+
         }
+
     }
 );
 
 
 /* =========================================================
-   START
+   LOAD
    ========================================================= */
 
 loadProjects();
