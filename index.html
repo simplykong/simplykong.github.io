@@ -3,20 +3,31 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>simplykong — creative portfolio</title>
+    <title>simplykong</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
 
 <body>
 
-    <!-- Navigation -->
+    <!-- =========================================
+         NAVIGATION
+         ========================================= -->
 
     <nav class="navbar">
 
-        <a href="index.html" class="brand">
+        <a
+            href="#top"
+            class="logo"
+        >
             simplykong
         </a>
 
@@ -35,24 +46,25 @@
     </nav>
 
 
-    <!-- Hero -->
+    <!-- =========================================
+         HERO
+         ========================================= -->
 
-    <header class="hero">
+    <header
+        id="top"
+        class="hero"
+    >
 
         <div class="hero-glow"></div>
 
         <div class="hero-content">
 
-            <p class="eyebrow">
-                creative portfolio
-            </p>
-
             <h1>
                 simplykong
             </h1>
 
-            <p class="hero-description">
-                music · sound design · video · photography
+            <p class="hero-subtitle">
+                stuff i've made.
             </p>
 
         </div>
@@ -60,85 +72,80 @@
     </header>
 
 
-    <!-- Work -->
+    <!-- =========================================
+         WORK
+         ========================================= -->
 
-    <main id="work">
+    <main>
 
-        <section class="portfolio-section">
+        <section
+            id="work"
+            class="work-section"
+        >
 
-            <div class="section-heading">
+            <div class="section-title">
 
-                <div>
+                <h2>
+                    my work
+                </h2>
 
-                    <p class="eyebrow">
-                        selected work
-                    </p>
-
-                    <h2>
-                        projects
-                    </h2>
-
-                </div>
+                <div class="title-line"></div>
 
             </div>
 
 
-            <!-- Filters -->
+            <!-- =====================================
+                 FILTERS
+                 ===================================== -->
 
             <div class="filters">
 
                 <button
                     class="filter-button active"
-                    data-category="all">
-
+                    data-category="all"
+                >
                     all
-
                 </button>
-
 
                 <button
                     class="filter-button"
-                    data-category="music">
-
+                    data-category="music"
+                >
                     music
-
                 </button>
-
 
                 <button
                     class="filter-button"
-                    data-category="sound-design">
-
+                    data-category="sound-design"
+                >
                     sound design
-
                 </button>
-
 
                 <button
                     class="filter-button"
-                    data-category="video">
-
+                    data-category="video"
+                >
                     video
-
                 </button>
-
 
                 <button
                     class="filter-button"
-                    data-category="photo">
-
-                    photography
-
+                    data-category="photo"
+                >
+                    photos
                 </button>
 
             </div>
 
 
-            <!-- Projects -->
+            <!-- =====================================
+                 PROJECTS
+                 ===================================== -->
 
             <div
                 id="projects"
-                class="projects-grid">
+                class="projects-grid"
+            >
 
                 <div class="loading">
                     loading...
@@ -149,27 +156,26 @@
         </section>
 
 
-        <!-- About -->
+        <!-- =========================================
+             ABOUT
+             ========================================= -->
 
         <section
             id="about"
-            class="about-section">
+            class="about-section"
+        >
 
-            <div class="about-content">
-
-                <p class="eyebrow">
-                    about
-                </p>
+            <div class="about-inner">
 
                 <h2>
-                    making things
-                    <span>i think are cool.</span>
+                    hey, i'm simplykong.
                 </h2>
 
-                <p class="about-text">
-                    Music, sound design, video editing,
-                    photography, and whatever else I feel
-                    like creating.
+                <p>
+                    i make music, mess with sound,
+                    edit videos, take photos, and
+                    generally make whatever i feel
+                    like making.
                 </p>
 
             </div>
@@ -179,24 +185,30 @@
     </main>
 
 
-    <!-- Footer -->
+    <!-- =========================================
+         FOOTER
+         ========================================= -->
 
     <footer>
 
-        <div class="footer-brand">
+        <span>
             simplykong
-        </div>
+        </span>
 
-        <p>
-            © 2026 simplykong
-        </p>
+        <span>
+            made with too much caffeine
+        </span>
 
     </footer>
 
 
-    <!-- Supabase -->
+    <!-- =========================================
+         SUPABASE
+         ========================================= -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
 
     <script src="script.js"></script>
 
