@@ -957,56 +957,55 @@ function createYouTubeThumbnail(project) {
    ========================================================= */
 
 function createSoundCloudCard(project) {
+    const wrapper = document.createElement("div");
 
-    const wrapper =
-        document.createElement("div");
+    wrapper.className = "project-media soundcloud-card";
 
-    wrapper.className =
-        "project-media soundcloud-card";
+    const iframe = document.createElement("iframe");
+
+    iframe.width = "100%";
+    iframe.height = "166";
+    iframe.scrolling = "no";
+    iframe.frameBorder = "no";
+    iframe.allow = "autoplay; encrypted-media";
+    iframe.title = project.title || "SoundCloud player";
 
     /*
-       Create the actual SoundCloud player.
-       The database only needs the normal
-       SoundCloud track URL.
-    */
+     * If Supabase contains SoundCloud's COMPLETE embed/player URL,
+     * use it directly.
+     *
+     * This is important for private/secret tracks because the
+     * secret token is already contained inside the URL.
+     */
 
-    const iframe =
-        document.createElement("iframe");
+    if (
+        project.url.includes(
+            "w.soundcloud.com/player"
+        )
+    ) {
+        iframe.src = project.url;
+    }
 
-    iframe.width =
-        "100%";
+    /*
+     * Otherwise, convert a normal SoundCloud track URL
+     * into a SoundCloud player URL.
+     */
 
-    iframe.height =
-        "166";
+    else {
+        iframe.src =
+            "https://w.soundcloud.com/player/?" +
+            "url=" +
+            encodeURIComponent(project.url) +
+            "&color=%23ff5500" +
+            "&auto_play=false" +
+            "&hide_related=false" +
+            "&show_comments=true" +
+            "&show_user=true" +
+            "&show_reposts=false" +
+            "&show_teaser=true";
+    }
 
-    iframe.scrolling =
-        "no";
-
-    iframe.frameBorder =
-        "no";
-
-    iframe.allow =
-        "autoplay; encrypted-media";
-
-    iframe.title =
-        project.title ||
-        "SoundCloud player";
-
-    const soundcloudUrl =
-        "https://w.soundcloud.com/player/?" +
-        "url=" +
-        encodeURIComponent(project.url) +
-        "&color=%23ff5500" +
-        "&auto_play=false" +
-        "&hide_related=false" +
-        "&show_comments=true" +
-        "&show_user=true" +
-        "&show_reposts=false" +
-        "&show_teaser=true";
-
-    wrapper.appendChild(
-        iframe
-    );
+    wrapper.appendChild(iframe);
 
     return wrapper;
 }
