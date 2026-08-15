@@ -6,17 +6,17 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover"
+        content="width=device-width, initial-scale=1.0"
     >
 
     <meta
         name="theme-color"
-        content="#070503"
+        content="#080604"
     >
 
     <meta
         name="description"
-        content="kong — creative work"
+        content="kong — creative portfolio"
     >
 
     <title>kong</title>
@@ -33,63 +33,43 @@
     >
 </head>
 
+
 <body>
 
-    <!-- BACKGROUND -->
+    <!-- =========================================
+         BACKGROUND
+         ========================================= -->
 
-    <canvas
-        class="background-layer"
-        id="backgroundCanvas"
-    ></canvas>
+    <div class="background">
 
-    <div
-        class="glow-layer"
-    ></div>
+        <div class="background-glow"></div>
 
-    <canvas
-        class="particles-layer"
-        id="particlesCanvas"
-    ></canvas>
+        <div class="background-noise"></div>
 
-    <div
-        class="vignette-layer"
-    ></div>
-
-    <div
-        class="scanline-layer"
-    ></div>
+    </div>
 
 
-    <!-- =====================================================
-         LANDING PAGE
-         ===================================================== -->
+    <!-- =========================================
+         HOME
+         ========================================= -->
 
     <main
-        id="landing"
-        class="landing-page"
+        id="home"
+        class="home"
     >
 
-        <div class="landing-content">
+        <div class="home-content">
 
-            <div class="logo-float">
-
-                <div class="logo-interactive">
-
-                    <img
-                        id="mainLogo"
-                        src="https://cdn.discordapp.com/avatars/1429216999585615922/fa9f017aaaa3e55722eac94970084251.png?size=4096"
-                        alt="kong"
-                        draggable="false"
-                    >
-
-                </div>
-
-            </div>
-
+            <img
+                class="logo"
+                src="https://cdn.discordapp.com/avatars/1429216999585615922/fa9f017aaaa3e55722eac94970084251.png?size=4096"
+                alt="kong"
+                draggable="false"
+            >
 
             <button
-                class="work-button"
                 id="workButton"
+                class="work-button"
                 type="button"
             >
 
@@ -97,7 +77,7 @@
                     Check out my work
                 </span>
 
-                <span class="arrow">
+                <span class="work-arrow">
                     ↓
                 </span>
 
@@ -108,23 +88,22 @@
     </main>
 
 
-    <!-- =====================================================
-         WORK PAGE
-         ===================================================== -->
+    <!-- =========================================
+         WORK AREA
+         ========================================= -->
 
-    <section
+    <main
         id="work"
-        class="work-page"
-        aria-hidden="true"
+        class="work"
     >
 
-        <!-- HEADER -->
+        <!-- TOP BAR -->
 
-        <header class="work-header">
+        <header class="work-top">
 
             <button
-                class="back-button"
                 id="backButton"
+                class="back-button"
                 type="button"
             >
 
@@ -139,7 +118,7 @@
             </button>
 
 
-            <div class="work-brand">
+            <div class="work-logo">
                 kong
             </div>
 
@@ -150,7 +129,7 @@
 
         <section class="work-intro">
 
-            <div class="intro-small">
+            <div class="eyebrow">
                 SELECTED WORK
             </div>
 
@@ -160,21 +139,21 @@
 
             <p>
                 Video, sound, photography, graphics,
-                and whatever else I feel like making.
+                and whatever else I end up making.
             </p>
 
         </section>
 
 
-        <!-- CATEGORY NAVIGATION -->
+        <!-- CATEGORY TABS -->
 
         <nav
-            class="category-tabs"
+            class="tabs"
             aria-label="Portfolio categories"
         >
 
             <button
-                class="category-tab active"
+                class="tab active"
                 data-category="video"
                 type="button"
             >
@@ -183,13 +162,15 @@
                     01
                 </span>
 
-                Video Editing
+                <span class="tab-name">
+                    Video Editing
+                </span>
 
             </button>
 
 
             <button
-                class="category-tab"
+                class="tab"
                 data-category="sound-design"
                 type="button"
             >
@@ -198,13 +179,15 @@
                     02
                 </span>
 
-                Sound Design
+                <span class="tab-name">
+                    Sound Design
+                </span>
 
             </button>
 
 
             <button
-                class="category-tab"
+                class="tab"
                 data-category="photography"
                 type="button"
             >
@@ -213,13 +196,15 @@
                     03
                 </span>
 
-                Photography
+                <span class="tab-name">
+                    Photography
+                </span>
 
             </button>
 
 
             <button
-                class="category-tab"
+                class="tab"
                 data-category="graphic-design"
                 type="button"
             >
@@ -228,80 +213,87 @@
                     04
                 </span>
 
-                Graphic Design
+                <span class="tab-name">
+                    Graphic Design
+                </span>
 
             </button>
 
         </nav>
 
 
-        <!-- CATEGORY HEADER -->
+        <!-- CURRENT CATEGORY -->
 
-        <div class="category-heading">
+        <section class="category-section">
 
-            <div
-                class="category-number"
-                id="categoryNumber"
-            >
-                01
-            </div>
-
-            <div>
+            <div class="category-heading">
 
                 <div
-                    class="category-label"
-                    id="categoryLabel"
+                    id="categoryNumber"
+                    class="category-number"
                 >
-                    VIDEO EDITING
+                    01
                 </div>
 
-                <h2
-                    id="categoryTitle"
-                >
-                    Video Editing
-                </h2>
+                <div class="category-heading-text">
+
+                    <div
+                        id="categoryLabel"
+                        class="category-label"
+                    >
+                        VIDEO EDITING
+                    </div>
+
+                    <h2 id="categoryTitle">
+                        Video Editing
+                    </h2>
+
+                </div>
 
             </div>
 
-        </div>
 
+            <!-- PROJECTS -->
 
-        <!-- PROJECTS -->
+            <div
+                id="projects"
+                class="projects"
+            >
 
-        <div
-            id="projects"
-            class="projects"
-        >
+                <div class="loading">
+                    loading...
+                </div>
 
-            <div class="projects-loading">
-                loading...
             </div>
 
-        </div>
+        </section>
 
 
         <!-- FOOTER -->
 
-        <footer class="work-footer">
+        <footer class="footer">
 
-            <div>
+            <span>
                 kong
-            </div>
+            </span>
 
-            <div>
+            <span>
                 creative work
-            </div>
+            </span>
 
         </footer>
 
-    </section>
+    </main>
 
 
-    <!-- SUPABASE -->
+    <!-- =========================================
+         SUPABASE
+         ========================================= -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
     ></script>
+
 
     <script
         src="script.js"
