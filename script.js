@@ -95,58 +95,6 @@ const PROJECTS_PER_PAGE =
 
 
 /* =========================================================
-   CATEGORIES
-   ========================================================= */
-
-const categoryData = {
-
-    video: {
-
-        number:
-            "01",
-
-        label:
-            "VIDEO EDITING"
-
-    },
-
-
-    "sound-design": {
-
-        number:
-            "02",
-
-        label:
-            "SOUND DESIGN"
-
-    },
-
-
-    photography: {
-
-        number:
-            "03",
-
-        label:
-            "PHOTOGRAPHY"
-
-    },
-
-
-    "graphic-design": {
-
-        number:
-            "04",
-
-        label:
-            "GRAPHIC DESIGN"
-
-    }
-
-};
-
-
-/* =========================================================
    STATE
    ========================================================= */
 
@@ -157,6 +105,37 @@ let currentCategory =
 
 let currentPage =
     1;
+
+
+/* =========================================================
+   IMPORTANT:
+   ALWAYS START ON HOME AFTER REFRESH
+   ========================================================= */
+
+function resetPageState() {
+
+    home.style.display =
+        "flex";
+
+    home.classList.remove(
+        "hidden"
+    );
+
+
+    work.classList.remove(
+        "visible"
+    );
+
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+}
+
+
+resetPageState();
 
 
 /* =========================================================
@@ -223,7 +202,7 @@ function closeWork() {
             );
 
         },
-        650
+        600
     );
 
 }
@@ -347,17 +326,6 @@ tabs.forEach(
 function switchCategory(
     category
 ) {
-
-    if (
-        !categoryData[
-            category
-        ]
-    ) {
-
-        return;
-
-    }
-
 
     currentCategory =
         category;
@@ -531,12 +499,6 @@ function renderProjects() {
         );
 
 
-    /*
-       If the current page somehow becomes
-       larger than the available pages,
-       bring it back down.
-    */
-
     if (
         currentPage >
         totalPages
@@ -581,9 +543,7 @@ function renderProjects() {
         projectsContainer.innerHTML = `
 
             <div class="empty">
-
                 Nothing here yet.
-
             </div>
 
         `;
@@ -597,10 +557,6 @@ function renderProjects() {
 
     }
 
-
-    /*
-       Render only 6 projects.
-    */
 
     visibleProjects.forEach(
         function (
@@ -625,12 +581,6 @@ function renderProjects() {
         }
     );
 
-
-    /*
-       Only show the arrows if
-       there is actually more than
-       one page.
-    */
 
     if (
         totalPages <=
@@ -1060,8 +1010,6 @@ function createProjectMedia(
     }
 
 
-    /* IMAGE FROM MEDIA URL */
-
     if (
         isImage(
             mediaURL
@@ -1253,7 +1201,7 @@ function addOverlay(
 
 
 /* =========================================================
-   CATEGORY NORMALIZATION
+   CATEGORY
    ========================================================= */
 
 function normalizeCategory(
@@ -1319,10 +1267,7 @@ function normalizeCategory(
 
 
     return (
-        aliases[
-            value
-        ]
-        ||
+        aliases[value] ||
         value
     );
 
@@ -1361,10 +1306,7 @@ function getCategoryLabel(
 
 
     return (
-        labels[
-            normalized
-        ]
-        ||
+        labels[normalized] ||
         "PROJECT"
     );
 
@@ -1403,10 +1345,7 @@ function getSymbol(
 
 
     return (
-        symbols[
-            normalized
-        ]
-        ||
+        symbols[normalized] ||
         "•"
     );
 
@@ -1493,7 +1432,7 @@ function getProjectType(
 
 
 /* =========================================================
-   FILE CHECKS
+   FILE DETECTION
    ========================================================= */
 
 function isVideo(
@@ -1508,35 +1447,11 @@ function isVideo(
 
 
     return (
-
-        value.endsWith(
-            ".mp4"
-        )
-
-        ||
-
-        value.endsWith(
-            ".webm"
-        )
-
-        ||
-
-        value.endsWith(
-            ".mov"
-        )
-
-        ||
-
-        value.includes(
-            ".mp4?"
-        )
-
-        ||
-
-        value.includes(
-            ".webm?"
-        )
-
+        value.endsWith(".mp4") ||
+        value.endsWith(".webm") ||
+        value.endsWith(".mov") ||
+        value.includes(".mp4?") ||
+        value.includes(".webm?")
     );
 
 }
@@ -1554,41 +1469,12 @@ function isAudio(
 
 
     return (
-
-        value.endsWith(
-            ".mp3"
-        )
-
-        ||
-
-        value.endsWith(
-            ".wav"
-        )
-
-        ||
-
-        value.endsWith(
-            ".ogg"
-        )
-
-        ||
-
-        value.endsWith(
-            ".m4a"
-        )
-
-        ||
-
-        value.includes(
-            ".mp3?"
-        )
-
-        ||
-
-        value.includes(
-            ".wav?"
-        )
-
+        value.endsWith(".mp3") ||
+        value.endsWith(".wav") ||
+        value.endsWith(".ogg") ||
+        value.endsWith(".m4a") ||
+        value.includes(".mp3?") ||
+        value.includes(".wav?")
     );
 
 }
@@ -1606,47 +1492,13 @@ function isImage(
 
 
     return (
-
-        value.endsWith(
-            ".jpg"
-        )
-
-        ||
-
-        value.endsWith(
-            ".jpeg"
-        )
-
-        ||
-
-        value.endsWith(
-            ".png"
-        )
-
-        ||
-
-        value.endsWith(
-            ".webp"
-        )
-
-        ||
-
-        value.endsWith(
-            ".gif"
-        )
-
-        ||
-
-        value.includes(
-            ".jpg?"
-        )
-
-        ||
-
-        value.includes(
-            ".png?"
-        )
-
+        value.endsWith(".jpg") ||
+        value.endsWith(".jpeg") ||
+        value.endsWith(".png") ||
+        value.endsWith(".webp") ||
+        value.endsWith(".gif") ||
+        value.includes(".jpg?") ||
+        value.includes(".png?")
     );
 
 }
@@ -1693,7 +1545,9 @@ function escapeHTML(
 
 document.addEventListener(
     "keydown",
-    function (event) {
+    function (
+        event
+    ) {
 
         if (
             event.key ===
@@ -1717,7 +1571,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   START
+   LOAD
    ========================================================= */
 
 loadProjects();
