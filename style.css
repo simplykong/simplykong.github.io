@@ -1,614 +1,24 @@
-:root {
-
-    --black:
-        #070403;
-
-    --panel:
-        #100a07;
-
-    --orange:
-        #ff5a00;
-
-    --orange-light:
-        #ff8a24;
-
-    --orange-bright:
-        #ffb15a;
-
-    --white:
-        #f5f1ec;
-
-    --gray:
-        #918a84;
-
-    --line:
-        rgba(
-            255,
-            255,
-            255,
-            0.10
-        );
-
-    --display:
-        "Futura Extra Bold",
-        Futura,
-        "Century Gothic",
-        Arial,
-        sans-serif;
-
-    --body:
-        Arial,
-        Helvetica,
-        sans-serif;
-}
-
-
 /* =========================================================
-   RESET
+   kong — portfolio stylesheet
    ========================================================= */
 
 * {
-    box-sizing:
-        border-box;
-
-    margin:
-        0;
-
-    padding:
-        0;
+    box-sizing: border-box;
 }
-
 
 html,
 body {
-    width:
-        100%;
-
-    min-height:
-        100%;
-
-    background:
-        var(--black);
-
-    color:
-        var(--white);
-
-    font-family:
-        var(--body);
-
-    overflow-x:
-        hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
 }
 
-
-button {
-    font-family:
-        inherit;
-}
-
-
-/* =========================================================
-   BACKGROUND
-   ========================================================= */
-
-.background {
-
-    position:
-        fixed;
-
-    inset:
-        0;
-
-    z-index:
-        0;
-
-    overflow:
-        hidden;
-
-    pointer-events:
-        none;
-
-    background:
-        #070403;
-}
-
-
-/*
-    Large central orange atmosphere.
-*/
-
-.background::before {
-
-    content:
-        "";
-
-    position:
-        absolute;
-
-    width:
-        1000px;
-
-    height:
-        1000px;
-
-    left:
-        50%;
-
-    top:
-        50%;
-
-    transform:
-        translate(
-            -50%,
-            -50%
-        );
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(
-                255,
-                84,
-                0,
-                0.30
-            ) 0%,
-
-            rgba(
-                255,
-                84,
-                0,
-                0.16
-            ) 22%,
-
-            rgba(
-                255,
-                84,
-                0,
-                0.07
-            ) 43%,
-
-            transparent 72%
-        );
-
-    filter:
-        blur(
-            35px
-        );
-
-    animation:
-        centralPulse
-        9s
-        ease-in-out
-        infinite;
-}
-
-
-/*
-    Soft orange light toward the upper-left.
-*/
-
-.background::after {
-
-    content:
-        "";
-
-    position:
-        absolute;
-
-    width:
-        800px;
-
-    height:
-        800px;
-
-    left:
-        -250px;
-
-    top:
-        -250px;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(
-                255,
-                105,
-                15,
-                0.20
-            ) 0%,
-
-            rgba(
-                255,
-                75,
-                0,
-                0.08
-            ) 35%,
-
-            transparent 70%
-        );
-
-    filter:
-        blur(
-            45px
-        );
-
-    animation:
-        cornerGlow
-        14s
-        ease-in-out
-        infinite
-        alternate;
-}
-
-
-.background-glow {
-
-    position:
-        absolute;
-
-    border-radius:
-        50%;
-
-    pointer-events:
-        none;
-
-    mix-blend-mode:
-        screen;
-
-}
-
-
-/*
-    Main moving glow.
-*/
-
-.glow-one {
-
-    width:
-        650px;
-
-    height:
-        650px;
-
-    left:
-        18%;
-
-    top:
-        58%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(
-                255,
-                70,
-                0,
-                0.20
-            ),
-            transparent 68%
-        );
-
-    filter:
-        blur(
-            70px
-        );
-
-    animation:
-        glowOne
-        15s
-        ease-in-out
-        infinite
-        alternate;
-}
-
-
-/*
-    Right side glow.
-*/
-
-.glow-two {
-
-    width:
-        600px;
-
-    height:
-        600px;
-
-    right:
-        5%;
-
-    top:
-        10%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(
-                255,
-                126,
-                32,
-                0.17
-            ),
-            transparent 68%
-        );
-
-    filter:
-        blur(
-            80px
-        );
-
-    animation:
-        glowTwo
-        18s
-        ease-in-out
-        infinite
-        alternate;
-}
-
-
-/*
-    Small bright core.
-*/
-
-.glow-three {
-
-    width:
-        400px;
-
-    height:
-        400px;
-
-    left:
-        50%;
-
-    top:
-        42%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(
-                255,
-                130,
-                40,
-                0.13
-            ),
-            transparent 65%
-        );
-
-    filter:
-        blur(
-            45px
-        );
-
-    animation:
-        glowThree
-        7s
-        ease-in-out
-        infinite
-        alternate;
-}
-
-
-/*
-    Keeps the edges dark without adding grain.
-*/
-
-.background-vignette {
-
-    position:
-        absolute;
-
-    inset:
-        0;
-
-    background:
-        radial-gradient(
-            ellipse at center,
-            transparent 20%,
-            rgba(
-                0,
-                0,
-                0,
-                0.28
-            ) 75%,
-            rgba(
-                0,
-                0,
-                0,
-                0.62
-            ) 100%
-        );
-
-}
-
-
-/* =========================================================
-   BACKGROUND ANIMATIONS
-   ========================================================= */
-
-@keyframes centralPulse {
-
-    0% {
-
-        transform:
-            translate(
-                -50%,
-                -50%
-            )
-            scale(
-                0.88
-            );
-
-        opacity:
-            0.65;
-    }
-
-    50% {
-
-        transform:
-            translate(
-                -50%,
-                -50%
-            )
-            scale(
-                1.08
-            );
-
-        opacity:
-            1;
-    }
-
-    100% {
-
-        transform:
-            translate(
-                -50%,
-                -50%
-            )
-            scale(
-                0.94
-            );
-
-        opacity:
-            0.78;
-    }
-}
-
-
-@keyframes cornerGlow {
-
-    0% {
-
-        transform:
-            translate(
-                0,
-                0
-            )
-            scale(
-                0.9
-            );
-
-        opacity:
-            0.55;
-    }
-
-    100% {
-
-        transform:
-            translate(
-                180px,
-                130px
-            )
-            scale(
-                1.15
-            );
-
-        opacity:
-            1;
-    }
-}
-
-
-@keyframes glowOne {
-
-    0% {
-
-        transform:
-            translate(
-                -80px,
-                60px
-            )
-            scale(
-                0.8
-            );
-
-        opacity:
-            0.5;
-    }
-
-    100% {
-
-        transform:
-            translate(
-                130px,
-                -100px
-            )
-            scale(
-                1.2
-            );
-
-        opacity:
-            0.9;
-    }
-}
-
-
-@keyframes glowTwo {
-
-    0% {
-
-        transform:
-            translate(
-                80px,
-                -40px
-            )
-            scale(
-                0.8
-            );
-
-        opacity:
-            0.45;
-    }
-
-    100% {
-
-        transform:
-            translate(
-                -120px,
-                140px
-            )
-            scale(
-                1.15
-            );
-
-        opacity:
-            0.85;
-    }
-}
-
-
-@keyframes glowThree {
-
-    0% {
-
-        transform:
-            translate(
-                -40px,
-                30px
-            )
-            scale(
-                0.85
-            );
-
-        opacity:
-            0.4;
-    }
-
-    100% {
-
-        transform:
-            translate(
-                45px,
-                -35px
-            )
-            scale(
-                1.15
-            );
-
-        opacity:
-            0.9;
-    }
+body {
+    background: #ff6a00;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
 }
 
 
@@ -616,73 +26,37 @@ button {
    HOME
    ========================================================= */
 
-.home {
+#home {
+    position: fixed;
+    inset: 0;
 
-    position:
-        relative;
+    width: 100vw;
+    height: 100vh;
 
-    z-index:
-        2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 
-    width:
-        100%;
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(255, 255, 255, 0.13),
+            transparent 45%
+        ),
+        #ff6a00;
 
-    height:
-        100vh;
-
-    min-height:
-        600px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
+    overflow: hidden;
 
     transition:
-        opacity
-        0.65s
-        ease,
-
-        transform
-        0.65s
-        cubic-bezier(
-            .22,
-            1,
-            .36,
-            1
-        );
+        opacity 0.5s ease,
+        transform 0.5s ease;
 }
 
-
-.home.hidden {
-
-    opacity:
-        0;
-
-    transform:
-        scale(
-            1.035
-        );
-
-    pointer-events:
-        none;
-}
-
-
-.home-content {
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    align-items:
-        center;
+#home.hidden {
+    opacity: 0;
+    transform: scale(1.03);
+    pointer-events: none;
 }
 
 
@@ -690,98 +64,12 @@ button {
    LOGO
    ========================================================= */
 
-.logo {
+#home img {
+    width: 150px;
+    max-width: 30vw;
+    height: auto;
 
-    width:
-        min(
-            31vw,
-            31vh
-        );
-
-    max-width:
-        360px;
-
-    min-width:
-        170px;
-
-    height:
-        auto;
-
-    display:
-        block;
-
-    user-select:
-        none;
-
-    -webkit-user-drag:
-        none;
-
-    filter:
-        drop-shadow(
-            0 0 28px
-            rgba(
-                255,
-                90,
-                0,
-                0.35
-            )
-        );
-
-    animation:
-        logoFloat
-        6s
-        ease-in-out
-        infinite;
-
-    transition:
-        transform
-        0.4s
-        ease,
-
-        filter
-        0.4s
-        ease;
-}
-
-
-.logo:hover {
-
-    transform:
-        scale(
-            1.035
-        );
-
-    filter:
-        drop-shadow(
-            0 0 42px
-            rgba(
-                255,
-                95,
-                0,
-                0.55
-            )
-        );
-}
-
-
-@keyframes logoFloat {
-
-    0%,
-    100% {
-
-        transform:
-            translateY(
-                0
-            );
-    }
-
-    50% {
-
-        transform:
-            translateY(
-                -7px
-            );
-    }
+    object-fit: contain;
 }
 
 
@@ -789,77 +77,27 @@ button {
    WORK BUTTON
    ========================================================= */
 
-.work-button {
+#workButton {
+    margin-top: 25px;
 
-    margin-top:
-        34px;
+    border: 0;
+    background: transparent;
 
-    border:
-        none;
+    color: rgba(255, 255, 255, 0.85);
 
-    outline:
-        none;
+    font-size: 14px;
+    font-weight: 600;
 
-    background:
-        transparent;
-
-    color:
-        var(--white);
-
-    font-size:
-        12px;
-
-    cursor:
-        pointer;
-
-    opacity:
-        0.68;
+    cursor: pointer;
 
     transition:
-        opacity
-        0.25s
-        ease,
-
-        transform
-        0.25s
-        ease;
+        opacity 0.2s ease,
+        transform 0.2s ease;
 }
 
-
-.work-button:hover {
-
-    opacity:
-        1;
-
-    transform:
-        translateY(
-            2px
-        );
-}
-
-
-.work-arrow {
-
-    display:
-        inline-block;
-
-    margin-left:
-        7px;
-
-    transition:
-        transform
-        0.25s
-        ease;
-}
-
-
-.work-button:hover
-.work-arrow {
-
-    transform:
-        translateY(
-            4px
-        );
+#workButton:hover {
+    opacity: 1;
+    transform: translateY(-2px);
 }
 
 
@@ -867,62 +105,44 @@ button {
    WORK
    ========================================================= */
 
-.work {
+#work {
+    position: fixed;
+    inset: 0;
 
-    position:
-        relative;
+    width: 100vw;
+    height: 100vh;
 
-    z-index:
-        3;
+    display: flex;
+    flex-direction: column;
 
-    width:
-        100%;
+    background:
+        radial-gradient(
+            circle at 50% 25%,
+            rgba(255, 255, 255, 0.12),
+            transparent 48%
+        ),
+        #ff6a00;
 
-    min-height:
-        100vh;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 
-    padding:
-        28px 50px 70px;
-
-    opacity:
-        0;
-
-    transform:
-        translateY(
-            35px
-        );
-
-    pointer-events:
-        none;
+    transform: translateY(15px);
 
     transition:
-        opacity
-        0.7s
-        ease,
+        opacity 0.5s ease,
+        transform 0.5s ease,
+        visibility 0.5s ease;
 
-        transform
-        0.7s
-        cubic-bezier(
-            .22,
-            1,
-            .36,
-            1
-        );
+    overflow: hidden;
 }
 
+#work.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 
-.work.visible {
-
-    opacity:
-        1;
-
-    transform:
-        translateY(
-            0
-        );
-
-    pointer-events:
-        auto;
+    transform: translateY(0);
 }
 
 
@@ -931,96 +151,44 @@ button {
    ========================================================= */
 
 .work-top {
+    width: 100%;
 
-    width:
-        min(
-            1250px,
-            100%
-        );
+    padding:
+        28px
+        50px;
 
-    margin:
-        0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        space-between;
+    flex-shrink: 0;
 }
 
 
-.back-button {
+/* =========================================================
+   BACK
+   ========================================================= */
 
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    gap:
-        8px;
-
-    border:
-        none;
-
-    background:
-        transparent;
+#backButton {
+    border: 0;
+    background: transparent;
 
     color:
-        var(--gray);
+        rgba(255, 255, 255, 0.8);
 
-    font-size:
-        11px;
+    font-size: 13px;
+    font-weight: 600;
 
-    cursor:
-        pointer;
-
-    transition:
-        color
-        0.25s
-        ease;
-}
-
-
-.back-button:hover {
-
-    color:
-        var(--white);
-}
-
-
-.back-arrow {
+    cursor: pointer;
 
     transition:
-        transform
-        0.25s
-        ease;
+        transform 0.2s ease,
+        opacity 0.2s ease;
 }
 
-
-.back-button:hover
-.back-arrow {
-
-    transform:
-        translateX(
-            -4px
-        );
-}
-
-
-.work-logo {
-
-    font-family:
-        var(--display);
-
-    font-size:
-        23px;
-
-    letter-spacing:
-        -1px;
+#backButton:hover {
+    transform: translateX(-3px);
+    opacity: 1;
 }
 
 
@@ -1029,214 +197,69 @@ button {
    ========================================================= */
 
 .tabs {
+    display: flex;
+    align-items: center;
 
-    width:
-        min(
-            1250px,
-            100%
-        );
-
-    margin:
-        120px auto 70px;
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(
-            4,
-            1fr
-        );
-
-    border-top:
-        1px solid
-        var(--line);
-
-    border-bottom:
-        1px solid
-        var(--line);
+    gap: 28px;
 }
-
 
 .tab {
-
-    position:
-        relative;
-
-    min-height:
-        78px;
-
-    padding:
-        16px 18px;
-
-    border:
-        0;
-
-    border-right:
-        1px solid
-        var(--line);
-
-    background:
-        transparent;
+    border: 0;
+    background: transparent;
 
     color:
-        var(--gray);
+        rgba(255, 255, 255, 0.5);
 
-    text-align:
-        left;
+    font-size: 11px;
+    font-weight: 700;
 
-    cursor:
-        pointer;
+    letter-spacing: 0.06em;
 
-    transition:
-        color
-        0.25s
-        ease,
-
-        background
-        0.25s
-        ease;
-}
-
-
-.tab:last-child {
-
-    border-right:
-        none;
-}
-
-
-.tab::after {
-
-    content:
-        "";
-
-    position:
-        absolute;
-
-    bottom:
-        0;
-
-    left:
-        0;
-
-    width:
-        100%;
-
-    height:
-        2px;
-
-    background:
-        var(--orange);
-
-    transform:
-        scaleX(
-            0
-        );
-
-    transform-origin:
-        left;
+    cursor: pointer;
 
     transition:
-        transform
-        0.35s
-        cubic-bezier(
-            .22,
-            1,
-            .36,
-            1
-        );
+        color 0.2s ease;
 }
-
 
 .tab:hover {
-
     color:
-        var(--white);
-
-    background:
-        rgba(
-            255,
-            90,
-            0,
-            0.035
-        );
+        rgba(255, 255, 255, 0.9);
 }
-
 
 .tab.active {
-
-    color:
-        var(--white);
-
-    background:
-        rgba(
-            255,
-            90,
-            0,
-            0.07
-        );
-}
-
-
-.tab.active::after {
-
-    transform:
-        scaleX(
-            1
-        );
-}
-
-
-.tab-number {
-
-    display:
-        block;
-
-    margin-bottom:
-        8px;
-
-    color:
-        var(--orange-light);
-
-    font-size:
-        8px;
-
-    letter-spacing:
-        1px;
-}
-
-
-.tab-name {
-
-    font-size:
-        11px;
+    color: #ffffff;
 }
 
 
 /* =========================================================
-   PROJECTS
+   PROJECT AREA
    ========================================================= */
 
-.projects-section {
-
-    width:
-        min(
-            1250px,
-            100%
-        );
+#projects {
+    width: min(
+        1080px,
+        calc(100vw - 100px)
+    );
 
     margin:
         0 auto;
-}
 
+    flex: 1;
 
-.projects {
+    min-height: 0;
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
+        repeat(
+            3,
+            minmax(
+                0,
+                1fr
+            )
+        );
+
+    grid-template-rows:
         repeat(
             2,
             minmax(
@@ -1246,416 +269,211 @@ button {
         );
 
     gap:
-        55px 30px;
+        24px;
+
+    align-content: center;
+
+    overflow: hidden;
 }
 
+
+/* =========================================================
+   PROJECT CARD
+   ========================================================= */
 
 .project {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
 
-    min-width:
-        0;
+    display: flex;
+    flex-direction: column;
 
-    opacity:
-        0;
+    overflow: hidden;
 
-    transform:
-        translateY(
-            20px
-        );
+    border-radius: 12px;
+
+    background:
+        rgba(0, 0, 0, 0.14);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.16);
+
+    cursor: pointer;
+
+    opacity: 0;
 
     animation:
-        projectIn
-        0.55s
-        cubic-bezier(
-            .22,
-            1,
-            .36,
-            1
-        )
+        projectAppear
+        0.45s
+        ease
         forwards;
-}
-
-
-@keyframes projectIn {
-
-    to {
-
-        opacity:
-            1;
-
-        transform:
-            translateY(
-                0
-            );
-    }
-}
-
-
-/* =========================================================
-   PROJECT MEDIA
-   ========================================================= */
-
-.project-media {
-
-    position:
-        relative;
-
-    width:
-        100%;
-
-    aspect-ratio:
-        16 / 10;
-
-    overflow:
-        hidden;
-
-    background:
-        var(--panel);
-
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.08
-        );
 
     transition:
-        transform
-        0.45s
-        cubic-bezier(
-            .22,
-            1,
-            .36,
-            1
-        ),
-
-        border-color
-        0.45s
-        ease,
-
-        box-shadow
-        0.45s
-        ease;
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-
-.project:hover
-.project-media {
-
+.project:hover {
     transform:
-        translateY(
-            -6px
-        );
+        translateY(-5px);
 
     border-color:
-        rgba(
-            255,
-            101,
-            0,
-            0.45
-        );
+        rgba(255, 255, 255, 0.35);
 
     box-shadow:
-        0 18px 55px
-        rgba(
-            255,
-            90,
-            0,
-            0.12
-        );
+        0 14px 35px
+        rgba(0, 0, 0, 0.14);
 }
 
 
-.project-media img {
+@keyframes projectAppear {
 
-    width:
-        100%;
+    from {
+        opacity: 0;
+        transform:
+            translateY(12px);
+    }
 
-    height:
-        100%;
+    to {
+        opacity: 1;
+        transform:
+            translateY(0);
+    }
 
-    object-fit:
-        cover;
+}
 
-    display:
-        block;
+
+/* =========================================================
+   MEDIA
+   ========================================================= */
+
+.project-media {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio:
+        16 / 9;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    background:
+        rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================================================
+   YOUTUBE
+   ========================================================= */
+
+.youtube-card img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
 
     transition:
-        transform
-        0.7s
-        cubic-bezier(
-            .22,
-            1,
-            .36,
-            1
-        );
+        transform 0.35s ease;
 }
 
-
 .project:hover
-.project-media img {
-
+.youtube-card img {
     transform:
-        scale(
-            1.04
-        );
-}
-
-
-.project-media video {
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    display:
-        block;
-
-    object-fit:
-        cover;
-
-    background:
-        #000;
+        scale(1.035);
 }
 
 
 /* =========================================================
-   AUDIO
+   YOUTUBE OVERLAY
    ========================================================= */
 
-.audio-project {
+.youtube-overlay {
+    position: absolute;
+    inset: 0;
 
-    width:
-        100%;
+    display: flex;
 
-    height:
-        100%;
+    align-items: center;
+    justify-content: center;
 
-    display:
-        flex;
+    flex-direction: column;
 
-    flex-direction:
-        column;
-
-    justify-content:
-        center;
-
-    padding:
-        35px;
+    gap: 8px;
 
     background:
-        radial-gradient(
-            circle at 50% 35%,
-            rgba(
-                255,
-                90,
-                0,
-                0.20
-            ),
-            transparent 62%
-        );
-}
-
-
-.audio-symbol {
-
-    color:
-        var(--orange);
-
-    font-family:
-        var(--display);
-
-    font-size:
-        65px;
-
-    line-height:
-        0.7;
-
-    margin-bottom:
-        30px;
-
-    opacity:
-        0.4;
-}
-
-
-.audio-project audio {
-
-    width:
-        100%;
-}
-
-
-/* =========================================================
-   SOUNDCLOUD
-   ========================================================= */
-
-.soundcloud-wrapper {
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    background:
-        #111;
-}
-
-
-.soundcloud-wrapper iframe {
-
-    width:
-        100%;
-
-    height:
-        166px;
-
-    border:
-        none;
-}
-
-
-/* =========================================================
-   PLACEHOLDER
-   ========================================================= */
-
-.placeholder {
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(
-                255,
-                90,
-                0,
-                0.14
-            ),
-            transparent 65%
-        );
-
-    color:
-        var(--orange);
-
-    font-family:
-        var(--display);
-
-    font-size:
-        60px;
-
-    opacity:
-        0.35;
-}
-
-
-/* =========================================================
-   PROJECT OVERLAY
-   ========================================================= */
-
-.project-overlay {
-
-    position:
-        absolute;
-
-    inset:
-        0;
-
-    display:
-        flex;
-
-    align-items:
-        flex-end;
-
-    padding:
-        18px;
-
-    background:
-        linear-gradient(
-            to top,
-            rgba(
-                0,
-                0,
-                0,
-                0.60
-            ),
-            transparent 60%
-        );
-
-    opacity:
-        0;
+        rgba(0, 0, 0, 0.10);
 
     transition:
-        opacity
-        0.3s
-        ease;
-
-    pointer-events:
-        none;
+        background 0.25s ease;
 }
-
 
 .project:hover
-.project-overlay {
-
-    opacity:
-        1;
+.youtube-overlay {
+    background:
+        rgba(0, 0, 0, 0.28);
 }
 
 
-.project-overlay span {
+/* =========================================================
+   PLAY BUTTON
+   ========================================================= */
 
-    padding:
-        7px 11px;
+.youtube-play {
+    width: 48px;
+    height: 34px;
 
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.25
-        );
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding-left: 3px;
+
+    border-radius: 8px;
 
     background:
-        rgba(
-            0,
-            0,
-            0,
-            0.35
-        );
+        rgba(255, 255, 255, 0.92);
 
-    backdrop-filter:
-        blur(
-            10px
-        );
+    color:
+        #ff6a00;
 
-    font-size:
-        8px;
+    font-size: 14px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.15);
+
+    transition:
+        transform 0.2s ease;
+}
+
+.project:hover
+.youtube-play {
+    transform:
+        scale(1.08);
+}
+
+
+/* =========================================================
+   YOUTUBE LABEL
+   ========================================================= */
+
+.youtube-label {
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    color:
+        rgba(255, 255, 255, 0.85);
 }
 
 
@@ -1664,94 +482,159 @@ button {
    ========================================================= */
 
 .project-info {
+    min-width: 0;
 
     padding:
-        15px 2px 0;
+        11px
+        13px
+        13px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
 }
 
+
+/* =========================================================
+   CATEGORY
+   ========================================================= */
 
 .project-category {
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
 
     color:
-        var(--orange-light);
-
-    font-size:
-        8px;
-
-    letter-spacing:
-        1.7px;
-
-    margin-bottom:
-        8px;
+        rgba(255, 255, 255, 0.65);
 }
 
+
+/* =========================================================
+   TITLE
+   ========================================================= */
 
 .project-title {
+    font-size: 14px;
 
-    font-family:
-        var(--display);
+    font-weight: 700;
 
-    font-size:
-        26px;
-
-    line-height:
-        0.9;
-
-    letter-spacing:
-        -1px;
-}
-
-
-.project-description {
-
-    margin-top:
-        10px;
-
-    max-width:
-        500px;
+    line-height: 1.2;
 
     color:
-        var(--gray);
+        #ffffff;
 
-    font-size:
-        11px;
+    white-space: nowrap;
 
-    line-height:
-        1.6;
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 }
 
 
-.project-link {
+/* =========================================================
+   SOUNDCLOUD
+   ========================================================= */
 
-    display:
-        inline-block;
+.soundcloud-card {
+    position: relative;
 
-    margin-top:
-        12px;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    background:
+        rgba(0, 0, 0, 0.16);
+}
+
+.soundcloud-background {
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 255, 255, 0.14),
+            transparent 65%
+        );
+}
+
+.soundcloud-icon {
+    position: relative;
+
+    font-size: 36px;
 
     color:
-        var(--white);
+        #ffffff;
+}
 
-    text-decoration:
-        none;
+.soundcloud-label {
+    position: relative;
 
-    font-size:
-        10px;
+    font-size: 8px;
 
-    opacity:
-        0.55;
+    font-weight: 700;
 
-    transition:
-        opacity
-        0.2s
-        ease;
+    letter-spacing: 0.12em;
+
+    color:
+        rgba(255, 255, 255, 0.8);
 }
 
 
-.project-link:hover {
+/* =========================================================
+   IMAGE
+   ========================================================= */
 
-    opacity:
-        1;
+.project-media img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   VIDEO FILE
+   ========================================================= */
+
+.project-media video {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+   ========================================================= */
+
+.placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color:
+        rgba(255, 255, 255, 0.7);
+
+    font-size: 34px;
 }
 
 
@@ -1759,198 +642,170 @@ button {
    PAGINATION
    ========================================================= */
 
-.pagination {
+#pagination {
+    width: 100%;
 
-    margin:
-        70px auto 0;
+    padding:
+        16px
+        50px
+        24px;
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
+    justify-content: center;
 
-    justify-content:
-        center;
+    gap: 18px;
 
-    gap:
-        22px;
+    flex-shrink: 0;
 }
 
 
-.page-button {
-
-    width:
-        42px;
-
-    height:
-        42px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
+#previousPage,
+#nextPage {
+    width: 32px;
+    height: 32px;
 
     border:
         1px solid
-        var(--line);
+        rgba(255, 255, 255, 0.25);
+
+    border-radius: 50%;
 
     background:
-        transparent;
+        rgba(255, 255, 255, 0.08);
 
     color:
-        var(--white);
+        #ffffff;
 
-    font-size:
-        15px;
-
-    cursor:
-        pointer;
+    cursor: pointer;
 
     transition:
-        border-color
-        0.25s
-        ease,
-
-        background
-        0.25s
-        ease,
-
-        color
-        0.25s
-        ease,
-
-        transform
-        0.25s
-        ease;
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
 }
 
-
-.page-button:hover:not(
-    :disabled
-) {
+#previousPage:hover:not(:disabled),
+#nextPage:hover:not(:disabled) {
+    background:
+        rgba(255, 255, 255, 0.16);
 
     border-color:
-        var(--orange);
-
-    background:
-        rgba(
-            255,
-            90,
-            0,
-            0.10
-        );
-
-    color:
-        var(--orange-light);
+        rgba(255, 255, 255, 0.45);
 
     transform:
-        translateY(
-            -2px
-        );
+        scale(1.05);
+}
+
+#previousPage:disabled,
+#nextPage:disabled {
+    opacity: 0.25;
+
+    cursor: default;
 }
 
 
-.page-button:disabled {
+#pageIndicator {
+    min-width: 50px;
 
-    opacity:
-        0.18;
+    text-align: center;
 
-    cursor:
-        default;
-}
+    font-size: 9px;
 
+    font-weight: 700;
 
-.page-indicator {
-
-    min-width:
-        60px;
-
-    text-align:
-        center;
+    letter-spacing: 0.1em;
 
     color:
-        var(--gray);
-
-    font-size:
-        9px;
-
-    letter-spacing:
-        1px;
+        rgba(255, 255, 255, 0.65);
 }
 
 
 /* =========================================================
-   EMPTY / LOADING / ERROR
+   LOADING
    ========================================================= */
 
-.loading,
-.empty {
-
+.loading {
     grid-column:
         1 / -1;
 
-    min-height:
-        250px;
+    display: flex;
 
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
+    align-items: center;
+    justify-content: center;
 
     color:
-        var(--gray);
+        rgba(255, 255, 255, 0.7);
 
-    font-size:
-        11px;
+    font-size: 11px;
 }
 
 
-.error {
+/* =========================================================
+   EMPTY
+   ========================================================= */
 
+.empty {
+    grid-column:
+        1 / -1;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color:
+        rgba(255, 255, 255, 0.65);
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.error {
     grid-column:
         1 / -1;
 
     padding:
-        30px;
+        25px;
 
-    border:
-        1px solid
-        rgba(
-            255,
-            90,
-            0,
-            0.25
-        );
-
-    background:
-        rgba(
-            255,
-            90,
-            0,
-            0.035
-        );
+    text-align: center;
 
     color:
-        var(--gray);
+        rgba(255, 255, 255, 0.8);
 
-    font-size:
-        11px;
+    font-size: 11px;
 }
 
 
-.error strong {
+/* =========================================================
+   TABLET
+   ========================================================= */
 
-    color:
-        var(--orange-light);
+@media (max-width: 900px) {
+
+    #projects {
+
+        width:
+            calc(100vw - 60px);
+
+        gap:
+            16px;
+
+    }
+
+    .work-top {
+
+        padding:
+            24px
+            30px;
+
+    }
+
 }
 
 
@@ -1958,92 +813,86 @@ button {
    MOBILE
    ========================================================= */
 
-@media (
-    max-width: 800px
-) {
+@media (max-width: 700px) {
 
-    .work {
+    #work {
 
-        padding:
-            24px 20px 50px;
+        overflow-y:
+            auto;
+
     }
 
-
-    .logo {
+    #projects {
 
         width:
-            48vw;
-
-        min-width:
-            150px;
-    }
-
-
-    .tabs {
+            calc(100vw - 30px);
 
         grid-template-columns:
             repeat(
                 2,
-                1fr
+                minmax(
+                    0,
+                    1fr
+                )
             );
 
-        margin-top:
-            100px;
+        grid-template-rows:
+            none;
+
+        overflow:
+            visible;
+
+        flex:
+            none;
 
         margin-bottom:
-            55px;
+            20px;
+
     }
 
+    .work-top {
 
-    .tab {
+        padding:
+            20px;
 
-        border-bottom:
-            1px solid
-            var(--line);
-    }
+        flex-direction:
+            column;
 
-
-    .tab:nth-child(2) {
-
-        border-right:
-            none;
-    }
-
-
-    .projects {
-
-        grid-template-columns:
-            1fr;
+        align-items:
+            flex-start;
 
         gap:
-            50px;
+            18px;
+
     }
 
+    .tabs {
 
-    .pagination {
+        width:
+            100%;
 
-        margin-top:
-            55px;
+        overflow-x:
+            auto;
+
+        gap:
+            16px;
+
     }
 
 }
 
 
-@media (
-    max-width: 480px
-) {
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
 
-    .tab-name {
+@media (max-width: 480px) {
 
-        font-size:
-            10px;
-    }
+    #projects {
 
+        grid-template-columns:
+            1fr;
 
-    .project-title {
-
-        font-size:
-            23px;
     }
 
 }
