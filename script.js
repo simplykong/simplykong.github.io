@@ -1,6 +1,6 @@
 /* =========================================================
    kong
-   Portfolio
+   Orange Edition
    ========================================================= */
 
 
@@ -148,7 +148,7 @@ let currentCategory =
 
 
 /* =========================================================
-   ENTER WORK AREA
+   OPEN WORK
    ========================================================= */
 
 function openWork() {
@@ -196,7 +196,7 @@ function openWork() {
 
 
 /* =========================================================
-   RETURN HOME
+   CLOSE WORK
    ========================================================= */
 
 function closeWork() {
@@ -208,10 +208,6 @@ function closeWork() {
     requestAnimationFrame(
         () => {
 
-            landing.classList.remove(
-                "leaving"
-            );
-
             work.classList.remove(
                 "visible"
             );
@@ -219,6 +215,10 @@ function closeWork() {
             work.setAttribute(
                 "aria-hidden",
                 "true"
+            );
+
+            landing.classList.remove(
+                "leaving"
             );
 
             window.scrollTo(
@@ -235,7 +235,7 @@ function closeWork() {
 
 
 /* =========================================================
-   BUTTON EVENTS
+   BUTTONS
    ========================================================= */
 
 workButton.addEventListener(
@@ -251,7 +251,7 @@ backButton.addEventListener(
 
 
 /* =========================================================
-   CATEGORY SWITCHING
+   CATEGORY BUTTONS
    ========================================================= */
 
 categoryTabs.forEach(
@@ -261,12 +261,8 @@ categoryTabs.forEach(
             "click",
             () => {
 
-                const category =
-                    tab.dataset.category;
-
-
                 setCategory(
-                    category
+                    tab.dataset.category
                 );
 
             }
@@ -277,7 +273,7 @@ categoryTabs.forEach(
 
 
 /* =========================================================
-   SET CATEGORY
+   CATEGORY
    ========================================================= */
 
 function setCategory(
@@ -410,12 +406,12 @@ async function loadProjects() {
 
 
 /* =========================================================
-   RENDER PROJECTS
+   RENDER
    ========================================================= */
 
 function renderProjects() {
 
-    const categoryProjects =
+    const filtered =
         projects.filter(
             project =>
                 normalizeCategory(
@@ -430,15 +426,13 @@ function renderProjects() {
 
 
     if (
-        categoryProjects.length === 0
+        filtered.length === 0
     ) {
 
         projectsContainer.innerHTML = `
 
             <div class="projects-empty">
-
                 Nothing here yet.
-
             </div>
 
         `;
@@ -448,7 +442,7 @@ function renderProjects() {
     }
 
 
-    categoryProjects.forEach(
+    filtered.forEach(
         (
             project,
             index
@@ -510,7 +504,7 @@ function normalizeCategory(
         "video-editing":
             "video",
 
-        "sound":
+        sound:
             "sound-design",
 
         "sound design":
@@ -564,19 +558,11 @@ function createProject(
         "project";
 
 
-    /* =====================================================
-       MEDIA
-       ===================================================== */
-
     const media =
         createMedia(
             project
         );
 
-
-    /* =====================================================
-       DETAILS
-       ===================================================== */
 
     const details =
         document.createElement(
@@ -604,6 +590,11 @@ function createProject(
         );
 
 
+    details.appendChild(
+        type
+    );
+
+
     const title =
         document.createElement(
             "div"
@@ -617,11 +608,6 @@ function createProject(
     title.textContent =
         project.title ||
         "Untitled";
-
-
-    details.appendChild(
-        type
-    );
 
 
     details.appendChild(
@@ -707,7 +693,7 @@ function createProject(
 
 
 /* =========================================================
-   CREATE MEDIA
+   MEDIA
    ========================================================= */
 
 function createMedia(
@@ -724,32 +710,19 @@ function createMedia(
         "project-media";
 
 
+    const url =
+        project.url ||
+        "";
+
+
     const thumbnail =
         project.thumbnail_url;
 
 
-    const url =
-        project.url || "";
-
-
-    const isVideo =
+    if (
         isVideoURL(
             url
-        );
-
-
-    const isAudio =
-        isAudioURL(
-            url
-        );
-
-
-    /* =====================================================
-       VIDEO
-       ===================================================== */
-
-    if (
-        isVideo
+        )
     ) {
 
         const video =
@@ -794,12 +767,10 @@ function createMedia(
     }
 
 
-    /* =====================================================
-       AUDIO
-       ===================================================== */
-
     if (
-        isAudio
+        isAudioURL(
+            url
+        )
     ) {
 
         const audioContainer =
@@ -845,10 +816,6 @@ function createMedia(
     }
 
 
-    /* =====================================================
-       IMAGE
-       ===================================================== */
-
     if (
         thumbnail
     ) {
@@ -881,10 +848,6 @@ function createMedia(
 
     }
 
-
-    /* =====================================================
-       FALLBACK
-       ===================================================== */
 
     const placeholder =
         document.createElement(
@@ -955,7 +918,7 @@ function getCategoryLabel(
 
 
 /* =========================================================
-   CATEGORY SYMBOL
+   SYMBOLS
    ========================================================= */
 
 function getCategorySymbol(
@@ -997,7 +960,7 @@ function getCategorySymbol(
 
 
 /* =========================================================
-   VIDEO URL CHECK
+   VIDEO DETECTION
    ========================================================= */
 
 function isVideoURL(
@@ -1019,27 +982,19 @@ function isVideoURL(
 
     return (
 
-        lower.endsWith(
-            ".mp4"
-        )
+        lower.endsWith(".mp4")
 
         ||
 
-        lower.endsWith(
-            ".webm"
-        )
+        lower.endsWith(".webm")
 
         ||
 
-        lower.endsWith(
-            ".mov"
-        )
+        lower.endsWith(".mov")
 
         ||
 
-        lower.includes(
-            "video/"
-        )
+        lower.includes("video/")
 
     );
 
@@ -1047,7 +1002,7 @@ function isVideoURL(
 
 
 /* =========================================================
-   AUDIO URL CHECK
+   AUDIO DETECTION
    ========================================================= */
 
 function isAudioURL(
@@ -1069,33 +1024,23 @@ function isAudioURL(
 
     return (
 
-        lower.endsWith(
-            ".mp3"
-        )
+        lower.endsWith(".mp3")
 
         ||
 
-        lower.endsWith(
-            ".wav"
-        )
+        lower.endsWith(".wav")
 
         ||
 
-        lower.endsWith(
-            ".ogg"
-        )
+        lower.endsWith(".ogg")
 
         ||
 
-        lower.endsWith(
-            ".m4a"
-        )
+        lower.endsWith(".m4a")
 
         ||
 
-        lower.includes(
-            "soundcloud.com"
-        )
+        lower.includes("soundcloud.com")
 
     );
 
@@ -1103,7 +1048,7 @@ function isAudioURL(
 
 
 /* =========================================================
-   BACKGROUND CANVAS
+   CANVAS
    ========================================================= */
 
 const backgroundCanvas =
@@ -1292,7 +1237,7 @@ function createParticles() {
 
 
 /* =========================================================
-   BACKGROUND DRAWING
+   BACKGROUND
    ========================================================= */
 
 function drawBackground() {
@@ -1321,13 +1266,13 @@ function drawBackground() {
 
     gradient.addColorStop(
         0,
-        "rgba(35, 25, 75, 0.12)"
+        "rgba(75, 30, 5, 0.13)"
     );
 
 
     gradient.addColorStop(
         0.45,
-        "rgba(15, 12, 30, 0.05)"
+        "rgba(30, 13, 3, 0.06)"
     );
 
 
@@ -1352,7 +1297,7 @@ function drawBackground() {
 
 
 /* =========================================================
-   PARTICLE DRAWING
+   PARTICLES
    ========================================================= */
 
 function drawParticles() {
@@ -1400,7 +1345,7 @@ function drawParticles() {
 
 
         particlesContext.fillStyle =
-            `rgba(140, 120, 255, ${particle.opacity})`;
+            `rgba(255, 125, 35, ${particle.opacity})`;
 
 
         particlesContext.fill();
@@ -1411,7 +1356,7 @@ function drawParticles() {
 
 
 /* =========================================================
-   ANIMATION LOOP
+   ANIMATION
    ========================================================= */
 
 function animateBackground() {
@@ -1428,34 +1373,14 @@ function animateBackground() {
 
 
 /* =========================================================
-   INITIALIZE CANVAS
+   START
    ========================================================= */
 
 resizeCanvas();
 
 animateBackground();
 
-
-/* =========================================================
-   LOGO LOAD
-   ========================================================= */
-
-const logo =
-    document.getElementById(
-        "mainLogo"
-    );
-
-
-logo.addEventListener(
-    "error",
-    () => {
-
-        console.error(
-            "The kong logo could not be loaded."
-        );
-
-    }
-);
+loadProjects();
 
 
 /* =========================================================
@@ -1485,10 +1410,3 @@ document.addEventListener(
 
     }
 );
-
-
-/* =========================================================
-   START SUPABASE
-   ========================================================= */
-
-loadProjects();
