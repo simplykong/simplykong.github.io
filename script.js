@@ -1,11 +1,11 @@
 /* =========================================================
-   KONG PORTFOLIO
-   Supabase + Portfolio System
+   simplykong
+   Supabase Portfolio
    ========================================================= */
 
 
 /* =========================================================
-   SUPABASE CONFIGURATION
+   SUPABASE
    ========================================================= */
 
 const SUPABASE_URL =
@@ -16,23 +16,20 @@ const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_7S5vxB9HNy90sQ_Q0znz6A_IqyjPA96";
 
 
-/* =========================================================
-   CREATE SUPABASE CLIENT
-   ========================================================= */
-
 const {
     createClient
 } = window.supabase;
 
 
-const db = createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-);
+const db =
+    createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 
 
 /* =========================================================
-   PAGE ELEMENTS
+   ELEMENTS
    ========================================================= */
 
 const projectsContainer =
@@ -48,15 +45,11 @@ const filterButtons =
 
 
 /* =========================================================
-   PROJECT STORAGE
+   DATA
    ========================================================= */
 
 let allProjects = [];
 
-
-/* =========================================================
-   CATEGORY NAMES
-   ========================================================= */
 
 const categoryNames = {
 
@@ -67,31 +60,27 @@ const categoryNames = {
         "Sound Design",
 
     video:
-        "Video Editing",
+        "Video",
 
     photo:
-        "Photo Editing"
+        "Photography"
 
 };
 
 
-/* =========================================================
-   CATEGORY ICONS
-   ========================================================= */
-
 const categoryIcons = {
 
     music:
-        "🎵",
+        "♪",
 
     "sound-design":
-        "🔊",
+        "◉",
 
     video:
-        "🎬",
+        "▶",
 
     photo:
-        "📷"
+        "✦"
 
 };
 
@@ -109,7 +98,7 @@ async function loadProjects() {
 
     projectsContainer.innerHTML = `
         <div class="loading">
-            Loading projects...
+            loading...
         </div>
     `;
 
@@ -120,11 +109,8 @@ async function loadProjects() {
             data,
             error
         } = await db
-
             .from("projects")
-
             .select("*")
-
             .order(
                 "created_at",
                 {
@@ -161,13 +147,13 @@ async function loadProjects() {
             <div class="error-message">
 
                 <strong>
-                    Could not load projects
+                    couldn't load projects
                 </strong>
 
-                <p>
-                    Check the browser console
+                <span>
+                    check the browser console
                     for the Supabase error.
-                </p>
+                </span>
 
             </div>
         `;
@@ -195,9 +181,7 @@ function displayProjects(
 
         projectsContainer.innerHTML = `
             <div class="empty">
-
-                No projects in this category yet.
-
+                nothing here yet.
             </div>
         `;
 
@@ -207,7 +191,10 @@ function displayProjects(
 
 
     projects.forEach(
-        (project, index) => {
+        (
+            project,
+            index
+        ) => {
 
             const card =
                 createProjectCard(
@@ -216,7 +203,7 @@ function displayProjects(
 
 
             card.style.animationDelay =
-                `${index * 0.07}s`;
+                `${index * 0.06}s`;
 
 
             projectsContainer.appendChild(
@@ -226,14 +213,11 @@ function displayProjects(
         }
     );
 
-
-    setupProjectReveals();
-
 }
 
 
 /* =========================================================
-   CREATE PROJECT CARD
+   CREATE CARD
    ========================================================= */
 
 function createProjectCard(
@@ -250,9 +234,7 @@ function createProjectCard(
         "project-card";
 
 
-    /* =====================================================
-       THUMBNAIL
-       ===================================================== */
+    /* Thumbnail */
 
     let thumbnail;
 
@@ -281,7 +263,7 @@ function createProjectCard(
                 ${
                     categoryIcons[
                         project.category
-                    ] || "◆"
+                    ] || "•"
                 }
 
             </div>
@@ -290,9 +272,7 @@ function createProjectCard(
     }
 
 
-    /* =====================================================
-       CATEGORY
-       ===================================================== */
+    /* Category */
 
     const category =
         categoryNames[
@@ -304,11 +284,10 @@ function createProjectCard(
         "Project";
 
 
-    /* =====================================================
-       DESCRIPTION
-       ===================================================== */
+    /* Description */
 
-    let description = "";
+    let description =
+        "";
 
 
     if (
@@ -326,9 +305,7 @@ function createProjectCard(
     }
 
 
-    /* =====================================================
-       CARD HTML
-       ===================================================== */
+    /* Card */
 
     card.innerHTML = `
 
@@ -370,9 +347,7 @@ function createProjectCard(
                 target="_blank"
                 rel="noopener noreferrer"
             >
-
-                View Project →
-
+                view project →
             </a>
 
         </div>
@@ -386,7 +361,7 @@ function createProjectCard(
 
 
 /* =========================================================
-   FILTER PROJECTS
+   FILTERING
    ========================================================= */
 
 function filterProjects(
@@ -406,7 +381,7 @@ function filterProjects(
     }
 
 
-    const filteredProjects =
+    const filtered =
         allProjects.filter(
             project =>
                 project.category ===
@@ -415,14 +390,14 @@ function filterProjects(
 
 
     displayProjects(
-        filteredProjects
+        filtered
     );
 
 }
 
 
 /* =========================================================
-   FILTER BUTTON EVENTS
+   FILTER BUTTONS
    ========================================================= */
 
 filterButtons.forEach(
@@ -433,9 +408,9 @@ filterButtons.forEach(
             () => {
 
                 filterButtons.forEach(
-                    otherButton => {
+                    other => {
 
-                        otherButton.classList.remove(
+                        other.classList.remove(
                             "active"
                         );
 
@@ -448,12 +423,8 @@ filterButtons.forEach(
                 );
 
 
-                const category =
-                    button.dataset.category;
-
-
                 filterProjects(
-                    category
+                    button.dataset.category
                 );
 
             }
@@ -464,84 +435,7 @@ filterButtons.forEach(
 
 
 /* =========================================================
-   PROJECT SCROLL REVEALS
-   ========================================================= */
-
-function setupProjectReveals() {
-
-    const cards =
-        document.querySelectorAll(
-            ".project-card"
-        );
-
-
-    if (
-        !("IntersectionObserver" in window)
-    ) {
-
-        cards.forEach(
-            card => {
-
-                card.style.opacity =
-                    "1";
-
-                card.style.transform =
-                    "translateY(0)";
-
-            }
-        );
-
-        return;
-
-    }
-
-
-    const observer =
-        new IntersectionObserver(
-            entries => {
-
-                entries.forEach(
-                    entry => {
-
-                        if (
-                            entry.isIntersecting
-                        ) {
-
-                            entry.target.classList.add(
-                                "visible"
-                            );
-
-                            observer.unobserve(
-                                entry.target
-                            );
-
-                        }
-
-                    }
-                );
-
-            },
-            {
-                threshold: 0.12
-            }
-        );
-
-
-    cards.forEach(
-        card => {
-
-            observer.observe(
-                card
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   HTML ESCAPING
+   ESCAPE HTML
    ========================================================= */
 
 function escapeHTML(
@@ -554,7 +448,6 @@ function escapeHTML(
     ) {
 
         return "";
-
     }
 
 
