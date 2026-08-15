@@ -2,239 +2,277 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
     >
 
-    <title>simplykong</title>
+    <meta
+        name="theme-color"
+        content="#06060a"
+    >
+
+    <meta
+        name="description"
+        content="kong — creative work"
+    >
+
+    <title>kong</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="https://cdn.discordapp.com/avatars/1429216999585615922/fa9f017aaaa3e55722eac94970084251.png?size=4096"
+    >
+
+    <link
+        rel="preload"
+        as="image"
+        href="https://cdn.discordapp.com/avatars/1429216999585615922/fa9f017aaaa3e55722eac94970084251.png?size=4096"
+    >
 
     <link
         rel="stylesheet"
         href="style.css"
     >
-
 </head>
 
 
 <body>
 
+    <!-- =====================================================
+         BACKGROUND
+         ===================================================== -->
 
-    <!-- =========================================
-         TOP
-         ========================================= -->
+    <canvas
+        class="background-layer"
+        id="backgroundCanvas"
+    ></canvas>
 
-    <header class="top">
+    <div
+        class="glow-layer"
+        id="glowLayer"
+    ></div>
 
-        <a
-            href="#"
-            class="logo"
-        >
-            simplykong
-        </a>
+    <canvas
+        class="particles-layer"
+        id="particlesCanvas"
+    ></canvas>
 
+    <div
+        class="vignette-layer"
+    ></div>
 
-        <nav>
-
-            <a href="#work">
-                work
-            </a>
-
-            <a href="#about">
-                about
-            </a>
-
-        </nav>
-
-    </header>
+    <div
+        class="scanline-layer"
+    ></div>
 
 
+    <!-- =====================================================
+         LANDING PAGE
+         ===================================================== -->
 
-    <!-- =========================================
-         HERO
-         ========================================= -->
+    <main
+        id="landing"
+        class="landing-page"
+    >
 
-    <section class="hero">
-
-        <div class="hero-background"></div>
-
-
-        <div class="hero-content">
-
-            <h1>
-                simplykong
-            </h1>
-
-            <div class="hero-bottom">
-
-                <span>
-                    music · sound · video · photo
-                </span>
-
-                <span>
-                    ↓ scroll
-                </span>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =========================================
-         WORK
-         ========================================= -->
-
-    <main id="work">
-
-
-        <section class="work">
-
-
-            <div class="work-top">
-
-                <h2>
-                    stuff i've made
-                </h2>
-
-
-                <div class="filters">
-
-                    <button
-                        class="filter-button active"
-                        data-category="all"
-                    >
-                        all
-                    </button>
-
-                    <button
-                        class="filter-button"
-                        data-category="music"
-                    >
-                        music
-                    </button>
-
-                    <button
-                        class="filter-button"
-                        data-category="sound-design"
-                    >
-                        sound
-                    </button>
-
-                    <button
-                        class="filter-button"
-                        data-category="video"
-                    >
-                        video
-                    </button>
-
-                    <button
-                        class="filter-button"
-                        data-category="photo"
-                    >
-                        photo
-                    </button>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- PROJECTS -->
+        <div class="logo-wrapper">
 
             <div
-                id="projects"
-                class="gallery"
+                class="logo-float"
+                id="logoFloat"
             >
 
-                <div class="loading">
-                    loading...
+                <div
+                    class="logo-interactive"
+                    id="logoInteractive"
+                >
+
+                    <img
+                        id="mainLogo"
+                        src="https://cdn.discordapp.com/avatars/1429216999585615922/fa9f017aaaa3e55722eac94970084251.png?size=4096"
+                        alt="kong"
+                        draggable="false"
+                    >
+
+                    <span
+                        class="logo-shine"
+                        aria-hidden="true"
+                    ></span>
+
                 </div>
 
             </div>
 
 
-        </section>
-
-
-
-        <!-- =========================================
-             ABOUT
-             ========================================= -->
-
-        <section
-            id="about"
-            class="about"
-        >
-
-            <div class="about-left">
+            <button
+                class="work-button"
+                id="workButton"
+                type="button"
+            >
 
                 <span>
-                    about
+                    Check out my work
                 </span>
 
-            </div>
+                <span class="arrow">
+                    ↓
+                </span>
 
+            </button>
 
-            <div class="about-right">
-
-                <h2>
-                    just making
-                    cool stuff.
-                </h2>
-
-
-                <p>
-                    music, sound design,
-                    video editing, photography,
-                    and whatever else ends up
-                    being fun to make.
-                </p>
-
-            </div>
-
-        </section>
-
+        </div>
 
     </main>
 
 
+    <!-- =====================================================
+         WORK AREA
+         ===================================================== -->
 
-    <!-- =========================================
-         FOOTER
-         ========================================= -->
+    <section
+        id="work"
+        class="work-page"
+        aria-hidden="true"
+    >
 
-    <footer>
+        <div class="work-header">
 
-        <div>
-            simplykong
+            <button
+                class="back-button"
+                id="backButton"
+                type="button"
+            >
+
+                <span>
+                    ←
+                </span>
+
+                <span>
+                    back
+                </span>
+
+            </button>
+
+
+            <div class="work-brand">
+                kong
+            </div>
+
         </div>
 
-        <div>
-            © 2026
+
+        <!-- =================================================
+             CATEGORY TABS
+             ================================================= -->
+
+        <nav
+            class="category-tabs"
+            aria-label="Portfolio categories"
+        >
+
+            <button
+                class="category-tab active"
+                data-category="video"
+                type="button"
+            >
+                Video Editing
+            </button>
+
+            <button
+                class="category-tab"
+                data-category="sound-design"
+                type="button"
+            >
+                Sound Design
+            </button>
+
+            <button
+                class="category-tab"
+                data-category="photography"
+                type="button"
+            >
+                Photography
+            </button>
+
+            <button
+                class="category-tab"
+                data-category="graphic-design"
+                type="button"
+            >
+                Graphic Design
+            </button>
+
+        </nav>
+
+
+        <!-- =================================================
+             CATEGORY TITLE
+             ================================================= -->
+
+        <div class="category-heading">
+
+            <div
+                class="category-number"
+                id="categoryNumber"
+            >
+                01
+            </div>
+
+            <h1 id="categoryTitle">
+                Video Editing
+            </h1>
+
         </div>
 
-    </footer>
+
+        <!-- =================================================
+             PROJECTS
+             ================================================= -->
+
+        <div
+            id="projects"
+            class="projects"
+        >
+
+            <div class="projects-loading">
+                loading...
+            </div>
+
+        </div>
 
 
+        <!-- =================================================
+             WORK FOOTER
+             ================================================= -->
 
-    <!-- =========================================
+        <footer class="work-footer">
+
+            <span>
+                kong
+            </span>
+
+            <span>
+                creative work
+            </span>
+
+        </footer>
+
+    </section>
+
+
+    <!-- =====================================================
          SUPABASE
-         ========================================= -->
+         ===================================================== -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
     ></script>
 
-
     <script src="script.js"></script>
-
 
 </body>
 
