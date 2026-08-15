@@ -1,11 +1,11 @@
 /* =========================================================
    simplykong
-   Supabase Portfolio
+   Supabase Gallery
    ========================================================= */
 
 
 /* =========================================================
-   SUPABASE CONFIG
+   SUPABASE
    ========================================================= */
 
 const SUPABASE_URL =
@@ -15,10 +15,6 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_7S5vxB9HNy90sQ_Q0znz6A_IqyjPA96";
 
-
-/* =========================================================
-   SUPABASE CLIENT
-   ========================================================= */
 
 const {
     createClient
@@ -49,7 +45,7 @@ const filterButtons =
 
 
 /* =========================================================
-   DATA
+   PROJECT DATA
    ========================================================= */
 
 let allProjects = [];
@@ -58,16 +54,16 @@ let allProjects = [];
 const categoryNames = {
 
     music:
-        "Music",
+        "music",
 
     "sound-design":
-        "Sound Design",
+        "sound",
 
     video:
-        "Video",
+        "video",
 
     photo:
-        "Photography"
+        "photo"
 
 };
 
@@ -90,19 +86,10 @@ const categoryIcons = {
 
 
 /* =========================================================
-   LOAD PROJECTS
+   LOAD
    ========================================================= */
 
 async function loadProjects() {
-
-    if (
-        !projectsContainer
-    ) {
-
-        return;
-
-    }
-
 
     projectsContainer.innerHTML = `
         <div class="loading">
@@ -130,9 +117,7 @@ async function loadProjects() {
             );
 
 
-        if (
-            error
-        ) {
+        if (error) {
 
             throw error;
 
@@ -143,14 +128,12 @@ async function loadProjects() {
             data || [];
 
 
-        displayProjects(
+        renderProjects(
             allProjects
         );
 
 
-    } catch (
-        error
-    ) {
+    } catch (error) {
 
         console.error(
             "Supabase error:",
@@ -159,18 +142,18 @@ async function loadProjects() {
 
 
         projectsContainer.innerHTML = `
+
             <div class="error-message">
 
                 <strong>
-                    couldn't load projects
+                    something went wrong.
                 </strong>
 
-                <span>
-                    check the browser console
-                    for the Supabase error.
-                </span>
+                check the browser console
+                for the Supabase error.
 
             </div>
+
         `;
 
     }
@@ -179,10 +162,10 @@ async function loadProjects() {
 
 
 /* =========================================================
-   DISPLAY PROJECTS
+   RENDER
    ========================================================= */
 
-function displayProjects(
+function renderProjects(
     projects
 ) {
 
@@ -195,9 +178,13 @@ function displayProjects(
     ) {
 
         projectsContainer.innerHTML = `
+
             <div class="empty">
+
                 nothing here yet.
+
             </div>
+
         `;
 
         return;
@@ -211,18 +198,18 @@ function displayProjects(
             index
         ) => {
 
-            const card =
-                createProjectCard(
+            const element =
+                createProject(
                     project
                 );
 
 
-            card.style.animationDelay =
-                `${index * 0.06}s`;
+            element.style.animationDelay =
+                `${index * 0.08}s`;
 
 
             projectsContainer.appendChild(
-                card
+                element
             );
 
         }
@@ -232,35 +219,42 @@ function displayProjects(
 
 
 /* =========================================================
-   CREATE PROJECT CARD
+   CREATE PROJECT
    ========================================================= */
 
-function createProjectCard(
+function createProject(
     project
 ) {
 
-    const card =
+    const article =
         document.createElement(
             "article"
         );
 
 
-    card.className =
-        "project-card";
+    article.className =
+        "project";
 
 
-    /* =============================================
-       THUMBNAIL
-       ============================================= */
+    const category =
+        categoryNames[
+            project.category
+        ]
+        ||
+        project.category
+        ||
+        "project";
 
-    let thumbnail;
+
+    let imageHTML;
 
 
     if (
         project.thumbnail_url
     ) {
 
-        thumbnail = `
+        imageHTML = `
+
             <img
                 src="${escapeHTML(
                     project.thumbnail_url
@@ -270,121 +264,137 @@ function createProjectCard(
                 )}"
                 loading="lazy"
             >
+
         `;
 
     } else {
 
-        thumbnail = `
-            <div class="no-thumbnail">
+        imageHTML = `
+
+            <div class="no-image">
 
                 ${
                     categoryIcons[
                         project.category
-                    ] || "•"
+                    ]
+                    ||
+                    "•"
                 }
 
             </div>
+
         `;
 
     }
 
 
-    /* =============================================
-       CATEGORY
-       ============================================= */
+    article.innerHTML = `
 
-    const category =
-        categoryNames[
-            project.category
-        ]
-        ||
-        project.category
-        ||
-        "Project";
+        <div class="project-image">
 
-
-    /* =============================================
-       DESCRIPTION
-       ============================================= */
-
-    let description =
-        "";
-
-
-    if (
-        project.description
-    ) {
-
-        description = `
-            <p>
-                ${escapeHTML(
-                    project.description
-                )}
-            </p>
-        `;
-
-    }
-
-
-    /* =============================================
-       CARD HTML
-       ============================================= */
-
-    card.innerHTML = `
-
-        <div class="project-thumbnail">
-
-            ${thumbnail}
+            ${imageHTML}
 
         </div>
 
 
         <div class="project-info">
 
-            <div class="project-category">
-
-                ${escapeHTML(
-                    category
-                )}
-
-            </div>
-
-
-            <h3>
+            <div class="project-title">
 
                 ${escapeHTML(
                     project.title
                 )}
 
-            </h3>
+            </div>
 
 
-            ${description}
+            <div class="project-meta">
 
+                <span>
+                    ${escapeHTML(
+                        category
+                    )}
+                </span>
 
-            <a
-                class="project-link"
-                href="${escapeHTML(
-                    project.url
-                )}"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                view project →
-            </a>
+                <span>
+                    ${getYear(
+                        project.created_at
+                    )}
+                </span>
+
+            </div>
 
         </div>
 
     `;
 
 
-    return card;
+    /* =============================================
+       CLICK
+       ============================================= */
+
+    article.addEventListener(
+        "click",
+        () => {
+
+            if (
+                project.url
+            ) {
+
+                window.open(
+                    project.url,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+
+        }
+    );
+
+
+    return article;
 
 }
 
 
 /* =========================================================
-   FILTER PROJECTS
+   YEAR
+   ========================================================= */
+
+function getYear(
+    date
+) {
+
+    if (!date) {
+
+        return "";
+
+    }
+
+
+    const parsed =
+        new Date(date);
+
+
+    if (
+        Number.isNaN(
+            parsed.getTime()
+        )
+    ) {
+
+        return "";
+
+    }
+
+
+    return parsed.getFullYear();
+
+}
+
+
+/* =========================================================
+   FILTERING
    ========================================================= */
 
 function filterProjects(
@@ -395,7 +405,7 @@ function filterProjects(
         category === "all"
     ) {
 
-        displayProjects(
+        renderProjects(
             allProjects
         );
 
@@ -404,7 +414,7 @@ function filterProjects(
     }
 
 
-    const filteredProjects =
+    const filtered =
         allProjects.filter(
             project =>
                 project.category ===
@@ -412,8 +422,8 @@ function filterProjects(
         );
 
 
-    displayProjects(
-        filteredProjects
+    renderProjects(
+        filtered
     );
 
 }
@@ -431,9 +441,9 @@ filterButtons.forEach(
             () => {
 
                 filterButtons.forEach(
-                    otherButton => {
+                    other => {
 
-                        otherButton.classList.remove(
+                        other.classList.remove(
                             "active"
                         );
 
