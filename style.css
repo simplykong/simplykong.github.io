@@ -728,9 +728,9 @@ button {
         drop-shadow(
             0 0 28px
             rgba(
-                255,
-                90,
+                103,
                 0,
+                126,
                 0.35
             )
         );
@@ -763,9 +763,9 @@ button {
         drop-shadow(
             0 0 42px
             rgba(
-                255,
-                95,
+                207,
                 0,
+                255,
                 0.55
             )
         );
@@ -1135,7 +1135,7 @@ button {
         2px;
 
     background:
-        var(--orange);
+        var(--purple);
 
     transform:
         scaleX(
@@ -1179,9 +1179,9 @@ button {
 
     background:
         rgba(
-            255,
-            90,
             0,
+            239,
+            255,
             0.07
         );
 }
