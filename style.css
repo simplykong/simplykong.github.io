@@ -155,24 +155,24 @@ button {
         radial-gradient(
             circle,
             rgba(
-                255,
-                84,
                 0,
+                202,
+                255,
                 0.30
             ) 0%,
 
             rgba(
-                255,
-                84,
+                69,
                 0,
+                255,
                 0.16
             ) 22%,
 
             rgba(
-                255,
-                84,
                 0,
-                0.07
+                255,
+                42,
+                0.16
             ) 43%,
 
             transparent 72%
@@ -219,16 +219,16 @@ button {
         radial-gradient(
             circle,
             rgba(
-                255,
-                105,
                 15,
+                210,
+                255,
                 0.20
             ) 0%,
 
             rgba(
-                255,
-                75,
                 0,
+                255,
+                250,
                 0.08
             ) 35%,
 
@@ -288,9 +288,9 @@ button {
         radial-gradient(
             circle,
             rgba(
-                255,
-                70,
                 0,
+                255,
+                32,
                 0.20
             ),
             transparent 68%
@@ -332,9 +332,9 @@ button {
         radial-gradient(
             circle,
             rgba(
+                250,
+                0,
                 255,
-                126,
-                32,
                 0.17
             ),
             transparent 68%
@@ -376,9 +376,9 @@ button {
         radial-gradient(
             circle,
             rgba(
+                0,
                 255,
-                130,
-                40,
+                197,
                 0.13
             ),
             transparent 65%
